@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -31,5 +34,23 @@ public class SecurityConfig {
         return source;
     }
 
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
+        //cors 설정
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+        //csrf disable
+        http.csrf(AbstractHttpConfigurer::disable);
+
+        //form 로그인 방식 disable
+        http.formLogin(AbstractHttpConfigurer::disable);
+
+        //http basic 인증방식 disable
+        http.httpBasic(AbstractHttpConfigurer::disable);
+
+        //경로별 인가작업 -> 모두 허용
+        http.authorizeHttpRequests(auth->auth.anyRequest().permitAll());
+
+        return http.build();
+    }
 }
