@@ -1,4 +1,4 @@
-package com.moyeoit.common.exception;
+package com.moyeoit.global.exception;
 
 import org.springframework.http.HttpStatus;
 

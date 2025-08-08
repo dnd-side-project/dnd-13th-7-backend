@@ -1,9 +1,9 @@
-package com.moyeoit.common.exception;
+package com.moyeoit.global.exception;
 
 import org.springframework.http.HttpStatus;
 
 public enum BaseErrorCode implements ErrorCode {
-    
+
     NOT_FOUND("NOT_FOUND_BASE", "요청하신 데이터를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST);
 
     private final String code;

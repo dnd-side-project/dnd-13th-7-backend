@@ -1,6 +1,6 @@
-package com.moyeoit.common.exception;
+package com.moyeoit.global.exception;
 
-import com.moyeoit.common.response.ApiResponse;
+import com.moyeoit.global.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
