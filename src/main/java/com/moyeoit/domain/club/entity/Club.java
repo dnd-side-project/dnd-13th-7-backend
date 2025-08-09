@@ -38,7 +38,6 @@ public class Club {
     private String address;
     private boolean recruiting;
     private String imageUrl;
-    private String recruitmentPart;
 
 
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
