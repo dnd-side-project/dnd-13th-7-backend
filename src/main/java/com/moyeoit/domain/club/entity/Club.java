@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
@@ -39,7 +40,8 @@ public class Club {
     private boolean recruiting;
     private String imageUrl;
 
-
+    //연관관계 편의 메소드
+    @Setter
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private ClubRecruitment recruitment;
 
@@ -49,8 +51,4 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubSchedule> schedules = new ArrayList<>();
 
-    //연관관계 편의 메소드
-    public void setRecruitment(ClubRecruitment recruitment) {
-        this.recruitment = recruitment;
-    }
 }
