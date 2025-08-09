@@ -5,7 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,6 +43,12 @@ public class Club {
 
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private ClubRecruitment recruitment;
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClubActivity> activities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClubSchedule> schedules = new ArrayList<>();
 
     //연관관계 편의 메소드
     public void setRecruitment(ClubRecruitment recruitment) {
