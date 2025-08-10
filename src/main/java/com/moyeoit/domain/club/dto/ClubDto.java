@@ -5,7 +5,7 @@ public record ClubDto(
         String slogan,
         String bio,
         Integer establishment,
-        Integer total_participant,
+        Integer totalParticipant,
         Integer operation,
         String offline,
         String online,
