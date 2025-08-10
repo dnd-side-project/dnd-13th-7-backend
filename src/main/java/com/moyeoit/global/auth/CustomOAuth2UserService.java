@@ -34,7 +34,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         ProfileExtractor profileExtractor = getProfileExtractor(req);
 
-        AppUserDto userDto = appUserService.createAppUserByOAuth2(profileExtractor.extract(user));
+        AppUserDto userDto = appUserService.findOrCreateAppUserFromOAuth2(profileExtractor.extract(user));
 
         return new CustomOAuth2User(
                 userDto.getId(),
