@@ -1,6 +1,6 @@
 package com.moyeoit.global.exception.code;
 
-import com.moyeoit.common.exception.ErrorCode;
+import com.moyeoit.global.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 
 public enum UserErrorCode implements ErrorCode {

@@ -1,6 +1,6 @@
-package com.moyeoit.app_user.repository;
+package com.moyeoit.domain.app_user.repository;
 
-import com.moyeoit.app_user.domain.AppUser;
+import com.moyeoit.domain.app_user.domain.AppUser;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

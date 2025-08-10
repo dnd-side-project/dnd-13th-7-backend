@@ -1,7 +1,7 @@
-package com.moyeoit.app_user.service.dto;
+package com.moyeoit.domain.app_user.service.dto;
 
-import com.moyeoit.app_user.domain.AppUser;
-import com.moyeoit.app_user.domain.AuthProvider;
+import com.moyeoit.domain.app_user.domain.AppUser;
+import com.moyeoit.domain.app_user.domain.AuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

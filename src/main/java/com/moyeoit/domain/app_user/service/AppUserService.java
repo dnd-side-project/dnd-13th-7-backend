@@ -1,10 +1,10 @@
-package com.moyeoit.app_user.service;
+package com.moyeoit.domain.app_user.service;
 
-import com.moyeoit.app_user.domain.AppUser;
-import com.moyeoit.app_user.repository.AppUserRepository;
-import com.moyeoit.app_user.service.dto.AppUserDto;
-import com.moyeoit.common.exception.AppException;
+import com.moyeoit.domain.app_user.domain.AppUser;
+import com.moyeoit.domain.app_user.repository.AppUserRepository;
+import com.moyeoit.domain.app_user.service.dto.AppUserDto;
 import com.moyeoit.global.auth.extractor.OAuth2UserProfile;
+import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.UserErrorCode;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

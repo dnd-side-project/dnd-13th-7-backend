@@ -1,8 +1,8 @@
-package com.moyeoit.app_user.controller;
+package com.moyeoit.domain.app_user.controller;
 
-import com.moyeoit.app_user.service.AppUserService;
-import com.moyeoit.app_user.service.dto.AppUserDto;
-import com.moyeoit.common.response.ApiResponse;
+import com.moyeoit.domain.app_user.service.AppUserService;
+import com.moyeoit.domain.app_user.service.dto.AppUserDto;
+import com.moyeoit.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

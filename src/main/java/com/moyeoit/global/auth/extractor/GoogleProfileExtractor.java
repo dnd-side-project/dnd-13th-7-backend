@@ -1,6 +1,6 @@
 package com.moyeoit.global.auth.extractor;
 
-import com.moyeoit.app_user.domain.AuthProvider;
+import com.moyeoit.domain.app_user.domain.AuthProvider;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class GoogleProfileExtractor implements ProfileExtractor {
