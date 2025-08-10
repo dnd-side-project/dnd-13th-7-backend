@@ -63,8 +63,8 @@ jobs:
             
             JWT_SECRET_KEY="${{ secrets.JWT_SECRET_KEY }}"
             
-            docker-compose down
-            docker-compose pull
-            docker-compose up -d
+            docker compose down
+            docker compose pull
+            docker compose up -d
             
             docker image prune -af
