@@ -10,7 +10,7 @@ CREATE TABLE `app_user`
 ) ENGINE = InnoDB;
 
 
-CREATE TABLE `Club`
+정CREATE TABLE `club`
 (
     `id`                BIGINT AUTO_INCREMENT PRIMARY KEY,
     `name`              VARCHAR(255),
@@ -25,44 +25,44 @@ CREATE TABLE `Club`
     `location`          VARCHAR(255),
     `address`           VARCHAR(255),
     `recruiting`        BOOLEAN,
-    `imageUrl`          VARCHAR(255)
+    `image_url`          VARCHAR(255)
 ) ENGINE = InnoDB;
 
 
-CREATE TABLE `ClubRecruitment`
+CREATE TABLE `club_recruitment`
 (
     `club_id`             BIGINT PRIMARY KEY,
-    `recruitmentPart`     VARCHAR(255),
+    `recruitment_part`     VARCHAR(255),
     `qualification`       VARCHAR(255),
-    `recruitmentSchedule` VARCHAR(255),
-    `activityPeriod`      VARCHAR(255),
-    `activityMethod`      VARCHAR(255),
-    `activityFee`         VARCHAR(255),
-    `homepageUrl`         VARCHAR(255),
-    `noticeUrl`           VARCHAR(255),
-    FOREIGN KEY (`club_id`) REFERENCES `Club` (`id`) ON DELETE CASCADE
+    `recruitment_schedule` VARCHAR(255),
+    `activity_period`      VARCHAR(255),
+    `activity_method`      VARCHAR(255),
+    `activity_fee`         VARCHAR(255),
+    `homepage_url`         VARCHAR(255),
+    `notice_url`           VARCHAR(255),
+    FOREIGN KEY (`club_id`) REFERENCES `club` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 
-CREATE TABLE `ClubActivity`
+CREATE TABLE `club_activity`
 (
     `id`               BIGINT AUTO_INCREMENT PRIMARY KEY,
     `club_id`          BIGINT,
     `hashtag`          VARCHAR(255),
-    `activityName`     VARCHAR(255),
-    `activityDescribe` TEXT,
-    `imageUrl`         VARCHAR(255),
-    `activityOrder`    INT,
-    FOREIGN KEY (`club_id`) REFERENCES `Club` (`id`) ON DELETE CASCADE
+    `activity_name`     VARCHAR(255),
+    `activity_describe` TEXT,
+    `image_url`         VARCHAR(255),
+    `activity_order`    INT,
+    FOREIGN KEY (`club_id`) REFERENCES `club` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 
-CREATE TABLE `ClubSchedule`
+CREATE TABLE `club_schedule`
 (
     `id`          BIGINT AUTO_INCREMENT PRIMARY KEY,
     `club_id`     BIGINT,
-    `periodValue` INT,
+    `period_value` INT,
     `period`      VARCHAR(255),
     `activity`    VARCHAR(255),
-    FOREIGN KEY (`club_id`) REFERENCES `Club` (`id`) ON DELETE CASCADE
+    FOREIGN KEY (`club_id`) REFERENCES `club` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
