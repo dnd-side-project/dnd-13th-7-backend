@@ -4,8 +4,16 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
+
 group = 'com.moyeoit'
 version = '0.0.1-SNAPSHOT'
+
+def queryDslVersion = "7.0" // 25년 8월 기준 가장 최신
+def querydslSrcDir = layout.buildDirectory.dir("generated/querydsl").get().asFile // build/generated/querydsl
+
+tasks.withType(JavaCompile).configureEach {
+    options.getGeneratedSourceOutputDirectory().set(file(querydslSrcDir))
+}
 
 java {
     toolchain {
@@ -13,10 +21,19 @@ java {
     }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs += querydslSrcDir
+        }
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    querydsl.extendsFrom compileClasspath
 }
 
 repositories {
@@ -36,6 +53,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     implementation 'com.mysql:mysql-connector-j:8.4.0'
@@ -51,6 +69,10 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
     // 롬복과의 충돌 방지
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+    implementation("io.github.openfeign.querydsl:querydsl-core:${queryDslVersion}")
+    implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
+    annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:$queryDslVersion:jpa")
 }
 
 tasks.named('test') {
