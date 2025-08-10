@@ -1,4 +1,4 @@
-package com.moyeoit.app_user.domain;
+package com.moyeoit.domain.app_user.domain;
 
 public enum AuthProvider {
 
@@ -10,5 +10,5 @@ public enum AuthProvider {
     AuthProvider(String name) {
         this.name = name;
     }
-    
+
 }

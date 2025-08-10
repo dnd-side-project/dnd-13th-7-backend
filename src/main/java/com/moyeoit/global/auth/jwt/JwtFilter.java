@@ -1,7 +1,7 @@
 package com.moyeoit.global.auth.jwt;
 
-import com.moyeoit.app_user.service.AppUserService;
-import com.moyeoit.app_user.service.dto.AppUserDto;
+import com.moyeoit.domain.app_user.service.AppUserService;
+import com.moyeoit.domain.app_user.service.dto.AppUserDto;
 import com.moyeoit.global.auth.user.CustomUserPrincipal;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

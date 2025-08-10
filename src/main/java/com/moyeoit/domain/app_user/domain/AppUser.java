@@ -1,4 +1,4 @@
-package com.moyeoit.app_user.domain;
+package com.moyeoit.domain.app_user.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

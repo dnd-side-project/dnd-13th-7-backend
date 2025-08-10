@@ -1,6 +1,6 @@
 package com.moyeoit.global.auth.extractor;
 
-import com.moyeoit.app_user.domain.AuthProvider;
+import com.moyeoit.domain.app_user.domain.AuthProvider;
 import java.util.Map;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -23,5 +23,5 @@ public class KakaoProfileExtractor implements ProfileExtractor {
 
         return new OAuth2UserProfile(nickname, email, AuthProvider.KAKAO);
     }
-    
+
 }

@@ -1,6 +1,6 @@
 package com.moyeoit.global.auth.extractor;
 
-import com.moyeoit.app_user.domain.AuthProvider;
+import com.moyeoit.domain.app_user.domain.AuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
