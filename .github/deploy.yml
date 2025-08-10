@@ -1,0 +1,69 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set JDK 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Build Spring Boot application
+        run: |
+          ./gradlew clean bootJar -Pprofile=dev
+
+      - name: Docker Login (Docker Hub)
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USER }}" --password-stdin
+
+      - name: Build & Push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USER }}/dnd-13th-7-backend:latest .
+          docker push ${{ secrets.DOCKERHUB_USER }}/dnd-13th-7-backend:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -euo pipefail
+            APP_DIR=/home/ubuntu/13th-7-backend
+            mkdir -p "$APP_DIR"
+            cd "$APP_DIR"
+            
+            DB_HOST="${{ secrets.DB_HOST }}"
+            DB_PORT="${{ secrets.DB_PORT }}"
+            DB_DATABASE="${{ secrets.DB_DATABASE }}"
+            DB_URL="jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}
+            
+            DB_USERNAME="${{ secrets.DB_USERNAME }}"
+            DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+            
+            GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}"
+            GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}"
+            
+            KAKAO_CLIENT_ID="${{ secrets.KAKAO_CLIENT_ID }}"
+            KAKAO_CLIENT_SECRET="${{ secrets.KAKAO_CLIENT_SECRET }}"
+            
+            JWT_SECRET_KEY="${{ secrets.JWT_SECRET_KEY }}"
+            
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
+            
+            docker image prune -af
