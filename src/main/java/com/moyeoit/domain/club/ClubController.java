@@ -25,4 +25,5 @@ public class ClubController {
     public ApiResponse<ClubRecruitInfoResponse> getRecruitInfo(@PathVariable Long clubId) {
         return ApiResponse.success("동아리 모집정보 조회에 성공하였습니다.", clubService.findRecruitInfo(clubId));
     }
+
 }
