@@ -10,7 +10,7 @@ CREATE TABLE `app_user`
 ) ENGINE = InnoDB;
 
 
-정CREATE TABLE `club`
+CREATE TABLE `club`
 (
     `id`                BIGINT AUTO_INCREMENT PRIMARY KEY,
     `name`              VARCHAR(255),
