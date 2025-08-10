@@ -37,7 +37,7 @@ public class ClubServiceTest {
     private ClubService clubService;
 
     @Test
-    void findDetailInfo_whenClubExists_returnsClubInfoResponse() {
+    void 동아리상세정보찾기_상세정보가있을때() {
 
         // given
         Long clubId = 1L;
@@ -73,4 +73,5 @@ public class ClubServiceTest {
         verify(clubMapper).toClubScheduleDto(schedules);
         verifyNoMoreInteractions(clubRepository, clubMapper);
     }
+
 }

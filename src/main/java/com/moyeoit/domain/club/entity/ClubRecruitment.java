@@ -31,7 +31,7 @@ public class ClubRecruitment {
 
     private String recruitmentPart;
     private String qualification;
-    private String recruitment_schedule;
+    private String recruitmentSchedule;
     private String activityPeriod;
     private String activityMethod;
     private String activityFee;
