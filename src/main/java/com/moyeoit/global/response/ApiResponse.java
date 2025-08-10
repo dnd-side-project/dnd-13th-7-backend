@@ -1,4 +1,4 @@
-package com.moyeoit.common.response;
+package com.moyeoit.global.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
