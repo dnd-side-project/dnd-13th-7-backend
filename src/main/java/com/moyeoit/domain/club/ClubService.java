@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClubService {
 
     private final ClubRepository clubRepository;
-    private final ClubMapper clubMapper;
 
     @Transactional(readOnly = true)
     public ClubInfoResponse findDetailInfo(Long clubId) {
@@ -41,6 +40,6 @@ public class ClubService {
         Club club = clubRepository.findById(clubId).orElseThrow(()->new AppException(ClubErrorCode.NOT_FOUND));
 
         ClubRecruitment recruitment = club.getRecruitment();
-        return clubMapper.toClubRecruitDto(recruitment);
+        return ClubRecruitInfoResponse.from(recruitment);
     }
 }

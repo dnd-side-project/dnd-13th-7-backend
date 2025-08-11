@@ -63,14 +63,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'com.vladmihalcea:hibernate-types-60:2.21.1'
 
-    // 맵 스트럭트 API
-    implementation 'org.mapstruct:mapstruct:1.6.3'
-    annotationProcessor 'org.projectlombok:lombok'
-    // 맵 스트럭트 어노테이션 프로세서 (수정됨)
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
-    // 롬복과의 충돌 방지
-    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-
+    //QueryDSL
     implementation("io.github.openfeign.querydsl:querydsl-core:${queryDslVersion}")
     implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
     annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:$queryDslVersion:jpa")
