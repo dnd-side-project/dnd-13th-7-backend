@@ -73,6 +73,14 @@ public class Club {
     @Column(columnDefinition = "json")
     private List<String> process;
 
+    @Column(name = "target_university")
+    private boolean targetUniversity;
+
+    @Column(name = "target_worker")
+    private boolean targetWorker;
+
+
+
     @Setter // 연관관계 편의 메소드
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private ClubRecruitment recruitment;

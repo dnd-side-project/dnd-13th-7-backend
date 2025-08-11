@@ -67,4 +67,16 @@ CREATE TABLE `club_schedule`
     FOREIGN KEY (`club_id`) REFERENCES `club` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
-ALTER TABLE club ADD COLUMN process JSON;
+ALTER TABLE `club` ADD COLUMN `process` JSON;
+ALTER TABLE `club`
+    ADD COLUMN `target_university` TINYINT(1) NOT NULL DEFAULT 0 AFTER `process`,
+    ADD COLUMN `target_worker` TINYINT(1) NOT NULL DEFAULT 0 AFTER `target_university`;
+
+CREATE TABLE `recruitment_part` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `part_name` VARCHAR(255),
+    `club_recruitment_id` BIGINT,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_recruitment_part_club_recruitment`
+    FOREIGN KEY (`club_recruitment_id`) REFERENCES `club_recruitment` (`club_id`)
+);
