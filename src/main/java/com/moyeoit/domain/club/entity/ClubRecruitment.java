@@ -1,5 +1,6 @@
 package com.moyeoit.domain.club.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,20 +22,35 @@ import lombok.NoArgsConstructor;
 public class ClubRecruitment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "club_id")
+    private Long club_id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "club_id")
     private Club club;
 
-    private String recruitmentPart;
+    @Column(name = "recruitment_part")
+    private String recruitment_part;
+
+    @Column(name = "qualification")
     private String qualification;
-    private String recruitmentSchedule;
-    private String activityPeriod;
-    private String activityMethod;
-    private String activityFee;
-    private String homepageUrl;
-    private String noticeUrl;
+
+    @Column(name = "recruitment_schedule")
+    private String recruitment_schedule;
+
+    @Column(name = "activity_period")
+    private String activity_period;
+
+    @Column(name = "activity_method")
+    private String activity_method;
+
+    @Column(name = "activity_fee")
+    private String activity_fee;
+
+    @Column(name = "homepage_url")
+    private String homepage_url;
+
+    @Column(name = "notice_url")
+    private String notice_url;
 }

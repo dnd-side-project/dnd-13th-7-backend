@@ -1,5 +1,6 @@
 package com.moyeoit.domain.club.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,13 +22,19 @@ public class ClubSchedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
 
-    private Integer periodValue;
+    @Column(name = "period_value")
+    private Integer period_value;
+
+    @Column(name = "period")
     private String period;
+
+    @Column(name = "activity")
     private String activity;
 }

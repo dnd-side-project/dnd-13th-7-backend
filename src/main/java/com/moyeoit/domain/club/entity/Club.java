@@ -1,6 +1,7 @@
 package com.moyeoit.domain.club.entity;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,24 +25,50 @@ public class Club {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
     private String name;
-    private String position;
-    private String slogan;
-    private String bio;
-    private Integer establishment;
-    private Integer total_participant;
-    private Integer operation;
-    private String offline;
-    private String online;
-    private String location;
-    private String address;
-    private boolean recruiting;
-    private String imageUrl;
 
-    //연관관계 편의 메소드
-    @Setter
+    @Column(name = "position")
+    private String position;
+
+    @Column(name = "slogan")
+    private String slogan;
+
+    @Column(name = "bio")
+    private String bio;
+
+    @Column(name = "establishment")
+    private Integer establishment;
+
+    @Column(name = "total_participant")
+    private Integer total_participant;
+
+    @Column(name = "operation")
+    private Integer operation;
+
+    @Column(name = "offline")
+    private String offline;
+
+    @Column(name = "online")
+    private String online;
+
+    @Column(name = "location")
+    private String location;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "recruiting")
+    private boolean recruiting;
+
+    @Column(name = "image_url")
+    private String image_url;
+
+
+    @Setter // 연관관계 편의 메소드
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private ClubRecruitment recruitment;
 
