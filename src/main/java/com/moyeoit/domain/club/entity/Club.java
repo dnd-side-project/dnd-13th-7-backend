@@ -1,5 +1,6 @@
 package com.moyeoit.domain.club.entity;
 
+import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 @Entity
 @AllArgsConstructor
@@ -67,6 +69,9 @@ public class Club {
     @Column(name = "image_url")
     private String image_url;
 
+    @Type(JsonType.class)
+    @Column(columnDefinition = "json")
+    private List<String> process;
 
     @Setter // 연관관계 편의 메소드
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -77,5 +82,4 @@ public class Club {
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubSchedule> schedules = new ArrayList<>();
-
 }
