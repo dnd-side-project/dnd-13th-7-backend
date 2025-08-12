@@ -1,6 +1,7 @@
 package com.moyeoit.domain.club.dto;
 
 import com.moyeoit.domain.club.entity.Club;
+import com.moyeoit.domain.club.entity.Process;
 import java.util.List;
 import lombok.Builder;
 
@@ -18,7 +19,7 @@ public record ClubDto(
         String address,
         boolean recruiting,
         String imageUrl,
-        List<String> process) {
+        List<Process> process) {
 
     public static ClubDto from(Club entity) {
         return ClubDto.builder()

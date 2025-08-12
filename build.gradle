@@ -34,6 +34,7 @@ configurations {
         extendsFrom annotationProcessor
     }
     querydsl.extendsFrom compileClasspath
+
 }
 
 repositories {
@@ -67,6 +68,7 @@ dependencies {
     implementation("io.github.openfeign.querydsl:querydsl-core:${queryDslVersion}")
     implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
     annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:$queryDslVersion:jpa")
+
 }
 
 tasks.named('test') {

@@ -52,7 +52,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
     }
 
     private BooleanExpression eqField(String field){
-        return StringUtils.hasText(field) ? club.position.eq(field) : null;
+        return StringUtils.hasText(field) ? club.position.any().position_name.eq(field) : null;
     }
     private BooleanExpression eqWay(String way){
         if (!StringUtils.hasText(way)) {
@@ -65,31 +65,20 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
             return null;
         }
 
-        return club.recruitment.recruitmentParts.any().parts.in(parts);
+        return club.recruitment.recruitmentParts.any().part_name.in(parts);
     }
     private BooleanExpression eqTarget(List<String> targets) {
         if (targets == null || targets.isEmpty()) {
             return null;
         }
-
-        BooleanExpression condition = null;
-
-        if (targets.contains("대학생")) {
-            condition = club.targetUniversity.isTrue();
-        }
-        if (targets.contains("직장인")) {
-            BooleanExpression workerCond = club.targetWorker.isTrue();
-            condition = (condition == null) ? workerCond : condition.or(workerCond);
-        }
-
-        return condition;
+        return club.target.any().target_name.in(targets);
     }
 
     private OrderSpecifier<?> getOrderSpecifier(String sort,Pageable pageable){
         if(StringUtils.hasText(sort)){
 //            추후 구독 추가후 구현 예정
 //            if("인기순".equals(sort)){
-//                return new OrderSpecifier[]{}
+//                return new OrderSpecifier;
 //            }
             return club.establishment.desc();
         }

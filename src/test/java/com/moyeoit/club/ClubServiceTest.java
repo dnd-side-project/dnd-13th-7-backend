@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-import com.moyeoit.domain.club.ClubMapper;
 import com.moyeoit.domain.club.ClubService;
 import com.moyeoit.domain.club.dto.ClubActivityDto;
 import com.moyeoit.domain.club.dto.ClubDto;

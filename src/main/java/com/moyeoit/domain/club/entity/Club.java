@@ -1,6 +1,6 @@
 package com.moyeoit.domain.club.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonType;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +16,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 @Entity
 @AllArgsConstructor
@@ -32,9 +31,6 @@ public class Club {
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "position")
-    private String position;
 
     @Column(name = "slogan")
     private String slogan;
@@ -69,17 +65,6 @@ public class Club {
     @Column(name = "image_url")
     private String image_url;
 
-    @Type(JsonType.class)
-    @Column(columnDefinition = "json")
-    private List<String> process;
-
-    @Column(name = "target_university")
-    private boolean targetUniversity;
-
-    @Column(name = "target_worker")
-    private boolean targetWorker;
-
-
 
     @Setter // 연관관계 편의 메소드
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -90,4 +75,14 @@ public class Club {
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClubSchedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Process> process = new ArrayList<>();
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Position> position = new ArrayList<>();
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Target> target = new ArrayList<>();
+
 }
