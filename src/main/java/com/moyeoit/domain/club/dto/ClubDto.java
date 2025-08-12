@@ -19,7 +19,7 @@ public record ClubDto(
         String address,
         boolean recruiting,
         String imageUrl,
-        List<Process> process) {
+        List<String> process) {
 
     public static ClubDto from(Club entity) {
         return ClubDto.builder()
@@ -35,7 +35,7 @@ public record ClubDto(
                 .address(entity.getAddress())
                 .recruiting(entity.isRecruiting())
                 .imageUrl(entity.getImage_url())
-                .process(entity.getProcess())
+                .process(entity.getProcess().stream().map(Process::getProcess_description).toList())
                 .build();
     }
 }

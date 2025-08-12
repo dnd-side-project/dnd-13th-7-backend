@@ -5,7 +5,7 @@ import com.moyeoit.domain.club.entity.RecruitmentPart;
 import java.util.List;
 
 public record ClubRecruitInfoResponse(
-        List<RecruitmentPart> recruitmentPart,
+        List<String> recruitmentPart,
         String qualification,
         String recruitmentSchedule,
         String activityPeriod,
@@ -16,7 +16,7 @@ public record ClubRecruitInfoResponse(
     public static ClubRecruitInfoResponse from(ClubRecruitment entity) {
 
         return new ClubRecruitInfoResponse(
-                entity.getRecruitmentParts(),
+                entity.getRecruitmentParts().stream().map(RecruitmentPart::getPart_name).toList(),
                 entity.getQualification(),
                 entity.getRecruitment_schedule(),
                 entity.getActivity_period(),

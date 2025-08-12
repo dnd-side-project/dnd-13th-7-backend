@@ -8,7 +8,7 @@ public record ClubListResponse(
         Long clubId,
         String clubName,
         String description,
-        List<Position> categories,
+        List<String> categories,
         String logoUrl,
         boolean isRecruiting) {
     public static ClubListResponse from(Club club) {
@@ -16,7 +16,7 @@ public record ClubListResponse(
                 club.getId(),
                 club.getName(),
                 club.getBio(),
-                club.getPosition(),
+                club.getPosition().stream().map(Position::getPosition_name).toList(),
                 club.getImage_url(),
                 club.isRecruiting()
         );

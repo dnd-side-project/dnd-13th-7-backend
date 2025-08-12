@@ -66,6 +66,7 @@ public class Club {
     private String image_url;
 
 
+
     @Setter // 연관관계 편의 메소드
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private ClubRecruitment recruitment;
