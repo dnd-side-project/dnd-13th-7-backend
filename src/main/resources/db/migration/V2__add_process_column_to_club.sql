@@ -2,6 +2,9 @@
 ALTER TABLE `club_recruitment`
 DROP COLUMN `recruitment_part`;
 
+ALTER TABLE `club`
+    DROP COLUMN `position`;
+
 -- 모집 절차 정보 테이블
 CREATE TABLE `process` (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
