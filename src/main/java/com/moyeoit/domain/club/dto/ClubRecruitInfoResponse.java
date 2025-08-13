@@ -16,14 +16,14 @@ public record ClubRecruitInfoResponse(
     public static ClubRecruitInfoResponse from(ClubRecruitment entity) {
 
         return new ClubRecruitInfoResponse(
-                entity.getRecruitmentParts().stream().map(RecruitmentPart::getPart_name).toList(),
+                entity.getRecruitmentParts().stream().map(RecruitmentPart::getPartName).toList(),
                 entity.getQualification(),
-                entity.getRecruitment_schedule(),
-                entity.getActivity_period(),
-                entity.getActivity_method(),
-                entity.getActivity_fee(),
-                entity.getHomepage_url(),
-                entity.getNotice_url()
+                entity.getRecruitmentSchedule(),
+                entity.getActivityPeriod(),
+                entity.getActivityMethod(),
+                entity.getActivityFee(),
+                entity.getHomepageUrl(),
+                entity.getNoticeUrl()
         );
     }
 }

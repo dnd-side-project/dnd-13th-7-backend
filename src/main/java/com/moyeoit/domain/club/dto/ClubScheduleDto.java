@@ -11,7 +11,7 @@ public record ClubScheduleDto(
 
     public static ClubScheduleDto from(ClubSchedule entity) {
         return ClubScheduleDto.builder()
-                .periodValue(entity.getPeriod_value())
+                .periodValue(entity.getPeriodValue())
                 .period(entity.getPeriod())
                 .activity(entity.getActivity())
                 .build();

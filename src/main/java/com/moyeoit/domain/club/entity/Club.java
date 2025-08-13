@@ -42,7 +42,7 @@ public class Club {
     private Integer establishment;
 
     @Column(name = "total_participant")
-    private Integer total_participant;
+    private Integer totalParticipant;
 
     @Column(name = "operation")
     private Integer operation;
@@ -63,7 +63,7 @@ public class Club {
     private boolean recruiting;
 
     @Column(name = "image_url")
-    private String image_url;
+    private String imageUrl;
 
 
 

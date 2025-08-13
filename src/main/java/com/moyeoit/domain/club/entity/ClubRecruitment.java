@@ -41,20 +41,20 @@ public class ClubRecruitment {
     private String qualification;
 
     @Column(name = "recruitment_schedule")
-    private String recruitment_schedule;
+    private String recruitmentSchedule;
 
     @Column(name = "activity_period")
-    private String activity_period;
+    private String activityPeriod;
 
     @Column(name = "activity_method")
-    private String activity_method;
+    private String activityMethod;
 
     @Column(name = "activity_fee")
-    private String activity_fee;
+    private String activityFee;
 
     @Column(name = "homepage_url")
-    private String homepage_url;
+    private String homepageUrl;
 
     @Column(name = "notice_url")
-    private String notice_url;
+    private String noticeUrl;
 }

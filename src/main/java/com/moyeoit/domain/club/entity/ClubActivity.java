@@ -33,14 +33,14 @@ public class ClubActivity {
     private String hashtag;
 
     @Column(name = "activity_name")
-    private String activity_name;
+    private String activityName;
 
     @Column(name = "activity_describe")
-    private String activity_describe;
+    private String activityDescribe;
 
     @Column(name = "image_url")
-    private String image_url;
+    private String imageUrl;
 
     @Column(name = "activity_order")
-    private Integer activity_order;
+    private Integer activityOrder;
 }

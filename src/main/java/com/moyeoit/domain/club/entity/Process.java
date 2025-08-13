@@ -23,7 +23,7 @@ public class Process {
     private Long id;
 
     @Column(name = "process_description")
-    private String process_description;
+    private String processDescription;
 
     @Column(name = "sequence")
     private Integer sequence;

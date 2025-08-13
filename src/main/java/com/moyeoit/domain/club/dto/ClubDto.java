@@ -27,15 +27,15 @@ public record ClubDto(
                 .slogan(entity.getSlogan())
                 .bio(entity.getBio())
                 .establishment(entity.getEstablishment())
-                .totalParticipant(entity.getTotal_participant())
+                .totalParticipant(entity.getTotalParticipant())
                 .operation(entity.getOperation())
                 .offline(entity.getOffline())
                 .online(entity.getOnline())
                 .location(entity.getLocation())
                 .address(entity.getAddress())
                 .recruiting(entity.isRecruiting())
-                .imageUrl(entity.getImage_url())
-                .process(entity.getProcess().stream().map(Process::getProcess_description).toList())
+                .imageUrl(entity.getImageUrl())
+                .process(entity.getProcess().stream().map(Process::getProcessDescription).toList())
                 .build();
     }
 }

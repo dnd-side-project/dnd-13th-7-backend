@@ -16,8 +16,8 @@ public record ClubListResponse(
                 club.getId(),
                 club.getName(),
                 club.getBio(),
-                club.getPosition().stream().map(Position::getPosition_name).toList(),
-                club.getImage_url(),
+                club.getPosition().stream().map(Position::getPositionName).toList(),
+                club.getImageUrl(),
                 club.isRecruiting()
         );
     }

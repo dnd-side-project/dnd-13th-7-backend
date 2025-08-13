@@ -14,10 +14,10 @@ public record ClubActivityDto(
     public static ClubActivityDto from(ClubActivity entity) {
         return ClubActivityDto.builder()
                 .hashtag(entity.getHashtag())
-                .activityName(entity.getActivity_name())
-                .activityDescribe(entity.getActivity_describe())
-                .imageUrl(entity.getImage_url())
-                .activityOrder(entity.getActivity_order())
+                .activityName(entity.getActivityName())
+                .activityDescribe(entity.getActivityDescribe())
+                .imageUrl(entity.getImageUrl())
+                .activityOrder(entity.getActivityOrder())
                 .build();
     }
 }

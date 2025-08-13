@@ -23,7 +23,7 @@ public class RecruitmentPart {
     private Long id;
 
     @Column(name = "part_name")
-    private String part_name;
+    private String partName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_recruitment_id") // 외래 키(FK) 컬럼명 지정

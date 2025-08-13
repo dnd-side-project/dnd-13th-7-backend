@@ -23,7 +23,7 @@ public class Position {
     private Long id;
 
     @Column(name = "position_name")
-    private String position_name;
+    private String positionName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")

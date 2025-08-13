@@ -49,7 +49,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
     }
 
     private BooleanExpression eqField(String field){
-        return StringUtils.hasText(field) ? club.position.any().position_name.eq(field) : null;
+        return StringUtils.hasText(field) ? club.position.any().positionName.eq(field) : null;
     }
     private BooleanExpression eqWay(String way){
         if (!StringUtils.hasText(way)) {
@@ -62,13 +62,13 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
             return null;
         }
 
-        return club.recruitment.recruitmentParts.any().part_name.in(parts);
+        return club.recruitment.recruitmentParts.any().partName.in(parts);
     }
     private BooleanExpression eqTarget(List<String> targets) {
         if (targets == null || targets.isEmpty()) {
             return null;
         }
-        return club.target.any().target_name.in(targets);
+        return club.target.any().targetName.in(targets);
     }
 
     private OrderSpecifier<?> getOrderSpecifier(String sort,Pageable pageable){

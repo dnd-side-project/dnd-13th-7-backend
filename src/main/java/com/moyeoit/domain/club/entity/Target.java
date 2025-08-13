@@ -22,7 +22,7 @@ public class Target {
     private Long id;
 
     @Column(name = "target_name")
-    private String target_name;
+    private String targetName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")

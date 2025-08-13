@@ -30,7 +30,7 @@ public class ClubSchedule {
     private Club club;
 
     @Column(name = "period_value")
-    private Integer period_value;
+    private Integer periodValue;
 
     @Column(name = "period")
     private String period;
