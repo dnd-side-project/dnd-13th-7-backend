@@ -40,7 +40,7 @@ public class ClubController {
     @GetMapping
     public ApiResponse<Page<ClubListResponse>> getClubList(
             @ModelAttribute ClubPagingRequest request,
-            @PageableDefault(size = 12, sort = "인기순", direction = Sort.Direction.DESC)Pageable pageable){
+            @PageableDefault(size = 12, direction = Sort.Direction.DESC)Pageable pageable){
         return ApiResponse.success("동아리 목록 조회에 성공하였습니다.",clubService.findClubList(request,pageable));
     }
 
