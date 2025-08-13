@@ -2,8 +2,10 @@ package com.moyeoit.domain.club.dto;
 
 import java.util.List;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class ClubPagingRequest {
     private String field;  // 분야
     private List<String> part;   // 모집 파트
