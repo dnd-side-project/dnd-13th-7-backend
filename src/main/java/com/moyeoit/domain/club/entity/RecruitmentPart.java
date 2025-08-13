@@ -1,5 +1,6 @@
 package com.moyeoit.domain.club.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ public class RecruitmentPart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "part_name")
     private String part_name;
 
     @ManyToOne(fetch = FetchType.LAZY)
