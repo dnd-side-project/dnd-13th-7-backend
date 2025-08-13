@@ -27,11 +27,11 @@ public class ClubRecruitment {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "club_id")
-    @MapsId
     private Long club_id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
+    @MapsId
     private Club club;
 
     @OneToMany(mappedBy = "clubRecruitment", cascade = CascadeType.ALL, orphanRemoval = true)
