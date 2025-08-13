@@ -45,14 +45,14 @@ class ClubServiceTest {
                 .slogan("함께 성장하는 동아리")
                 .bio("IT 중심 프로젝트 동아리")
                 .establishment(2020)
-                .total_participant(30)
+                .totalParticipant(30)
                 .operation(1)
                 .offline("서울")
                 .online("Zoom")
                 .location("강남")
                 .address("서울시 강남구")
                 .recruiting(true)
-                .image_url("test.png")
+                .imageUrl("test.png")
                 .activities(new ArrayList<>())
                 .schedules(new ArrayList<>())
                 .process(new ArrayList<>())
@@ -63,7 +63,7 @@ class ClubServiceTest {
         // ClubActivity 빌더
         ClubActivity activity = ClubActivity.builder()
                 .id(101L)
-                .activity_name("Spring Boot 프로젝트")
+                .activityName("Spring Boot 프로젝트")
                 .club(club)
                 .build();
 
