@@ -25,14 +25,16 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
 
     @Override
     public Page<Club> findClubByRequest(ClubPagingRequest request, Pageable pageable) {
+        BooleanExpression[] conditions = {
+                eqField(request.getField()),
+                eqWay(request.getWay()),
+                eqPart(request.getPart()),
+                eqTarget(request.getTarget())
+        };
+
         List<Club> content = queryFactory
                 .selectFrom(club)
-                .where(
-                        eqField(request.getField()),
-                        eqWay(request.getWay()),
-                        eqPart(request.getPart()),
-                        eqTarget(request.getTarget())
-                )
+                .where(conditions)
                 .orderBy(getOrderSpecifier(request.getSort(),pageable)) // 정렬 조건
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -41,12 +43,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
         JPAQuery<Long> countQuery = queryFactory
                 .select(club.count())
                 .from(club)
-                .where(
-                        eqField(request.getField()),
-                        eqWay(request.getWay()),
-                        eqPart(request.getPart()),
-                        eqTarget(request.getTarget())
-                );
+                .where(conditions);
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
