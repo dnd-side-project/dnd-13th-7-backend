@@ -32,7 +32,7 @@ CREATE TABLE `recruitment_part` (
 
 CREATE TABLE `target` (
     `id` BIGINT AUTO_INCREMENT,
-    `target_name` VARCHAR(50) NOT NULL UNIQUE,
+    `target_name` VARCHAR(50) NOT NULL,
     `club_id` BIGINT,
     PRIMARY KEY (`id`),
     CONSTRAINT `FK_target_to_club` FOREIGN KEY (`club_id`) REFERENCES `club` (`id`) ON DELETE CASCADE
