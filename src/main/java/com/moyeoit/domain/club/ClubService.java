@@ -47,6 +47,7 @@ public class ClubService {
         return ClubRecruitInfoResponse.from(recruitment);
     }
 
+    @Transactional(readOnly = true)
     public Page<ClubListResponse> findClubList(ClubPagingRequest request, Pageable pageable) {
         return clubRepository.findClubByRequest(request, pageable).map(ClubListResponse::from);
     }
