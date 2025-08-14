@@ -7,6 +7,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,5 +40,15 @@ public class AppUser {
 
     @Column(name = "active", nullable = false)
     private boolean active;
+
+    @OneToOne
+    @JoinColumn(name = "job_id")
+    private Job job; // 직군
+
+    public void activate(String nickname, Job job) {
+        this.nickname = nickname;
+        this.job = job;
+        this.active = true;
+    }
 
 }

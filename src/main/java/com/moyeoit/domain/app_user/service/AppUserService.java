@@ -1,7 +1,9 @@
 package com.moyeoit.domain.app_user.service;
 
 import com.moyeoit.domain.app_user.domain.AppUser;
+import com.moyeoit.domain.app_user.domain.Job;
 import com.moyeoit.domain.app_user.repository.AppUserRepository;
+import com.moyeoit.domain.app_user.repository.JobRepository;
 import com.moyeoit.domain.app_user.service.dto.AppUserDto;
 import com.moyeoit.global.auth.extractor.OAuth2UserProfile;
 import com.moyeoit.global.exception.AppException;
@@ -10,6 +12,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class AppUserService {
 
     private final AppUserRepository appUserRepository;
+    private final JobRepository jobRepository;
 
     /**
      * AppUser ID 기반 AppUser 조회
@@ -46,6 +50,17 @@ public class AppUserService {
 
         AppUser savedUser = appUserRepository.save(user);
         return AppUserDto.of(savedUser);
+    }
+
+    @Transactional
+    public void activateUser(Long userId, String nickname, Long jobId) {
+        AppUser user = appUserRepository.findById(userId)
+                .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+
+        Job job = jobRepository.findById(jobId)
+                .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND_JOB));
+
+        user.activate(nickname, job);
     }
 
 }
