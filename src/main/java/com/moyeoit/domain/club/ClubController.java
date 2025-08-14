@@ -1,12 +1,20 @@
 package com.moyeoit.domain.club;
 
 import com.moyeoit.domain.club.dto.ClubInfoResponse;
+import com.moyeoit.domain.club.dto.ClubListResponse;
+import com.moyeoit.domain.club.dto.ClubPagingRequest;
 import com.moyeoit.domain.club.dto.ClubRecruitInfoResponse;
 import com.moyeoit.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,6 +32,16 @@ public class ClubController {
     @GetMapping("/{clubId}/recruits")
     public ApiResponse<ClubRecruitInfoResponse> getRecruitInfo(@PathVariable Long clubId) {
         return ApiResponse.success("동아리 모집정보 조회에 성공하였습니다.", clubService.findRecruitInfo(clubId));
+    }
+
+    /**
+     * 필터링 및 정렬 조건에 따른 동아리 목록을 페이징하여 조회합니다.
+     */
+    @GetMapping
+    public ApiResponse<Page<ClubListResponse>> getClubList(
+            @ModelAttribute ClubPagingRequest request,
+            @PageableDefault(size = 12, direction = Sort.Direction.DESC)Pageable pageable){
+        return ApiResponse.success("동아리 목록 조회에 성공하였습니다.",clubService.findClubList(request,pageable));
     }
 
 }

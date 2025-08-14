@@ -1,5 +1,7 @@
 package com.moyeoit.domain.club.dto;
 
+import com.moyeoit.domain.club.entity.ClubRecruitment;
+import com.moyeoit.domain.club.entity.RecruitmentPart;
 import java.util.List;
 
 public record ClubRecruitInfoResponse(
@@ -11,4 +13,17 @@ public record ClubRecruitInfoResponse(
         String activityFee,
         String homepageUrl,
         String noticeUrl) {
+    public static ClubRecruitInfoResponse from(ClubRecruitment entity) {
+
+        return new ClubRecruitInfoResponse(
+                entity.getRecruitmentParts().stream().map(RecruitmentPart::getPartName).toList(),
+                entity.getQualification(),
+                entity.getRecruitmentSchedule(),
+                entity.getActivityPeriod(),
+                entity.getActivityMethod(),
+                entity.getActivityFee(),
+                entity.getHomepageUrl(),
+                entity.getNoticeUrl()
+        );
+    }
 }

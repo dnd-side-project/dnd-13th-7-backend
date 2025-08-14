@@ -9,32 +9,24 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Getter
-public class ClubSchedule {
+@NoArgsConstructor
+@AllArgsConstructor
+public class RecruitmentPart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
+    @Column(name = "part_name")
+    private String partName;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_id")
-    private Club club;
+    @JoinColumn(name = "club_recruitment_id") // 외래 키(FK) 컬럼명 지정
+    private ClubRecruitment clubRecruitment;
 
-    @Column(name = "period_value")
-    private Integer periodValue;
-
-    @Column(name = "period")
-    private String period;
-
-    @Column(name = "activity")
-    private String activity;
 }
