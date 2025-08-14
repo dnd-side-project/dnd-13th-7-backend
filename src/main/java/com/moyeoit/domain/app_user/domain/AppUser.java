@@ -45,4 +45,10 @@ public class AppUser {
     @JoinColumn(name = "job_id")
     private Job job; // 직군
 
+    public void activate(String nickname, Job job) {
+        this.nickname = nickname;
+        this.job = job;
+        this.active = true;
+    }
+
 }
