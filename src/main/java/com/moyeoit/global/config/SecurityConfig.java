@@ -65,7 +65,7 @@ public class SecurityConfig {
 
         http.oauth2Login(oauth -> oauth
                 .authorizationEndpoint(ep -> ep.baseUri("/api/oauth2/authorize"))
-                .redirectionEndpoint(redir -> redir.baseUri("/api/login/oauth2/*"))
+                .redirectionEndpoint(redir -> redir.baseUri("/api/oauth2/login/*"))
                 .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                 .successHandler(customSuccessHandler)
         );

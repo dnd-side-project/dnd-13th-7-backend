@@ -35,7 +35,6 @@ public class AppUserController {
         return ResponseEntity.ok(ApiResponse.success("HELLO APP_USER" + appUserDto.getEmail(), appUserDto));
     }
 
-
     @PostMapping("/activate")
     public ResponseEntity<?> activateUser(@CurrentUser AccessUser accessUser,
                                           @RequestBody ActivateRequest request) {
