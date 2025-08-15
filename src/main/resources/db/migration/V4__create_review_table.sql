@@ -25,8 +25,7 @@ CREATE TABLE `basic_review` (
                                 `rate` DOUBLE,
                                 CONSTRAINT `fk_basicreview_on_club` FOREIGN KEY (`club_id`) REFERENCES `club` (`id`),
                                 CONSTRAINT `fk_basicreview_on_appuser` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`id`),
-                                CONSTRAINT `fk_basicreview_on_job` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`),
-                                CONSTRAINT `uq_basicreview_job_id` UNIQUE (`job_id`)
+                                CONSTRAINT `fk_basicreview_on_job` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`)
 ) ENGINE=InnoDB;
 
 
@@ -40,8 +39,7 @@ CREATE TABLE `premium_review` (
                                   `title` VARCHAR(255),
                                   CONSTRAINT `fk_premiumreview_on_club` FOREIGN KEY (`club_id`) REFERENCES `club` (`id`),
                                   CONSTRAINT `fk_premiumreview_on_appuser` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`id`),
-                                  CONSTRAINT `fk_premiumreview_on_job` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`),
-                                  CONSTRAINT `uq_premiumreview_job_id` UNIQUE (`job_id`)
+                                  CONSTRAINT `fk_premiumreview_on_job` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`)
 ) ENGINE=InnoDB;
 
 
@@ -54,8 +52,7 @@ CREATE TABLE `basic_review_detail` (
                                        `answer_type` VARCHAR(255), -- AnswerType Enum: INTEGER, DOUBLE, TEXT
                                        CONSTRAINT `fk_basicreviewdetail_on_basicreview` FOREIGN KEY (`review_basic_id`) REFERENCES `basic_review` (`id`),
                                        CONSTRAINT `fk_basicreviewdetail_on_question` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`),
-                                       CONSTRAINT `fk_basicreviewdetail_on_appuser` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`id`),
-                                       CONSTRAINT `uq_basicreviewdetail_question_id` UNIQUE (`question_id`)
+                                       CONSTRAINT `fk_basicreviewdetail_on_appuser` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`id`)
 ) ENGINE=InnoDB;
 
 
@@ -68,17 +65,15 @@ CREATE TABLE `premium_review_detail` (
                                          `answer_type` VARCHAR(255), -- AnswerType Enum: INTEGER, DOUBLE, TEXT
                                          CONSTRAINT `fk_premiumreviewdetail_on_premiumreview` FOREIGN KEY (`review_premium_id`) REFERENCES `premium_review` (`id`),
                                          CONSTRAINT `fk_premiumreviewdetail_on_question` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`),
-                                         CONSTRAINT `fk_premiumreviewdetail_on_appuser` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`id`),
-                                         CONSTRAINT `uq_premiumreviewdetail_question_id` UNIQUE (`question_id`)
+                                         CONSTRAINT `fk_premiumreviewdetail_on_appuser` FOREIGN KEY (`user_id`) REFERENCES `app_user` (`id`)
 ) ENGINE=InnoDB;
 
--- 1. 기존 part_name 컬럼을 삭제합니다.
 ALTER TABLE `recruitment_part` DROP COLUMN `part_name`;
 
--- 2. job_id 컬럼을 추가합니다.
+
 ALTER TABLE `recruitment_part` ADD COLUMN `job_id` BIGINT NULL;
 
--- 3. 추가된 job_id 컬럼에 외래 키 제약 조건을 설정합니다.
+
 ALTER TABLE `recruitment_part`
     ADD CONSTRAINT `fk_recruitmentpart_on_job`
         FOREIGN KEY (`job_id`) REFERENCES `job` (`id`);
