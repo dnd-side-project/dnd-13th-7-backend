@@ -1,5 +1,6 @@
 package com.moyeoit.domain.club.entity;
 
+import com.moyeoit.domain.app_user.domain.Job;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,8 +23,9 @@ public class RecruitmentPart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "part_name")
-    private String partName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_id")
+    private Job job;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_recruitment_id") // 외래 키(FK) 컬럼명 지정

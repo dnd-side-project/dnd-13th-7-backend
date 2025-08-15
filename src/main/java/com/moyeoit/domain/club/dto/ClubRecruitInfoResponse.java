@@ -1,5 +1,6 @@
 package com.moyeoit.domain.club.dto;
 
+import com.moyeoit.domain.app_user.domain.Job;
 import com.moyeoit.domain.club.entity.ClubRecruitment;
 import com.moyeoit.domain.club.entity.RecruitmentPart;
 import java.util.List;
@@ -16,7 +17,7 @@ public record ClubRecruitInfoResponse(
     public static ClubRecruitInfoResponse from(ClubRecruitment entity) {
 
         return new ClubRecruitInfoResponse(
-                entity.getRecruitmentParts().stream().map(RecruitmentPart::getPartName).toList(),
+                entity.getRecruitmentParts().stream().map(RecruitmentPart::getJob).map(Job::getName).toList(),
                 entity.getQualification(),
                 entity.getRecruitmentSchedule(),
                 entity.getActivityPeriod(),

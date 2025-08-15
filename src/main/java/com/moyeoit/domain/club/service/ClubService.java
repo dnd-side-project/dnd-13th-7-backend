@@ -1,4 +1,4 @@
-package com.moyeoit.domain.club;
+package com.moyeoit.domain.club.service;
 
 import com.moyeoit.domain.club.dto.ClubActivityDto;
 import com.moyeoit.domain.club.dto.ClubDto;

@@ -14,13 +14,13 @@ import com.moyeoit.domain.club.entity.ClubActivity;
 import com.moyeoit.domain.club.entity.ClubRecruitment;
 import com.moyeoit.domain.club.entity.ClubSchedule;
 import com.moyeoit.domain.club.repository.ClubRepository;
+import com.moyeoit.domain.club.service.ClubService;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.Test;
 
