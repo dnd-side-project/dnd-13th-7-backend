@@ -3,7 +3,7 @@ package com.moyeoit.domain.club;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.moyeoit.domain.app_user.domain.Job;
-import com.moyeoit.domain.club.dto.ClubPagingRequest;
+import com.moyeoit.domain.club.controller.request.ClubPagingRequest;
 import com.moyeoit.domain.club.entity.Club;
 import com.moyeoit.domain.club.entity.ClubRecruitment;
 import com.moyeoit.domain.club.entity.Position;

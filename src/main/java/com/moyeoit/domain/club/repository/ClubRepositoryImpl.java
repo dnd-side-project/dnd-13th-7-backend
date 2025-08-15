@@ -1,7 +1,7 @@
 package com.moyeoit.domain.club.repository;
 
 
-import com.moyeoit.domain.club.dto.ClubPagingRequest;
+import com.moyeoit.domain.club.controller.request.ClubPagingRequest;
 import com.moyeoit.domain.club.entity.Club;
 import com.moyeoit.domain.club.entity.filter.Way;
 import com.querydsl.core.types.OrderSpecifier;

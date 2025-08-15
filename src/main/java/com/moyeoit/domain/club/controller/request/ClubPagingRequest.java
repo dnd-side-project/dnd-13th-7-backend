@@ -1,4 +1,4 @@
-package com.moyeoit.domain.club.dto;
+package com.moyeoit.domain.club.controller.request;
 
 import java.util.List;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.moyeoit.domain.club.dto;
+package com.moyeoit.global.response;
 
 import com.moyeoit.domain.app_user.domain.Job;
 import com.moyeoit.domain.club.entity.ClubRecruitment;

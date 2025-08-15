@@ -1,4 +1,4 @@
-package com.moyeoit.common.response;
+package com.moyeoit.global.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
