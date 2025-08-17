@@ -77,3 +77,17 @@ ALTER TABLE `recruitment_part` ADD COLUMN `job_id` BIGINT NULL;
 ALTER TABLE `recruitment_part`
     ADD CONSTRAINT `fk_recruitmentpart_on_job`
         FOREIGN KEY (`job_id`) REFERENCES `job` (`id`);
+
+-- BASIC_REVIEW 수정
+ALTER TABLE `basic_review`
+    ADD COLUMN `result` ENUM('합격', '불합격') DEFAULT NULL,
+    ADD COLUMN `review_type` ENUM('활동', '면접', '서류') DEFAULT NULL ,
+    ADD COLUMN `create_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ADD COLUMN `update_date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+-- PREMIUM_REVIEW 수정
+ALTER TABLE `premium_review`
+    ADD COLUMN `result` ENUM('합격', '불합격') DEFAULT NULL,
+    ADD COLUMN `review_type` ENUM('활동', '면접', '서류') DEFAULT NULL,
+    ADD COLUMN `create_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ADD COLUMN `update_date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;

@@ -1,6 +1,7 @@
 package com.moyeoit.domain.review.domain;
 
 import com.moyeoit.domain.app_user.domain.AppUser;
+import com.moyeoit.domain.review.domain.enums.AnswerType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
