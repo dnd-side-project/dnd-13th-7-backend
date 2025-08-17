@@ -1,7 +1,7 @@
 package com.moyeoit.global.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moyeoit.common.response.LoginResponse;
+import com.moyeoit.global.response.user.LoginResponse;
 import com.moyeoit.global.auth.jwt.JwtIssuer;
 import com.moyeoit.global.auth.user.CustomOAuth2User;
 import jakarta.servlet.ServletException;

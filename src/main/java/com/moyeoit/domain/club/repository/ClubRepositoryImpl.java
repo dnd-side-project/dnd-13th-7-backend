@@ -3,7 +3,7 @@ package com.moyeoit.domain.club.repository;
 
 import com.moyeoit.domain.club.controller.request.ClubPagingRequest;
 import com.moyeoit.domain.club.entity.Club;
-import com.moyeoit.domain.club.entity.filter.Way;
+import com.moyeoit.domain.club.entity.enums.Way;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;

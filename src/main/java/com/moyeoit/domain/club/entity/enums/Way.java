@@ -1,4 +1,4 @@
-package com.moyeoit.domain.club.entity.filter;
+package com.moyeoit.domain.club.entity.enums;
 
 import java.util.stream.Stream;
 import lombok.Getter;
