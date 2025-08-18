@@ -35,7 +35,8 @@ public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCusto
                 clubIdEq(request.getClubId()),
                 partEq(request.getPart()),
                 resultEq(request.getResult()),
-                reviewTypeEq(request.getReviewType())
+                reviewTypeEq(request.getReviewType()),
+                isRecruitingEq(request.getIsRecruiting())
         };
 
         List<PremiumReviewInfo> content = queryFactory

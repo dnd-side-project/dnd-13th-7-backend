@@ -20,10 +20,10 @@ public class ReviewListService {
     private final BasicReviewRepository basicReviewRepository;
     private final PremiumReviewRepository premiumReviewRepository;
 
-//    @Transactional(readOnly = true)
-//    public Page<BasicReviewListResponse> findBasicReviewList(ReviewPagingRequest request, Pageable pageable) {
-//        return basicReviewRepository.findBasicReviewByRequest(request,pageable);
-//    }
+    @Transactional(readOnly = true)
+    public Page<BasicReviewListResponse> findBasicReviewList(ReviewPagingRequest request, Pageable pageable) {
+        return basicReviewRepository.findBasicReviewByRequest(request,pageable);
+    }
 
     @Transactional(readOnly = true)
     public Page<PremiumReviewListResponse> findPremiumReviewList(ReviewPagingRequest request, Pageable pageable) {

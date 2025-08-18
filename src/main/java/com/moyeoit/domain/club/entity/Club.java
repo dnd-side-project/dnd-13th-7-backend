@@ -60,7 +60,7 @@ public class Club {
     private String address;
 
     @Column(name = "recruiting")
-    private boolean recruiting;
+    private Boolean recruiting;
 
     @Column(name = "image_url")
     private String imageUrl;

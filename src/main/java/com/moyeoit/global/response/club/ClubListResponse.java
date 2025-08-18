@@ -10,7 +10,7 @@ public record ClubListResponse(
         String description,
         List<String> categories,
         String logoUrl,
-        boolean isRecruiting) {
+        Boolean isRecruiting) {
     public static ClubListResponse from(Club club) {
         return new ClubListResponse(
                 club.getId(),
@@ -18,7 +18,7 @@ public record ClubListResponse(
                 club.getBio(),
                 club.getPosition().stream().map(Position::getPositionName).toList(),
                 club.getImageUrl(),
-                club.isRecruiting()
+                club.getRecruiting()
         );
     }
 }
