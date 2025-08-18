@@ -1,5 +1,4 @@
-package com.moyeoit.domain.review.Repository;
-
+package com.moyeoit.domain.review.repository;
 
 
 import com.moyeoit.domain.review.controller.request.ReviewPagingRequest;
