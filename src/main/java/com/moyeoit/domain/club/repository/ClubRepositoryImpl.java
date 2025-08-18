@@ -66,7 +66,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
             return null;
         }
 
-        return club.recruitment.recruitmentParts.any().partName.in(parts);
+        return club.recruitment.recruitmentParts.any().job.name.in(parts);
     }
     private BooleanExpression eqTarget(List<String> targets) {
         if (targets == null || targets.isEmpty()) {
