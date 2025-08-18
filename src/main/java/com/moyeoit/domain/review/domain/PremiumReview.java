@@ -3,8 +3,6 @@ package com.moyeoit.domain.review.domain;
 import com.moyeoit.domain.app_user.domain.AppUser;
 import com.moyeoit.domain.app_user.domain.Job;
 import com.moyeoit.domain.club.entity.Club;
-import com.moyeoit.domain.review.domain.enums.Result;
-import com.moyeoit.domain.review.domain.enums.ReviewType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,10 +52,10 @@ public class PremiumReview {
     private String title;
 
     @Enumerated(EnumType.STRING)
-    private Result result;
+    private ResultType resultType;
 
     @Enumerated(EnumType.STRING)
-    private ReviewType reviewType;
+    private ReviewCategory reviewCategory;
 
     @CreationTimestamp
     private LocalDateTime createDate;

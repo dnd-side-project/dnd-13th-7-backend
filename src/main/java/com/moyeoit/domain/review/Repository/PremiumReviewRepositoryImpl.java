@@ -1,4 +1,4 @@
-package com.moyeoit.domain.review.Repository;
+package com.moyeoit.domain.review.repository;
 
 
 import static com.moyeoit.domain.app_user.domain.QAppUser.appUser;
@@ -7,8 +7,8 @@ import static com.moyeoit.domain.club.entity.QClub.club;
 import static com.moyeoit.domain.review.domain.QPremiumReview.premiumReview;
 
 import com.moyeoit.domain.review.controller.request.ReviewPagingRequest;
-import com.moyeoit.domain.review.domain.enums.Result;
-import com.moyeoit.domain.review.domain.enums.ReviewType;
+import com.moyeoit.domain.review.domain.ResultType;
+import com.moyeoit.domain.review.domain.ReviewCategory;
 import com.moyeoit.domain.review.dto.QReviewQueryDto_PremiumReviewInfo;
 import com.moyeoit.domain.review.dto.ReviewQueryDto.PremiumReviewInfo;
 import com.querydsl.core.types.OrderSpecifier;
@@ -25,7 +25,7 @@ import org.springframework.util.StringUtils;
 
 @Repository
 @RequiredArgsConstructor
-public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCustom{
+public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -69,8 +69,10 @@ public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCusto
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
-    private BooleanExpression reviewTypeEq(String reviewType) {
-        return StringUtils.hasText(reviewType) ? premiumReview.reviewType.eq(ReviewType.valueOf(reviewType)) : null;
+    private BooleanExpression reviewTypeEq(String reviewCategory) {
+        return StringUtils.hasText(reviewCategory) ? premiumReview.reviewCategory.eq(
+                ReviewCategory.valueOf(reviewCategory))
+                : null;
     }
 
     private BooleanExpression clubIdEq(String clubId) {
@@ -84,15 +86,15 @@ public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCusto
 
 
     private BooleanExpression resultEq(String result) {
-        return StringUtils.hasText(result) ? premiumReview.result.eq(Result.valueOf(result)) : null;
+        return StringUtils.hasText(result) ? premiumReview.resultType.eq(ResultType.valueOf(result)) : null;
     }
 
-    private BooleanExpression isRecruitingEq(Boolean isRecruiting){
+    private BooleanExpression isRecruitingEq(Boolean isRecruiting) {
         return isRecruiting == null ? null : premiumReview.club.recruiting.eq(isRecruiting);
     }
 
 
-    private OrderSpecifier<?> getOrderSpecifier(String sort){
+    private OrderSpecifier<?> getOrderSpecifier(String sort) {
 //        if(ReviewSort.fromString(sort)==ReviewSort.인기순){
 //            todo: 좋아요 로직 추가후 premiumReview.likeCount.desc(); 예정
 //        }

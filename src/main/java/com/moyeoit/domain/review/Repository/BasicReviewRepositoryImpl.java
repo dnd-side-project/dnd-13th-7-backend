@@ -1,4 +1,4 @@
-package com.moyeoit.domain.review.Repository;
+package com.moyeoit.domain.review.repository;
 
 import static com.moyeoit.domain.app_user.domain.QAppUser.appUser;
 import static com.moyeoit.domain.app_user.domain.QJob.job;
@@ -7,12 +7,11 @@ import static com.moyeoit.domain.review.domain.QBasicReview.basicReview;
 import static com.moyeoit.domain.review.domain.QBasicReviewDetail.basicReviewDetail;
 import static com.moyeoit.domain.review.domain.QQuestion.question;
 
-
 import com.moyeoit.domain.review.controller.request.ReviewPagingRequest;
 import com.moyeoit.domain.review.domain.BasicReview;
 import com.moyeoit.domain.review.domain.BasicReviewDetail;
-import com.moyeoit.domain.review.domain.enums.Result;
-import com.moyeoit.domain.review.domain.enums.ReviewType;
+import com.moyeoit.domain.review.domain.ResultType;
+import com.moyeoit.domain.review.domain.ReviewCategory;
 import com.moyeoit.global.response.review.BasicReviewListResponse;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -30,7 +29,7 @@ import org.springframework.util.StringUtils;
 
 @Repository
 @RequiredArgsConstructor
-public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom{
+public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -45,9 +44,9 @@ public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom{
         };
         List<BasicReview> reviews = queryFactory
                 .selectFrom(basicReview)
-                .join(basicReview.user,appUser).fetchJoin()
-                .join(basicReview.club,club).fetchJoin()
-                .join(basicReview.job,job).fetchJoin()
+                .join(basicReview.user, appUser).fetchJoin()
+                .join(basicReview.club, club).fetchJoin()
+                .join(basicReview.job, job).fetchJoin()
                 .where(conditions)
                 .orderBy(getOrderSpecifier(request.getSort()))
                 .offset(pageable.getOffset())
@@ -65,19 +64,19 @@ public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom{
                 .toList();
 
         List<BasicReviewDetail> details = queryFactory
-                        .selectFrom(basicReviewDetail)
-                        .join(basicReviewDetail.question, question).fetchJoin()
-                        .where(basicReviewDetail.review.id.in(reviewIds))
-                        .fetch();
+                .selectFrom(basicReviewDetail)
+                .join(basicReviewDetail.question, question).fetchJoin()
+                .where(basicReviewDetail.review.id.in(reviewIds))
+                .fetch();
 
-        Map<Long,List<BasicReviewDetail>> detailMap = details.stream()
-                .collect(Collectors.groupingBy(d->d.getReview().getId()));
+        Map<Long, List<BasicReviewDetail>> detailMap = details.stream()
+                .collect(Collectors.groupingBy(d -> d.getReview().getId()));
 
         return PageableExecutionUtils.getPage(
                 reviews.stream()
                         .map(review -> BasicReviewListResponse.mapToDto(
                                 review,
-                                detailMap.getOrDefault(review.getId(),List.of())
+                                detailMap.getOrDefault(review.getId(), List.of())
                         ))
                         .toList(),
                 pageable,
@@ -93,11 +92,11 @@ public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom{
     }
 
     private BooleanExpression resultEq(String result) {
-        return result != null ? basicReview.result.eq(Result.valueOf(result)) : null;
+        return result != null ? basicReview.resultType.eq(ResultType.valueOf(result)) : null;
     }
 
     private BooleanExpression reviewTypeEq(String reviewType) {
-        return reviewType != null ? basicReview.reviewType.eq(ReviewType.valueOf(reviewType)) : null;
+        return reviewType != null ? basicReview.reviewCategory.eq(ReviewCategory.valueOf(reviewType)) : null;
     }
 
     private BooleanExpression isRecruitingEq(Boolean isRecruiting) {
@@ -105,12 +104,10 @@ public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom{
     }
 
 
-    private OrderSpecifier<?> getOrderSpecifier(String sort){
+    private OrderSpecifier<?> getOrderSpecifier(String sort) {
         //todo: 좋아요 기준 인기순 기능 구현후 추가예정
         return basicReview.createDate.desc();
     }
-
-
 
 
 }
