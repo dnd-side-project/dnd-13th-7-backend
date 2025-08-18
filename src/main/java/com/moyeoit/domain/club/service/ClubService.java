@@ -2,10 +2,10 @@ package com.moyeoit.domain.club.service;
 
 import com.moyeoit.domain.club.dto.ClubActivityDto;
 import com.moyeoit.domain.club.dto.ClubDto;
-import com.moyeoit.domain.club.dto.ClubInfoResponse;
-import com.moyeoit.domain.club.dto.ClubListResponse;
-import com.moyeoit.domain.club.dto.ClubPagingRequest;
-import com.moyeoit.domain.club.dto.ClubRecruitInfoResponse;
+import com.moyeoit.global.response.club.ClubInfoResponse;
+import com.moyeoit.global.response.club.ClubListResponse;
+import com.moyeoit.domain.club.controller.request.ClubPagingRequest;
+import com.moyeoit.global.response.club.ClubRecruitInfoResponse;
 import com.moyeoit.domain.club.dto.ClubScheduleDto;
 import com.moyeoit.domain.club.entity.Club;
 import com.moyeoit.domain.club.entity.ClubActivity;

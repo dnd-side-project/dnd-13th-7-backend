@@ -1,10 +1,10 @@
 package com.moyeoit.domain.club.controller;
 
 import com.moyeoit.domain.club.service.ClubService;
-import com.moyeoit.domain.club.dto.ClubInfoResponse;
-import com.moyeoit.domain.club.dto.ClubListResponse;
-import com.moyeoit.domain.club.dto.ClubPagingRequest;
-import com.moyeoit.domain.club.dto.ClubRecruitInfoResponse;
+import com.moyeoit.global.response.club.ClubInfoResponse;
+import com.moyeoit.global.response.club.ClubListResponse;
+import com.moyeoit.domain.club.controller.request.ClubPagingRequest;
+import com.moyeoit.global.response.club.ClubRecruitInfoResponse;
 import com.moyeoit.global.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

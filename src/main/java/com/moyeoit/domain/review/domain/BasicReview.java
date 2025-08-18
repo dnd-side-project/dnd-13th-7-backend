@@ -3,17 +3,28 @@ package com.moyeoit.domain.review.domain;
 import com.moyeoit.domain.app_user.domain.AppUser;
 import com.moyeoit.domain.app_user.domain.Job;
 import com.moyeoit.domain.club.entity.Club;
+import com.moyeoit.domain.review.domain.enums.Result;
+import com.moyeoit.domain.review.domain.enums.ReviewType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Getter
@@ -39,5 +50,20 @@ public class BasicReview {
     private AppUser user;
 
     private Double rate;
+
+    @Enumerated(EnumType.STRING)
+    private Result result;
+
+    @Enumerated(EnumType.STRING)
+    private ReviewType reviewType;
+
+    @CreationTimestamp
+    private LocalDateTime createDate;
+
+    @UpdateTimestamp
+    private LocalDateTime updateDate;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BasicReviewDetail> basicReviewDetails = new ArrayList<>();
 
 }
