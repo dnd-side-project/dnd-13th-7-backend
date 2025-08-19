@@ -7,8 +7,8 @@ import com.moyeoit.domain.app_user.repository.JobRepository;
 import com.moyeoit.domain.club.entity.Club;
 import com.moyeoit.domain.club.repository.ClubRepository;
 import com.moyeoit.domain.review.controller.request.AnswerRequest;
+import com.moyeoit.domain.review.controller.request.BasicReviewCreateRequest;
 import com.moyeoit.domain.review.controller.request.MultipleChoiceAnswer;
-import com.moyeoit.domain.review.controller.request.ReviewCreateRequest;
 import com.moyeoit.domain.review.controller.request.SubjectiveAnswer;
 import com.moyeoit.domain.review.domain.BasicReview;
 import com.moyeoit.domain.review.domain.BasicReviewDetail;
@@ -42,7 +42,7 @@ public class BasicReviewService {
 
 
     @Transactional
-    public void createBasicReview(ReviewCreateRequest request, Long userId) {
+    public void createBasicReview(BasicReviewCreateRequest request, Long userId) {
         // 유저 조회
         AppUser user = appUserRepository.findById(userId)
                 .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));

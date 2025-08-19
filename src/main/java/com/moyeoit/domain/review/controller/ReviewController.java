@@ -1,7 +1,7 @@
 package com.moyeoit.domain.review.controller;
 
+import com.moyeoit.domain.review.controller.request.BasicReviewCreateRequest;
 import com.moyeoit.domain.review.controller.request.PremiumReviewCreateRequest;
-import com.moyeoit.domain.review.controller.request.ReviewCreateRequest;
 import com.moyeoit.domain.review.service.BasicReviewService;
 import com.moyeoit.domain.review.service.PremiumReviewService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
@@ -25,7 +25,7 @@ public class ReviewController {
     private final PremiumReviewService premiumReviewService;
 
     @PostMapping("/basic")
-    public ResponseEntity<?> createBasicReview(@RequestBody ReviewCreateRequest request,
+    public ResponseEntity<?> createBasicReview(@RequestBody BasicReviewCreateRequest request,
                                                @Parameter(hidden = true) @CurrentUser AccessUser user) {
         basicReviewService.createBasicReview(request, user.getId());
         return ResponseEntity.ok("");
