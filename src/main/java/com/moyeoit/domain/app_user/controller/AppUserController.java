@@ -1,6 +1,7 @@
 package com.moyeoit.domain.app_user.controller;
 
 import com.moyeoit.domain.app_user.controller.request.ActivateRequest;
+import com.moyeoit.domain.app_user.controller.response.ActivateResponse;
 import com.moyeoit.domain.app_user.service.AppUserService;
 import com.moyeoit.domain.app_user.service.dto.AppUserDto;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
@@ -29,6 +30,15 @@ public class AppUserController {
         return ResponseEntity.ok(user.getName());
     }
 
+    /**
+     * 해당 유저가 활성 상태를 응답합니다.
+     */
+    @GetMapping("/activate/{userId}")
+    public ResponseEntity<ApiResponse<ActivateResponse>> isActivateUser(@PathVariable Long userId) {
+        ActivateResponse response = appUserService.getActivateStatus(userId);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<ApiResponse> getUser(@PathVariable Long userId) {
         AppUserDto appUserDto = appUserService.getAppUser(userId);
@@ -38,7 +48,7 @@ public class AppUserController {
     @PostMapping("/activate")
     public ResponseEntity<?> activateUser(@CurrentUser AccessUser accessUser,
                                           @RequestBody ActivateRequest request) {
-        appUserService.activateUser(accessUser.getId(), request.getNickname(), request.getJobId());
+        AppUserDto dto = appUserService.activateUser(accessUser.getId(), request);
         return ResponseEntity.ok("");
     }
 

@@ -1,12 +1,11 @@
 package com.moyeoit.domain.review.service;
 
-import com.moyeoit.domain.review.Repository.BasicReviewRepository;
-import com.moyeoit.domain.review.Repository.PremiumReviewRepository;
 import com.moyeoit.domain.review.controller.request.ReviewPagingRequest;
 import com.moyeoit.domain.review.dto.ReviewQueryDto.PremiumReviewInfo;
+import com.moyeoit.domain.review.repository.BasicReviewRepository;
+import com.moyeoit.domain.review.repository.PremiumReviewRepository;
 import com.moyeoit.global.response.review.BasicReviewListResponse;
 import com.moyeoit.global.response.review.PremiumReviewListResponse;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +21,7 @@ public class ReviewListService {
 
     @Transactional(readOnly = true)
     public Page<BasicReviewListResponse> findBasicReviewList(ReviewPagingRequest request, Pageable pageable) {
-        return basicReviewRepository.findBasicReviewByRequest(request,pageable);
+        return basicReviewRepository.findBasicReviewByRequest(request, pageable);
     }
 
     @Transactional(readOnly = true)
