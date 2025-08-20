@@ -62,6 +62,8 @@ jobs:
             
             JWT_SECRET_KEY="${{ secrets.JWT_SECRET_KEY }}"
             
+            export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
+            
             docker compose down
             docker compose pull
             docker compose up -d
