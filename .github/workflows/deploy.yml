@@ -18,6 +18,9 @@ jobs:
           java-version: 21
           cache: gradle
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Build Spring Boot application
         run: |
           ./gradlew clean bootJar -Pprofile=dev
