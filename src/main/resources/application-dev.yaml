@@ -66,3 +66,12 @@ jwt:
 logging:
   level:
     root: INFO
+
+management:
+  newrelic:
+    metrics:
+      export:
+        enabled: true
+        api-key: ${NEW_RELIC_API_KEY}
+        account-id: ${NEW_RELIC_ACCOUNT_ID}
+        step: 1m   # 1분마다 수집 전송
