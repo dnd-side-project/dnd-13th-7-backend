@@ -8,4 +8,4 @@ ADD ./newrelic/newrelic.jar /usr/local/newrelic/newrelic.jar
 ADD ./newrelic/newrelic.yml /usr/local/newrelic/newrelic.yml
 
 
-ENTRYPOINT ["java","-javaagent:/opt/newrelic/newrelic.jar","-jar","/app.jar","--spring.profiles.active=dev"]
+ENTRYPOINT ["java","-javaagent: /usr/local/newrelic/newrelic.jar","-jar","/app.jar","--spring.profiles.active=dev"]
