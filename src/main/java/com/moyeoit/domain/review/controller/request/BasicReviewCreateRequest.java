@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewCreateRequest {
+public class BasicReviewCreateRequest {
 
     private ReviewType reviewType; // 일반/프리미엄
     private ReviewCategory reviewCategory; // 서류/면접/활동

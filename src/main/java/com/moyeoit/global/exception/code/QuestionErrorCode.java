@@ -5,9 +5,9 @@ import org.springframework.http.HttpStatus;
 
 public enum QuestionErrorCode implements ErrorCode {
 
-    NOT_FOUND("NOT_FOUND_QUESTION", "질문을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST);
-
-
+    NOT_FOUND("NOT_FOUND_QUESTION", "질문을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
+    INVALID_SORT("INVALID_SORT_SEQUENCE", "객관식 답변에 대한 정렬 순서가 올바르지 않습니다.", HttpStatus.BAD_REQUEST);
+    
     private final String code;
     private final String message;
     private final HttpStatus httpStatus;
