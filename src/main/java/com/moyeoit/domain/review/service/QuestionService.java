@@ -31,15 +31,13 @@ public class QuestionService {
     }
 
     public QuestionResponse createQuestion(QuestionCreateRequest request) {
-        Question question = createQuestion(request.getTitle(), request.getSubTitle(), request.getType());
+        if (!checkElementSort(request.getElements())) {
+            throw new AppException(QuestionErrorCode.INVALID_SORT);
+        }
 
+        Question question = createQuestion(request.getTitle(), request.getSubTitle(), request.getType());
         Question savedQuestion = questionRepository.save(question);
 
-        // TODO : 주관식인 경우 Element를 다음과 같은 조건으로 만들어야 함
-        /**
-         * elementTitle : QuestionCreateRequest.title
-         * sequence : 1
-         */
         List<QuestionElementCreateRequest> elementRequests = request.getElements();
         List<QuestionElement> questionElements = elementRequests.stream()
                 .map(elementRequest -> createQuestionElement(elementRequest, savedQuestion))
@@ -60,11 +58,37 @@ public class QuestionService {
     }
 
     private QuestionElement createQuestionElement(QuestionElementCreateRequest request, Question question) {
+        if (QuestionType.SUBJECTIVE.equals(question.getType())) { // SUBJECTIVE CASE
+            return QuestionElement.builder()
+                    .question(question)
+                    .elementTitle(question.getTitle())
+                    .sequence(1)
+                    .build();
+        }
+
         return QuestionElement.builder()
                 .question(question)
                 .elementTitle(request.getElementTitle())
                 .sequence(request.getSequence())
                 .build();
+    }
+
+    private boolean checkElementSort(List<QuestionElementCreateRequest> elements) {
+        if (elements == null || elements.isEmpty()) {
+            return false;
+        }
+
+        List<Integer> sorts = elements.stream()
+                .map(QuestionElementCreateRequest::getSequence)
+                .sorted()
+                .toList();
+
+        for (int i = 0; i < sorts.size(); i++) {
+            if (sorts.get(i) != i + 1) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

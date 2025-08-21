@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    @Query("SELECT q FROM Question q JOIN FETCH q.questionElements WHERE q.id = :questionId")
+    @Query("SELECT q FROM Question q JOIN FETCH q.questionElements qe WHERE q.id = :questionId "
+            + "ORDER BY qe.sequence")
     Optional<Question> findByIdWithQuestionElements(@Param("questionId") Long questionId);
 
 }
