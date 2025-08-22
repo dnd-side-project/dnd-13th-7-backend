@@ -74,5 +74,5 @@ management:
         enabled: true
         api-key: ${NEW_RELIC_API_KEY}
         account-id: ${NEW_RELIC_ACCOUNT_ID}
-        uri: https://metric-api.newrelic.com/metric/v1
+        uri: https://insights-collector.newrelic.com
         step: 1m
