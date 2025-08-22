@@ -74,4 +74,5 @@ management:
         enabled: true
         api-key: ${NEW_RELIC_API_KEY}
         account-id: ${NEW_RELIC_ACCOUNT_ID}
-        step: 1m   # 1분마다 수집 전송
+        uri: https://metric-api.newrelic.com/metric/v1
+        step: 1m

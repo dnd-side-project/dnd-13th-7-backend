@@ -67,6 +67,9 @@ jobs:
             
             export NEW_RELIC_LICENSE_KEY="${{ secrets.NEW_RELIC_LICENSE_KEY }}"
             
+            export NEW_RELIC_API_KEY="${{ secrets.NEW_RELIC_API_KEY }}"
+            export NEW_RELIC_ACCOUNT_ID="${{ secrets.NEW_RELIC_ACCOUNT_ID }}"
+
             docker compose down
             docker compose pull
             docker compose up -d
