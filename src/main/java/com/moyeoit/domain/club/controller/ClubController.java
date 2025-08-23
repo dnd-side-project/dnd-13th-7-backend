@@ -34,9 +34,6 @@ public class ClubController {
         return ApiResponse.success("동아리 모집정보 조회에 성공하였습니다.", clubService.findRecruitInfo(clubId));
     }
 
-    /**
-     * 필터링 및 정렬 조건에 따른 동아리 목록을 페이징하여 조회합니다.
-     */
     @GetMapping
     public ApiResponse<Page<ClubListResponse>> getClubList(
             @ModelAttribute ClubPagingRequest request,
