@@ -13,6 +13,7 @@ import com.moyeoit.global.exception.code.UserErrorCode;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class ReviewLikeService {
     private final ReviewLikeRepository reviewLikeRepository;
     private final AppUserRepository appUserRepository;
 
+    @Transactional
     public ReviewLikeResponse toggleLike(Long reviewId, String reviewType, Long userId) {
         ReviewType type = ReviewType.fromString(reviewType);
         AppUser user = appUserRepository.findById(userId).orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));

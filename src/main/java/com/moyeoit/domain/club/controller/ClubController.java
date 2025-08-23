@@ -1,11 +1,13 @@
 package com.moyeoit.domain.club.controller;
 
+import com.moyeoit.domain.club.controller.response.ClubFindListResponse;
 import com.moyeoit.domain.club.service.ClubService;
-import com.moyeoit.global.response.club.ClubInfoResponse;
-import com.moyeoit.global.response.club.ClubListResponse;
+import com.moyeoit.domain.club.controller.response.ClubInfoResponse;
+import com.moyeoit.domain.club.controller.response.ClubListResponse;
 import com.moyeoit.domain.club.controller.request.ClubPagingRequest;
-import com.moyeoit.global.response.club.ClubRecruitInfoResponse;
+import com.moyeoit.domain.club.controller.response.ClubRecruitInfoResponse;
 import com.moyeoit.global.response.ApiResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -39,5 +42,10 @@ public class ClubController {
             @ModelAttribute ClubPagingRequest request,
             @PageableDefault(size = 12, direction = Sort.Direction.DESC)Pageable pageable){
         return ApiResponse.success("동아리 목록 조회에 성공하였습니다.",clubService.findClubList(request,pageable));
+    }
+
+    @GetMapping("/search")
+    public ApiResponse<List<ClubFindListResponse>> searchClubList(@RequestParam String keyword){
+        return ApiResponse.success("동아리 검색에 성공하였습니다.",clubService.searchClubList(keyword));
     }
 }

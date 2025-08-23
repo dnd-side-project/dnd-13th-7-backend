@@ -1,4 +1,4 @@
-package com.moyeoit.global.response.club;
+package com.moyeoit.domain.club.controller.response;
 
 import com.moyeoit.domain.club.entity.Club;
 import com.moyeoit.domain.club.entity.Position;
