@@ -8,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -25,17 +26,21 @@ public class ReviewLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "app_user_id", nullable = false)
     private AppUser appUser;
 
+    @Column(name = "review_id", nullable = false)
     private Long reviewId;
 
     @CreationTimestamp
+    @Column(name = "create_date", columnDefinition = "DATETIME(6) DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "review_type", nullable = false)
     private ReviewType reviewType;
 }
