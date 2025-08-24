@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/job")
+@RequestMapping("/v1/job")
 public class JobController {
 
     private final JobService jobService;
