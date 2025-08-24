@@ -7,8 +7,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.moyeoit.global.response.club.ClubInfoResponse;
-import com.moyeoit.global.response.club.ClubRecruitInfoResponse;
+import com.moyeoit.domain.club.controller.response.ClubInfoResponse;
+import com.moyeoit.domain.club.controller.response.ClubRecruitInfoResponse;
 import com.moyeoit.domain.club.entity.Club;
 import com.moyeoit.domain.club.entity.ClubActivity;
 import com.moyeoit.domain.club.entity.ClubRecruitment;

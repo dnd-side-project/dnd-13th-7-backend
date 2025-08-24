@@ -12,7 +12,7 @@ import com.moyeoit.domain.review.domain.BasicReview;
 import com.moyeoit.domain.review.domain.BasicReviewDetail;
 import com.moyeoit.domain.review.domain.ResultType;
 import com.moyeoit.domain.review.domain.ReviewCategory;
-import com.moyeoit.global.response.review.BasicReviewListResponse;
+import com.moyeoit.domain.review.controller.response.BasicReviewListResponse;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;

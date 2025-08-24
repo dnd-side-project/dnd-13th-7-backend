@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 
 public enum ClubErrorCode implements ErrorCode {
 
-    NOT_FOUND("NOT_FOUND_CLUB", "동아리를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
-
+    NOT_FOUND("NOT_FOUND_CLUB", "동아리를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_KEYWORD("NOT_FOUND_CLUB_KEYWORD", "동아리 검색어를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
     private final String code;
     private final String message;
     private final HttpStatus httpStatus;

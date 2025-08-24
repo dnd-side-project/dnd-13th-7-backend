@@ -85,4 +85,7 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Target> target = new ArrayList<>();
 
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Club_ClubKeyword> clubKeywords = new ArrayList<>();
+
 }

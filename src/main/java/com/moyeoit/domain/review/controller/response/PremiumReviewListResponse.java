@@ -1,4 +1,4 @@
-package com.moyeoit.global.response.review;
+package com.moyeoit.domain.review.controller.response;
 
 import com.moyeoit.domain.review.dto.ReviewQueryDto.PremiumReviewInfo;
 import java.util.List;
