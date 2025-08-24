@@ -94,4 +94,9 @@ public class ClubService {
 
         return subscribed;
     }
+
+    @Transactional(readOnly = true)
+    public Page<ClubListResponse> subClubList(Long userId,Pageable pageable){
+        return clubRepository.findSubscribedClubs(userId,pageable).map(ClubListResponse::from);
+    }
 }

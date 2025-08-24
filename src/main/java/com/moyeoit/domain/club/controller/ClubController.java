@@ -62,4 +62,11 @@ public class ClubController {
         }
         return ApiResponse.success("동아리를 구독하였습니다.",false);
     }
+
+    @GetMapping("/subscribe/{userId}")
+    public ApiResponse<?> getUserSubscribe(
+            @Parameter(hidden = true) @CurrentUser AccessUser user,
+            @PageableDefault(size = 12, direction = Sort.Direction.DESC)Pageable pageable) {
+        return ApiResponse.success("유저의 동아리 구독 목록을 확인하였습니다.",clubService.subClubList(user.getId(),pageable));
+    }
 }
