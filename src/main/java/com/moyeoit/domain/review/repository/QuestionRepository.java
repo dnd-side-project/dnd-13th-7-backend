@@ -21,7 +21,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             JOIN FETCH q.questionElements qe WHERE q.id IN :questionIds
             ORDER BY qe.sequence
             """)
-    Optional<Question> findByIdsWithQuestionElements(@Param("questionIds") List<Long> questionIds);
+    List<Question> findByIdsWithQuestionElements(@Param("questionIds") List<Long> questionIds);
 
 
 }

@@ -11,7 +11,11 @@ import com.moyeoit.domain.review.controller.request.answer.AnswerRequest;
 import com.moyeoit.domain.review.controller.request.answer.MultipleChoiceAnswer;
 import com.moyeoit.domain.review.controller.request.answer.SingleChoiceAnswer;
 import com.moyeoit.domain.review.controller.request.answer.SubjectiveAnswer;
+import com.moyeoit.domain.review.controller.response.AnswerResponse;
+import com.moyeoit.domain.review.controller.response.MultipleChoiceAnswerResponse;
 import com.moyeoit.domain.review.controller.response.PremiumReviewResponse;
+import com.moyeoit.domain.review.controller.response.SingleChoiceAnswerResponse;
+import com.moyeoit.domain.review.controller.response.SubjectiveAnswerResponse;
 import com.moyeoit.domain.review.domain.PremiumReview;
 import com.moyeoit.domain.review.domain.PremiumReviewDetail;
 import com.moyeoit.domain.review.domain.Question;
@@ -63,7 +67,11 @@ public class PremiumReviewService {
             questionRepository.findByIdsWithQuestionElements(questionIds);
         }
 
-        return PremiumReviewResponse.from(premiumReview);
+        List<AnswerResponse> answers = premiumReview.getPremiumReviewDetails().stream()
+                .map(this::createAnswerResponse)
+                .toList();
+
+        return PremiumReviewResponse.from(premiumReview, answers);
     }
 
 
@@ -141,6 +149,22 @@ public class PremiumReviewService {
         }
 
         throw new AppException(ReviewErrorCode.NOT_FOUND_TYPE);
+    }
+
+    private AnswerResponse createAnswerResponse(PremiumReviewDetail detail) {
+        if (AnswerType.TEXT.equals(detail.getAnswerType())) {
+            return SubjectiveAnswerResponse.from(detail);
+        }
+
+        if (AnswerType.INTEGER.equals(detail.getAnswerType())) {
+            return SingleChoiceAnswerResponse.from(detail);
+        }
+
+        if (AnswerType.ARRAY_INTEGER.equals(detail.getAnswerType())) {
+            return MultipleChoiceAnswerResponse.from(detail);
+        }
+
+        throw new AppException(ReviewErrorCode.NOT_FOUND);
     }
 
 }
