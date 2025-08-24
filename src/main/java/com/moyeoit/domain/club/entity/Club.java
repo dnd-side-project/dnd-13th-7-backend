@@ -4,6 +4,7 @@ package com.moyeoit.domain.club.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
@@ -66,9 +66,8 @@ public class Club {
     private String imageUrl;
 
 
-
-    @Setter // 연관관계 편의 메소드
-    @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    //    @Setter // 연관관계 편의 메소드
+    @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private ClubRecruitment recruitment;
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)

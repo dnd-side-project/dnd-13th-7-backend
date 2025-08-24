@@ -1,6 +1,5 @@
 package com.moyeoit.domain.review.controller.request;
 
-import com.moyeoit.domain.review.domain.enums.QuestionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,11 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MultipleChoiceAnswer implements AnswerRequest {
+public class CommentCreateRequest {
 
-    private Long questionId;
-    private QuestionType questionType;
-    private Integer value;
-
+    private String content;
+    private Long parentCommentId;
 
 }
