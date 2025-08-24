@@ -1,5 +1,6 @@
 package com.moyeoit.domain.review.controller.request;
 
+import com.moyeoit.domain.review.controller.request.answer.AnswerRequest;
 import com.moyeoit.domain.review.domain.ResultType;
 import com.moyeoit.domain.review.domain.ReviewCategory;
 import com.moyeoit.domain.review.domain.ReviewType;
@@ -24,7 +25,7 @@ public class PremiumReviewCreateRequest {
 
     private String imageUrl; // 이미지 URL
     private String title; // 리뷰 제목
-    
+
     private List<AnswerRequest> questions;
     private ResultType resultType;
 

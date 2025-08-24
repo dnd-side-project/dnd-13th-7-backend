@@ -1,4 +1,4 @@
-package com.moyeoit.domain.review.controller.request;
+package com.moyeoit.domain.review.controller.request.answer;
 
 import com.moyeoit.domain.review.domain.enums.QuestionType;
 import lombok.AllArgsConstructor;
@@ -10,11 +10,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MultipleChoiceAnswer implements AnswerRequest {
+public class SubjectiveAnswer implements AnswerRequest {
 
     private Long questionId;
     private QuestionType questionType;
-    private Integer value;
-
+    private String value;
 
 }
