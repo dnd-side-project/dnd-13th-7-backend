@@ -24,6 +24,8 @@ import com.moyeoit.global.exception.code.ReviewErrorCode;
 import com.moyeoit.global.exception.code.UserErrorCode;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class PremiumReviewService {
 
     private final AppUserRepository appUserRepository;
@@ -42,6 +45,25 @@ public class PremiumReviewService {
     private final PremiumReviewDetailRepository premiumReviewDetailRepository;
 
     private final QuestionRepository questionRepository;
+
+    public PremiumReviewResponse getPremiumReview(Long premiumReviewId) {
+        PremiumReview premiumReview = premiumReviewRepository.findDetailSkeleton(premiumReviewId)
+                .orElseThrow(() -> new AppException(ReviewErrorCode.NOT_FOUND));
+
+        List<Long> questionIds = premiumReview.getPremiumReviewDetails().stream()
+                .map(PremiumReviewDetail::getQuestion)
+                .filter(Objects::nonNull)
+                .map(Question::getId)
+                .distinct()
+                .toList();
+
+        if (!questionIds.isEmpty()) {
+            questionRepository.findByIdsWithQuestionElements(questionIds);
+        }
+
+        return PremiumReviewResponse.from(premiumReview);
+    }
+
 
     @Transactional
     public void createPremiumReview(PremiumReviewCreateRequest request, Long userId) {
