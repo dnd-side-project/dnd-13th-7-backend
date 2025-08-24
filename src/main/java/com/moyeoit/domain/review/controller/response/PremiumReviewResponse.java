@@ -30,9 +30,9 @@ public class PremiumReviewResponse {
     private ReviewCategory reviewCategory;
     private LocalDateTime createDazte;
     private LocalDateTime updateDate;
-    private List<PremiumReviewDetailResponse> details;
+    private List<AnswerResponse> details;
 
-    public static PremiumReviewResponse from(PremiumReview review) {
+    public static PremiumReviewResponse from(PremiumReview review, List<AnswerResponse> answerResponses) {
         List<PremiumReviewDetailResponse> premiumReviewDetailResponses = review.getPremiumReviewDetails().stream()
                 .map(PremiumReviewDetailResponse::from)
                 .toList();
@@ -48,11 +48,8 @@ public class PremiumReviewResponse {
                 review.getReviewCategory(),
                 review.getCreateDate(),
                 review.getUpdateDate(),
-                premiumReviewDetailResponses
+                answerResponses
         );
     }
-
-    // TODO details
-
 
 }
