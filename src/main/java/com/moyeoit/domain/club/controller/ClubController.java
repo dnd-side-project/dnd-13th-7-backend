@@ -6,7 +6,10 @@ import com.moyeoit.domain.club.controller.response.ClubInfoResponse;
 import com.moyeoit.domain.club.controller.response.ClubListResponse;
 import com.moyeoit.domain.club.controller.request.ClubPagingRequest;
 import com.moyeoit.domain.club.controller.response.ClubRecruitInfoResponse;
+import com.moyeoit.global.auth.argument_resolver.AccessUser;
+import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -47,5 +50,16 @@ public class ClubController {
     @GetMapping("/search")
     public ApiResponse<List<ClubFindListResponse>> searchClubList(@RequestParam String keyword){
         return ApiResponse.success("동아리 검색에 성공하였습니다.",clubService.searchClubList(keyword));
+    }
+
+    @GetMapping("/{clubId}/subscribe")
+    public ApiResponse<?> subscribeClub(
+            @PathVariable Long clubId,
+            @Parameter(hidden = true) @CurrentUser AccessUser user) {
+        boolean subscribed = clubService.subscribeClub(clubId,user.getId());
+        if(subscribed){
+            return ApiResponse.success("동아리 구독을 취소하였습니다.",true);
+        }
+        return ApiResponse.success("동아리를 구독하였습니다.",false);
     }
 }
