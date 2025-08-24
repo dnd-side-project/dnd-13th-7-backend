@@ -63,7 +63,7 @@ public class ClubController {
         return ApiResponse.success("동아리를 구독하였습니다.",false);
     }
 
-    @GetMapping("/subscribe/{userId}")
+    @GetMapping("/user-subscribe")
     public ApiResponse<?> getUserSubscribe(
             @Parameter(hidden = true) @CurrentUser AccessUser user,
             @PageableDefault(size = 12, direction = Sort.Direction.DESC)Pageable pageable) {
