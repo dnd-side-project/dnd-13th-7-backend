@@ -1,5 +1,6 @@
 package com.moyeoit.domain.review.controller.request;
 
+import com.moyeoit.domain.review.controller.request.answer.AnswerRequest;
 import com.moyeoit.domain.review.domain.ResultType;
 import com.moyeoit.domain.review.domain.ReviewCategory;
 import com.moyeoit.domain.review.domain.ReviewType;
