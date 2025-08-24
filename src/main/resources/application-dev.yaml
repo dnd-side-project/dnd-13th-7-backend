@@ -75,6 +75,16 @@ logging:
     root: INFO
 
 management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+      probes:
+        enabled: true
   newrelic:
     metrics:
       export:
