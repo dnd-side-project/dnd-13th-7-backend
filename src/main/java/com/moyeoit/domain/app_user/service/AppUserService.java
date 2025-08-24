@@ -73,6 +73,7 @@ public class AppUserService {
 
         // Term 데이터를 생성합니다.
         Term term = Term.builder()
+                .user(user)
                 .overAge(request.isOverAge())
                 .termOfService(request.isAgreeTermsOfService())
                 .privacyPolicy(request.isAgreePrivacyPolicy())

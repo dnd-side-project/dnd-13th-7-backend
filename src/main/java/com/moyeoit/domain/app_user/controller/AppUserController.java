@@ -7,6 +7,7 @@ import com.moyeoit.domain.app_user.service.dto.AppUserDto;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class AppUserController {
     }
 
     @PostMapping("/activate")
-    public ResponseEntity<?> activateUser(@CurrentUser AccessUser accessUser,
+    public ResponseEntity<?> activateUser(@Parameter(hidden = true) @CurrentUser AccessUser accessUser,
                                           @RequestBody ActivateRequest request) {
         AppUserDto dto = appUserService.activateUser(accessUser.getId(), request);
         return ResponseEntity.ok("");
