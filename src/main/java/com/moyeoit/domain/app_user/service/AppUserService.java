@@ -44,7 +44,8 @@ public class AppUserService {
      */
     @Transactional
     public AppUserDto findOrCreateAppUserFromOAuth2(OAuth2UserProfile profile) {
-        Optional<AppUser> findAppUser = appUserRepository.findByEmail(profile.getEmail());
+        Optional<AppUser> findAppUser = appUserRepository.findByEmailAndProvider(profile.getEmail(),
+                profile.getProvider());
         if (findAppUser.isPresent()) {
             return AppUserDto.of(findAppUser.get());
         }
