@@ -1,9 +1,9 @@
 package com.moyeoit.global.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.moyeoit.global.response.user.LoginResponse;
 import com.moyeoit.global.auth.jwt.JwtIssuer;
 import com.moyeoit.global.auth.user.CustomOAuth2User;
+import com.moyeoit.global.response.user.LoginResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @RequiredArgsConstructor
@@ -46,9 +47,19 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         String refreshToken = jwtIssuer.issueRefresh(user.getId());
         addCookie(response, REFRESH_TOKEN_KEY, refreshToken, 604800);
 
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType("application/json;charset=UTF-8");
-        objectMapper.writeValue(response.getWriter(), loginResponse);
+        String redirectUrl = UriComponentsBuilder.fromUriString(
+                        "http://localhost:3000/oauth-callback/" + user.getProvider().name().toLowerCase())
+                .queryParam("userId", user.getId())
+                .queryParam("active", user.isActive())
+                .queryParam("accessToken", accessToken)
+                .queryParam("expiresIn", 900L)
+                .build().toUriString();
+
+        response.sendRedirect(redirectUrl);
+
+//        response.setStatus(HttpServletResponse.SC_OK);
+//        response.setContentType("application/json;charset=UTF-8");
+//        objectMapper.writeValue(response.getWriter(), loginResponse);
     }
 
     private void addCookie(HttpServletResponse response, String name, String value, int maxAgeSeconds) {

@@ -34,7 +34,7 @@ spring:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_SECRET_ID}
             #            redirect-uri: "{baseUrl}/api/oauth2/login/{registrationId}"
-            redirect-uri: http://localhost:3000/oauth-callback/google
+            redirect-uri: http://api.moyeoit.com/api/api/oauth2/login/google
             scope:
               - email
               - profile
@@ -44,7 +44,7 @@ spring:
             client-name: Kakao
             authorization-grant-type: authorization_code
             #            redirect-uri: "{baseUrl}/api/oauth2/login/{registrationId}"
-            redirect-uri: http://localhost:3000/oauth-callback/kakao
+            redirect-uri: http://api.moyeoit.com/api/api/oauth2/login/kakao
             scope:
               - profile_nickname
               - account_email
