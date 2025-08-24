@@ -6,10 +6,12 @@ import com.moyeoit.domain.app_user.repository.AppUserRepository;
 import com.moyeoit.domain.app_user.repository.JobRepository;
 import com.moyeoit.domain.club.entity.Club;
 import com.moyeoit.domain.club.repository.ClubRepository;
-import com.moyeoit.domain.review.controller.request.AnswerRequest;
-import com.moyeoit.domain.review.controller.request.MultipleChoiceAnswer;
 import com.moyeoit.domain.review.controller.request.PremiumReviewCreateRequest;
-import com.moyeoit.domain.review.controller.request.SubjectiveAnswer;
+import com.moyeoit.domain.review.controller.request.answer.AnswerRequest;
+import com.moyeoit.domain.review.controller.request.answer.MultipleChoiceAnswer;
+import com.moyeoit.domain.review.controller.request.answer.SingleChoiceAnswer;
+import com.moyeoit.domain.review.controller.request.answer.SubjectiveAnswer;
+import com.moyeoit.domain.review.controller.response.PremiumReviewResponse;
 import com.moyeoit.domain.review.domain.PremiumReview;
 import com.moyeoit.domain.review.domain.PremiumReviewDetail;
 import com.moyeoit.domain.review.domain.Question;
@@ -104,7 +106,17 @@ public class PremiumReviewService {
         Question question = questionRepository.findById(request.getQuestionId())
                 .orElseThrow(() -> new AppException(QuestionErrorCode.NOT_FOUND));
 
-        if (request instanceof MultipleChoiceAnswer answer) { // 객관식 처리
+        if (request instanceof SubjectiveAnswer answer) { // 주관식 응답
+            return PremiumReviewDetail.builder()
+                    .review(review)
+                    .question(question)
+                    .value(answer.getValue())
+                    .answerType(AnswerType.TEXT)
+                    .appUser(user)
+                    .build();
+        }
+
+        if (request instanceof SingleChoiceAnswer answer) { // 객관식 단일 응답
             return PremiumReviewDetail.builder()
                     .review(review)
                     .question(question)
@@ -114,12 +126,16 @@ public class PremiumReviewService {
                     .build();
         }
 
-        if (request instanceof SubjectiveAnswer answer) { // 주관식 처리
+        if (request instanceof MultipleChoiceAnswer answer) { // 객관식 다중 응답
+            String value = answer.getValue().stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","));
+
             return PremiumReviewDetail.builder()
                     .review(review)
                     .question(question)
-                    .value(answer.getValue())
-                    .answerType(AnswerType.TEXT)
+                    .value(value)
+                    .answerType(AnswerType.ARRAY_INTEGER)
                     .appUser(user)
                     .build();
         }

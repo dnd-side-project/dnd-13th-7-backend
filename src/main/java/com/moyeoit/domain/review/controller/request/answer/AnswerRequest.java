@@ -1,4 +1,4 @@
-package com.moyeoit.domain.review.controller.request;
+package com.moyeoit.domain.review.controller.request.answer;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -12,8 +12,9 @@ import com.moyeoit.domain.review.domain.enums.QuestionType;
         visible = true
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = MultipleChoiceAnswer.class, name = "MULTIPLE_CHOICE"),
-        @JsonSubTypes.Type(value = SubjectiveAnswer.class, name = "SUBJECTIVE")
+        @JsonSubTypes.Type(value = SubjectiveAnswer.class, name = "SUBJECTIVE"),
+        @JsonSubTypes.Type(value = SingleChoiceAnswer.class, name = "SINGLE_CHOICE"),
+        @JsonSubTypes.Type(value = MultipleChoiceAnswer.class, name = "MULTIPLE_CHOICE")
 })
 public interface AnswerRequest {
 
