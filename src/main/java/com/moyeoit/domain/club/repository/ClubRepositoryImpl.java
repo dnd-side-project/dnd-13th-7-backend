@@ -8,6 +8,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -61,18 +62,26 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
 
         return method==Way.온라인 ? club.online.isNotNull() : club.offline.isNotNull();
     }
-    private BooleanExpression eqPart(List<String> parts){
+    private BooleanExpression eqPart(String parts){
         if (parts == null || parts.isEmpty()) {
             return null;
         }
+        List<String> part = Arrays.stream(parts.split(","))
+                .map(String::trim)
+                .toList();
 
-        return club.recruitment.recruitmentParts.any().job.name.in(parts);
+        return club.recruitment.recruitmentParts.any().job.name.in(part);
     }
-    private BooleanExpression eqTarget(List<String> targets) {
+    private BooleanExpression eqTarget(String targets) {
         if (targets == null || targets.isEmpty()) {
             return null;
         }
-        return club.target.any().targetName.in(targets);
+
+        List<String> target = Arrays.stream(targets.split(","))
+                .map(String::trim)
+                .toList();
+
+        return club.target.any().targetName.in(target);
     }
 
     private OrderSpecifier<?> getOrderSpecifier(String sort,Pageable pageable){
