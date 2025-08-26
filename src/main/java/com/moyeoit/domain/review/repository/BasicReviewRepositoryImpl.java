@@ -13,6 +13,7 @@ import com.moyeoit.domain.review.domain.BasicReviewDetail;
 import com.moyeoit.domain.review.domain.ResultType;
 import com.moyeoit.domain.review.domain.ReviewCategory;
 import com.moyeoit.domain.review.controller.response.BasicReviewListResponse;
+import com.moyeoit.domain.review.domain.ReviewType;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -105,9 +106,10 @@ public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom {
 
 
     private OrderSpecifier<?> getOrderSpecifier(String sort) {
-        //todo: 좋아요 기준 인기순 기능 구현후 추가예정
+        if(ReviewType.fromString(sort) == ReviewType.BASIC){
+            return basicReview.likeCount.desc();
+        }
         return basicReview.createDate.desc();
     }
-
 
 }

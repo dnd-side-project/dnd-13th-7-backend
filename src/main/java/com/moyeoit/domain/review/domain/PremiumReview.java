@@ -63,7 +63,10 @@ public class PremiumReview {
 
     @UpdateTimestamp
     private LocalDateTime updateDate;
-    
+
+
+    private Integer likeCount;
+
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PremiumReviewDetail> premiumReviewDetails = new ArrayList<>();
 }

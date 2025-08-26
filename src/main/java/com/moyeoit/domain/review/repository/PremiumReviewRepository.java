@@ -3,6 +3,7 @@ package com.moyeoit.domain.review.repository;
 import com.moyeoit.domain.review.domain.PremiumReview;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -32,4 +33,12 @@ public interface PremiumReviewRepository extends JpaRepository<PremiumReview, Lo
             WHERE pr.id = :id
             """)
     Optional<PremiumReview> findDetailSkeleton(@Param("id") Long id);
+
+    @Modifying
+    @Query("UPDATE PremiumReview p SET p.likeCount = p.likeCount + 1 WHERE p.id = :id")
+    void plusLikeCount(@Param("id") Long id);
+
+    @Modifying
+    @Query("UPDATE PremiumReview p SET p.likeCount = p.likeCount - 1 WHERE p.id = :id")
+    void minusLikeCount(@Param("id") Long id);
 }

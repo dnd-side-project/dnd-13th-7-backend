@@ -81,6 +81,7 @@ public class ClubService {
         boolean subscribed = existingSubscribe
                 .map(subscribe -> {
                     clubSubscribeRepository.delete(subscribe);
+                    clubRepository.minusSubCount(clubId);
                     return false;
                 })
                 .orElseGet(() -> {
@@ -89,6 +90,7 @@ public class ClubService {
                                     .user(user)
                                     .club(club)
                                     .build());
+                    clubRepository.plusSubCount(clubId);
                     return true;
                 });
 
