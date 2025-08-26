@@ -44,7 +44,9 @@ public class ReviewLikeService {
                     return true;
                 });
 
+
         Integer likeCount = reviewLikeRepository.countByReviewIdAndReviewType(reviewId,type);
+
 
         return new ReviewLikeResponse(liked, likeCount);
     }
