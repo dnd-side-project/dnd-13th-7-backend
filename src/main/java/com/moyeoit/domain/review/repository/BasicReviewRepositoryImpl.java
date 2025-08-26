@@ -112,5 +112,4 @@ public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom {
         return basicReview.createDate.desc();
     }
 
-
 }

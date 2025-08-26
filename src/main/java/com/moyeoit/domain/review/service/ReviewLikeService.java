@@ -60,10 +60,7 @@ public class ReviewLikeService {
                     return true;
                 });
 
-        // 엔티티에서 직접 likeCount 가져오기
-        int likeCount = type == ReviewType.BASIC
-                ? basicReviewRepository.findById(reviewId).get().getLikeCount()
-                : premiumReviewRepository.findById(reviewId).get().getLikeCount();
+        int likeCount = reviewLikeRepository.countByReviewIdAndReviewType(reviewId, type);
 
         return new ReviewLikeResponse(liked, likeCount);
     }
