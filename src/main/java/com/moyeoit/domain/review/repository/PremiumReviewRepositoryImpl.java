@@ -9,6 +9,7 @@ import static com.moyeoit.domain.review.domain.QPremiumReview.premiumReview;
 import com.moyeoit.domain.review.controller.request.ReviewPagingRequest;
 import com.moyeoit.domain.review.domain.ResultType;
 import com.moyeoit.domain.review.domain.ReviewCategory;
+import com.moyeoit.domain.review.domain.enums.ReviewSort;
 import com.moyeoit.domain.review.dto.QReviewQueryDto_PremiumReviewInfo;
 import com.moyeoit.domain.review.dto.ReviewQueryDto.PremiumReviewInfo;
 import com.querydsl.core.types.OrderSpecifier;
@@ -95,9 +96,9 @@ public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCusto
 
 
     private OrderSpecifier<?> getOrderSpecifier(String sort) {
-//        if(ReviewSort.fromString(sort)==ReviewSort.인기순){
-//            todo: 좋아요 로직 추가후 premiumReview.likeCount.desc(); 예정
-//        }
+        if(ReviewSort.fromString(sort)==ReviewSort.인기순){
+            return premiumReview.likeCount.desc();
+        }
         return premiumReview.createDate.desc();
     }
 }
