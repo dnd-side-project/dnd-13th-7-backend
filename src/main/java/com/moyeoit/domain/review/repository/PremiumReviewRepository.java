@@ -14,16 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PremiumReviewRepository extends JpaRepository<PremiumReview, Long>, PremiumReviewRepositoryCustom {
 
-    @Query("SELECT pr FROM PremiumReview pr LEFT JOIN FETCH pr.premiumReviewDetails prd "
-            + "LEFT JOIN FETCH pr.job j "
-            + "LEFT JOIN FETCH pr.club c "
-            + "LEFT JOIN  FETCH pr.user prau "
-            + "LEFT JOIN FETCH prd.appUser prdau "
-            + "LEFT JOIN FETCH prd.question q "
-            + "LEFT JOIN FETCH q.questionElements qe "
-            + "WHERE pr.id = :reviewId")
-    Optional<PremiumReview> findById(@Param("reviewId") Long reviewId);
-
     @Query("""
             SELECT pr
             FROM PremiumReview pr
