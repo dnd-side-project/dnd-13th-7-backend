@@ -1,6 +1,7 @@
 package com.moyeoit.domain.review.controller.response;
 
 import com.moyeoit.domain.app_user.service.dto.AppUserDto;
+import com.moyeoit.domain.review.domain.BasicReviewDetail;
 import com.moyeoit.domain.review.domain.PremiumReviewDetail;
 import com.moyeoit.domain.review.domain.enums.AnswerType;
 import java.util.Arrays;
@@ -23,6 +24,18 @@ public class MultipleChoiceAnswerResponse implements AnswerResponse {
     private AnswerType answerType;
 
     public static MultipleChoiceAnswerResponse from(PremiumReviewDetail detail) {
+        return new MultipleChoiceAnswerResponse(
+                detail.getId(),
+                QuestionResponse.from(detail.getQuestion()),
+                AppUserDto.of(detail.getAppUser()),
+                Arrays.stream(detail.getValue().split(","))
+                        .map(Integer::parseInt)
+                        .toList(),
+                detail.getAnswerType()
+        );
+    }
+
+    public static MultipleChoiceAnswerResponse from(BasicReviewDetail detail) {
         return new MultipleChoiceAnswerResponse(
                 detail.getId(),
                 QuestionResponse.from(detail.getQuestion()),

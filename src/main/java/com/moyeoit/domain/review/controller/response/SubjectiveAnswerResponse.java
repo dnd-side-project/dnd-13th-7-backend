@@ -1,6 +1,7 @@
 package com.moyeoit.domain.review.controller.response;
 
 import com.moyeoit.domain.app_user.service.dto.AppUserDto;
+import com.moyeoit.domain.review.domain.BasicReviewDetail;
 import com.moyeoit.domain.review.domain.PremiumReviewDetail;
 import com.moyeoit.domain.review.domain.enums.AnswerType;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,16 @@ public class SubjectiveAnswerResponse implements AnswerResponse {
     private AnswerType answerType;
 
     public static SubjectiveAnswerResponse from(PremiumReviewDetail detail) {
+        return new SubjectiveAnswerResponse(
+                detail.getId(),
+                QuestionResponse.from(detail.getQuestion()),
+                AppUserDto.of(detail.getAppUser()),
+                detail.getValue(),
+                detail.getAnswerType()
+        );
+    }
+
+    public static SubjectiveAnswerResponse from(BasicReviewDetail detail) {
         return new SubjectiveAnswerResponse(
                 detail.getId(),
                 QuestionResponse.from(detail.getQuestion()),
