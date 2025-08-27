@@ -5,6 +5,7 @@ import static com.moyeoit.domain.app_user.domain.QAppUser.appUser;
 import static com.moyeoit.domain.app_user.domain.QJob.job;
 import static com.moyeoit.domain.club.entity.QClub.club;
 import static com.moyeoit.domain.review.domain.QPremiumReview.premiumReview;
+import static com.moyeoit.domain.review.domain.QPremiumReviewComment.premiumReviewComment;
 
 import com.moyeoit.domain.review.controller.request.ReviewPagingRequest;
 import com.moyeoit.domain.review.domain.ResultType;
@@ -47,13 +48,25 @@ public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCusto
                         premiumReview.imageUrl,
                         club.name,
                         premiumReview.cohort,
-                        job.name
+                        job.name,
+                        premiumReview.likeCount,
+                        premiumReviewComment.id.count().intValue()
                 ))
                 .from(premiumReview)
                 .join(premiumReview.user, appUser)
                 .join(premiumReview.club, club)
                 .join(premiumReview.job, job)
+                .leftJoin(premiumReviewComment).on(premiumReviewComment.premiumReview.eq(premiumReview))
                 .where(conditions)
+                .groupBy(
+                        premiumReview.id,
+                        premiumReview.title,
+                        premiumReview.imageUrl,
+                        club.name,
+                        premiumReview.cohort,
+                        job.name,
+                        premiumReview.likeCount
+                )
                 .orderBy(getOrderSpecifier(request.getSort()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
