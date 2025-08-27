@@ -34,17 +34,10 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String bearer = request.getHeader(AUTHORIZATION_HEADER);
-        System.out.println(bearer);
         String token = (StringUtils.hasText(bearer) && bearer.startsWith(BEARER)) ? bearer.substring(7) : null;
 
-        System.out.println(token);
-
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
-
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            System.out.println("이건 통과");
             if (jwtValidator.isValid(token)) { // 토큰이 유효하다면
-                System.out.println("토큰 유효");
                 Long userId = jwtValidator.subject(token).get();
                 AppUserDto user = appUserService.getAppUser(userId);
 
@@ -63,7 +56,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 return;
             }
         }
-        System.out.println("토큰 안 유효");
         filterChain.doFilter(request, response);
     }
 }
