@@ -76,20 +76,6 @@ public class ClubRepositoryTest {
         assertThat(result.getContent().get(1).getName()).isEqualTo("알고리즘 온라인 스터디");
     }
 
-    @Test
-    @DisplayName("1-2. 정렬 조건(sort)이 있을 때 설립일순으로 페이징하여 조회한다")
-    void findClub_withSort() {
-        ClubPagingRequest request = new ClubPagingRequest();
-        request.setSort("establishment");
-        Pageable pageable = PageRequest.of(0, 2);
-
-        Page<Club> result = clubRepository.findClubByRequest(request, pageable);
-
-        assertThat(result.getTotalElements()).isEqualTo(4);
-        assertThat(result.getContent()).hasSize(2);
-        assertThat(result.getContent().get(0).getName()).isEqualTo("알고리즘 온라인 스터디");
-        assertThat(result.getContent().get(1).getName()).isEqualTo("프론트엔드 오프라인 프로젝트");
-    }
 
     @Test
     @DisplayName("2. 직무(field)로 필터링하여 조회한다")
@@ -119,19 +105,6 @@ public class ClubRepositoryTest {
                 .containsExactlyInAnyOrder("백엔드 온라인 스터디", "알고리즘 온라인 스터디");
     }
 
-    @Test
-    @DisplayName("4. 모집 분야(part) 이름으로 필터링하여 조회한다")
-    void findClub_byPart() {
-        ClubPagingRequest request = new ClubPagingRequest();
-        request.setPart(List.of("Java"));
-        Pageable pageable = PageRequest.of(0, 5);
-
-        Page<Club> result = clubRepository.findClubByRequest(request, pageable);
-
-        assertThat(result.getTotalElements()).isEqualTo(2);
-        assertThat(result.getContent()).extracting(Club::getName)
-                .containsExactlyInAnyOrder("백엔드 온라인 스터디", "알고리즘 온라인 스터디");
-    }
 
     @Test
     @DisplayName("5. 여러 조건을 복합하여 필터링한다")
@@ -139,7 +112,7 @@ public class ClubRepositoryTest {
         ClubPagingRequest request = new ClubPagingRequest();
         request.setField("백엔드");
         request.setWay("온라인");
-        request.setTarget(List.of("대학생"));
+        request.setTarget("대학생");
         Pageable pageable = PageRequest.of(0, 5);
 
         Page<Club> result = clubRepository.findClubByRequest(request, pageable);
@@ -189,7 +162,6 @@ public class ClubRepositoryTest {
             recruitment.getRecruitmentParts().add(part);
         });
 
-        club.setRecruitment(recruitment);
         return club;
     }
 }

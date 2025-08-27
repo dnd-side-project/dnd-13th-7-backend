@@ -87,7 +87,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
     private OrderSpecifier<?> getOrderSpecifier(String sort,Pageable pageable){
         if(StringUtils.hasText(sort)){
             if("인기순".equals(sort)){
-                club.subscribeCount.desc();
+               return club.subscribeCount.desc();
             }
             return club.name.asc();
         }

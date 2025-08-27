@@ -14,6 +14,7 @@ import com.moyeoit.domain.review.domain.ResultType;
 import com.moyeoit.domain.review.domain.ReviewCategory;
 import com.moyeoit.domain.review.controller.response.BasicReviewListResponse;
 import com.moyeoit.domain.review.domain.ReviewType;
+import com.moyeoit.domain.review.domain.enums.ReviewSort;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -106,7 +107,7 @@ public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom {
 
 
     private OrderSpecifier<?> getOrderSpecifier(String sort) {
-        if(ReviewType.fromString(sort) == ReviewType.BASIC){
+        if(ReviewSort.fromString(sort) == ReviewSort.인기순){
             return basicReview.likeCount.desc();
         }
         return basicReview.createDate.desc();
