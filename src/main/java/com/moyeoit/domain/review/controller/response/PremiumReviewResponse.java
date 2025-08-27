@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PremiumReviewResponse {
+public class PremiumReviewResponse implements ReviewResponse {
 
     private Long id;
     private ClubSlimDto club;
@@ -32,11 +32,23 @@ public class PremiumReviewResponse {
     private LocalDateTime updateDate;
     private List<AnswerResponse> details;
 
-    public static PremiumReviewResponse from(PremiumReview review, List<AnswerResponse> answerResponses) {
-        List<PremiumReviewDetailResponse> premiumReviewDetailResponses = review.getPremiumReviewDetails().stream()
-                .map(PremiumReviewDetailResponse::from)
-                .toList();
+    public static ReviewResponse from(PremiumReview review, List<AnswerResponse> answerResponses) {
+        return new PremiumReviewResponse(review.getId(),
+                ClubSlimDto.from(review.getClub()),
+                review.getCohort(),
+                JobDto.of(review.getJob()),
+                AppUserDto.of(review.getUser()),
+                review.getImageUrl(),
+                review.getTitle(),
+                review.getResultType(),
+                review.getReviewCategory(),
+                review.getCreateDate(),
+                review.getUpdateDate(),
+                answerResponses
+        );
+    }
 
+    public static PremiumReviewResponse implFrom(PremiumReview review, List<AnswerResponse> answerResponses) {
         return new PremiumReviewResponse(review.getId(),
                 ClubSlimDto.from(review.getClub()),
                 review.getCohort(),

@@ -2,6 +2,7 @@ package com.moyeoit.domain.app_user.service;
 
 import com.moyeoit.domain.app_user.controller.request.ActivateRequest;
 import com.moyeoit.domain.app_user.controller.response.ActivateResponse;
+import com.moyeoit.domain.app_user.controller.response.InterestsResponse;
 import com.moyeoit.domain.app_user.controller.response.TermResponse;
 import com.moyeoit.domain.app_user.domain.AppUser;
 import com.moyeoit.domain.app_user.domain.Job;
@@ -10,6 +11,8 @@ import com.moyeoit.domain.app_user.repository.AppUserRepository;
 import com.moyeoit.domain.app_user.repository.JobRepository;
 import com.moyeoit.domain.app_user.repository.TermRepository;
 import com.moyeoit.domain.app_user.service.dto.AppUserDto;
+import com.moyeoit.domain.club.repository.ClubSubscribeRepository;
+import com.moyeoit.domain.review.repository.ReviewLikeRepository;
 import com.moyeoit.global.auth.extractor.OAuth2UserProfile;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.UserErrorCode;
@@ -28,6 +31,8 @@ public class AppUserService {
     private final AppUserRepository appUserRepository;
     private final JobRepository jobRepository;
     private final TermRepository termRepository;
+    private final ReviewLikeRepository reviewLikeRepository;
+    private final ClubSubscribeRepository clubSubscribeRepository;
 
     /**
      * AppUser ID 기반 AppUser 조회
@@ -102,5 +107,34 @@ public class AppUserService {
 
         return ActivateResponse.from(appUser);
     }
+
+    public AppUserDto getProfile(Long userId) {
+        AppUser user = appUserRepository.findByIdWithJob(userId)
+                .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+
+        return AppUserDto.of(user);
+    }
+
+    @Transactional
+    public AppUserDto updateProfileImage(Long userId, String profileImageUrl) {
+        AppUser user = appUserRepository.findById(userId)
+                .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+
+        user.setProfileImageUrl(profileImageUrl);
+
+        return AppUserDto.of(user);
+    }
+
+    /**
+     * 공고 구독 개수 추천 후기 개수
+     */
+    public InterestsResponse getInterests(Long userId) {
+        Long likeCount = reviewLikeRepository.countByUserId(userId);
+
+        Long subscribeCount = clubSubscribeRepository.countByUserId(userId);
+
+        return new InterestsResponse(likeCount, subscribeCount);
+    }
+
 
 }

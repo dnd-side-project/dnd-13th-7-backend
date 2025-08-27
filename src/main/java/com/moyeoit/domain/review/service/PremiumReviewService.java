@@ -68,10 +68,10 @@ public class PremiumReviewService {
         }
 
         List<AnswerResponse> answers = premiumReview.getPremiumReviewDetails().stream()
-                .map(this::createAnswerResponse)
+                .map(PremiumReviewService::createAnswerResponse)
                 .toList();
 
-        return PremiumReviewResponse.from(premiumReview, answers);
+        return PremiumReviewResponse.implFrom(premiumReview, answers);
     }
 
 
@@ -151,7 +151,7 @@ public class PremiumReviewService {
         throw new AppException(ReviewErrorCode.NOT_FOUND_TYPE);
     }
 
-    private AnswerResponse createAnswerResponse(PremiumReviewDetail detail) {
+    public static AnswerResponse createAnswerResponse(PremiumReviewDetail detail) {
         if (AnswerType.TEXT.equals(detail.getAnswerType())) {
             return SubjectiveAnswerResponse.from(detail);
         }

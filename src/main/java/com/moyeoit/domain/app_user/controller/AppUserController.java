@@ -2,8 +2,10 @@ package com.moyeoit.domain.app_user.controller;
 
 import com.moyeoit.domain.app_user.controller.request.ActivateRequest;
 import com.moyeoit.domain.app_user.controller.response.ActivateResponse;
+import com.moyeoit.domain.app_user.controller.response.InterestsResponse;
 import com.moyeoit.domain.app_user.service.AppUserService;
 import com.moyeoit.domain.app_user.service.dto.AppUserDto;
+import com.moyeoit.domain.file.controller.response.FileUploadRequest;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
@@ -51,6 +53,35 @@ public class AppUserController {
                                           @RequestBody ActivateRequest request) {
         AppUserDto dto = appUserService.activateUser(accessUser.getId(), request);
         return ResponseEntity.ok("");
+    }
+
+    /**
+     * 유저 프로필 사진 업데이트 API
+     */
+    @PostMapping("/profile/image")
+    public ResponseEntity<ApiResponse<AppUserDto>> uploadProfileImage(@RequestBody FileUploadRequest request,
+                                                                      @Parameter(hidden = true) @CurrentUser AccessUser user) {
+        AppUserDto userDto = appUserService.updateProfileImage(user.getId(), request.getFileUrl());
+        return ResponseEntity.ok(ApiResponse.success(userDto));
+    }
+
+    /**
+     * 내 정보 조회 API
+     */
+    @GetMapping("/profile")
+    public ResponseEntity<ApiResponse<AppUserDto>> getProfile(@Parameter(hidden = true) @CurrentUser AccessUser user) {
+        AppUserDto appUser = appUserService.getProfile(user.getId());
+        return ResponseEntity.ok(ApiResponse.success(appUser));
+    }
+
+    /**
+     * 관심 활동 조회 API (동아리 구독 수, 리뷰 좋아요 개수)
+     */
+    @GetMapping("/interests")
+    public ResponseEntity<ApiResponse<InterestsResponse>> getInterests(
+            @Parameter(hidden = true) @CurrentUser AccessUser user) {
+        InterestsResponse response = appUserService.getInterests(user.getId());
+        return ResponseEntity.ok(ApiResponse.success(response));
     }
 
 }
