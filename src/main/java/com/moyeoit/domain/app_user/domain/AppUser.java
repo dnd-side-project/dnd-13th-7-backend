@@ -40,6 +40,9 @@ public class AppUser {
     @Column(name = "nickname")
     private String nickname;
 
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
+
     @Enumerated(value = EnumType.STRING)
     @Column(name = "provider", nullable = false)
     private AuthProvider provider;
@@ -58,6 +61,10 @@ public class AppUser {
         this.nickname = nickname;
         this.job = job;
         this.active = true;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
 }

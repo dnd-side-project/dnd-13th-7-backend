@@ -17,6 +17,8 @@ public class AppUserDto {
     private String name;
     private String email;
     private String nickname;
+    private String profileImageUrl;
+    private JobDto jobDto;
     private AuthProvider provider;
     private boolean active;
 
@@ -26,6 +28,8 @@ public class AppUserDto {
                 user.getName(),
                 user.getEmail(),
                 user.getNickname(),
+                user.getProfileImageUrl(),
+                JobDto.of(user.getJob()),
                 user.getProvider(),
                 user.isActive());
     }
