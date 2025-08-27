@@ -13,15 +13,20 @@ public class ReviewQueryDto {
         private final String clubName;
         private final Integer cohort;
         private final String part;
+        private final Integer likeCount;
+        private final Integer commentCount;
+
 
         @QueryProjection
-        public PremiumReviewInfo(Long reviewId, String title, String imageUrl, String clubName, Integer cohort, String part) {
+        public PremiumReviewInfo(Long reviewId, String title, String imageUrl, String clubName, Integer cohort, String part,Integer likeCount,Integer commentCount) {
             this.reviewId = reviewId;
             this.title = title;
             this.imageUrl = imageUrl;
             this.clubName = clubName;
             this.cohort = cohort;
             this.part = part;
+            this.likeCount = likeCount;
+            this.commentCount = commentCount;
         }
     }
 }

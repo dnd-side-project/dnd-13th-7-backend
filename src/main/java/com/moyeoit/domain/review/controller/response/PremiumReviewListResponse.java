@@ -19,15 +19,15 @@ public record PremiumReviewListResponse(
                 info.getPart()
         );
 
-        // headLine, likeCount, commentCount는 추후 구현 예정
+
         return new PremiumReviewListResponse(
                 info.getReviewId(),
                 info.getTitle(),
                 info.getImageUrl(),
-                null,       // headLine
+                "헤드라인",
                 identifier,
-                null,       // likeCount
-                null        // commentCount
+                info.getLikeCount(),
+                info.getCommentCount()
         );
     }
 }

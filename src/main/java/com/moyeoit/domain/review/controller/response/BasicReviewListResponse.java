@@ -51,14 +51,14 @@ public record BasicReviewListResponse(
 
         return new BasicReviewListResponse(
                 review.getId(),
-                null,
+                review.getUser().getProfileImageUrl(),
                 review.getUser().getNickname(),
                 review.getClub().getName(),
                 review.getCohort().toString(),
                 review.getJob().getName(),
                 review.getRate(),
                 review.getCreateDate().format(formatter),
-                null,
+                review.getLikeCount(),
                 oneLineComment,
                 impressiveContentPreview,
                 qaPreviews

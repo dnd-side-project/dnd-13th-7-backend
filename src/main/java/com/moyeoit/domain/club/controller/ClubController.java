@@ -11,6 +11,7 @@ import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,15 +54,13 @@ public class ClubController {
         return ApiResponse.success("동아리 검색에 성공하였습니다.",clubService.searchClubList(keyword));
     }
 
-    @GetMapping("/{clubId}/subscribe")
+    @PostMapping("/{clubId}/subscribe")
     public ApiResponse<?> subscribeClub(
             @PathVariable Long clubId,
             @Parameter(hidden = true) @CurrentUser AccessUser user) {
         boolean subscribed = clubService.subscribeClub(clubId,user.getId());
-        if(subscribed){
-            return ApiResponse.success("동아리 구독을 취소하였습니다.",true);
-        }
-        return ApiResponse.success("동아리를 구독하였습니다.",false);
+
+        return ApiResponse.success("구독 상태가 변경되었습니다.", Map.of("subscribed", subscribed));
     }
 
     @GetMapping("/user-subscribe")
