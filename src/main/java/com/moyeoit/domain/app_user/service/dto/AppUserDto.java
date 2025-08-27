@@ -29,7 +29,7 @@ public class AppUserDto {
                 user.getEmail(),
                 user.getNickname(),
                 user.getProfileImageUrl(),
-                JobDto.of(user.getJob()),
+                JobDto.ofNullable(user.getJob()),
                 user.getProvider(),
                 user.isActive());
     }

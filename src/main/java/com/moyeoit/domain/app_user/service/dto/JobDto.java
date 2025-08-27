@@ -22,4 +22,11 @@ public class JobDto {
                 job.getEngName());
     }
 
+    public static JobDto ofNullable(Job job) {
+        if (job == null || job.getId() == null) {
+            return null;
+        }
+        return JobDto.of(job);
+    }
+
 }
