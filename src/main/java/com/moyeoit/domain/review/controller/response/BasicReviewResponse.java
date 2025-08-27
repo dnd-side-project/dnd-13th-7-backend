@@ -24,7 +24,7 @@ public class BasicReviewResponse implements ReviewResponse {
     private JobDto job;
     private AppUserDto user;
     private ReviewCategory reviewCategory;
-    private LocalDateTime createDazte;
+    private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private List<AnswerResponse> details;
 
