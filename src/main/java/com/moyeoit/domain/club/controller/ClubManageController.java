@@ -6,6 +6,7 @@ import com.moyeoit.domain.club.controller.request.ClubRecruitmentSaveRequest;
 import com.moyeoit.domain.club.controller.request.ClubSaveRequest;
 import com.moyeoit.domain.club.controller.request.ClubScheduleSaveRequest;
 import com.moyeoit.domain.club.service.ClubManageService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/clubs")
 @RequiredArgsConstructor
-public class ClubManageController {
+@Tag(name = "동아리 관리 API", description = "동아리의 전반적인 생성 및 정보 업데이트에 관한 API")
+public class ClubManageController implements ClubManageAPI {
     private final ClubManageService clubService;
 
     @PostMapping("/detail")
