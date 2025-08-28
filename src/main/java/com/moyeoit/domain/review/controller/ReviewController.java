@@ -10,6 +10,7 @@ import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -44,10 +45,10 @@ public class ReviewController implements ReviewAPI {
     }
 
     @PostMapping("/premium")
-    public ResponseEntity<?> createPremiumReview(@RequestBody PremiumReviewCreateRequest reviewCreateRequest,
+    public ResponseEntity<ApiResponse<?>> createPremiumReview(@RequestBody PremiumReviewCreateRequest reviewCreateRequest,
                                                  @Parameter(hidden = true) @CurrentUser AccessUser user) {
-        premiumReviewService.createPremiumReview(reviewCreateRequest, user.getId());
-        return ResponseEntity.ok("");
+        Long savedReviewId = premiumReviewService.createPremiumReview(reviewCreateRequest, user.getId());
+        return ResponseEntity.ok(ApiResponse.success("리뷰 저장에 성공하였습니다", Map.of("savedReviewId",savedReviewId)));
     }
 
 }

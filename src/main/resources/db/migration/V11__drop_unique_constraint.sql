@@ -1,0 +1,1 @@
+ALTER TABLE club_keyword DROP INDEX uk_content;

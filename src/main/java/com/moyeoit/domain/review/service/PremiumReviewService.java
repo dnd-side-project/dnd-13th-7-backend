@@ -76,7 +76,7 @@ public class PremiumReviewService {
 
 
     @Transactional
-    public void createPremiumReview(PremiumReviewCreateRequest request, Long userId) {
+    public Long createPremiumReview(PremiumReviewCreateRequest request, Long userId) {
         // 유저 조회
         AppUser user = appUserRepository.findById(userId)
                 .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
@@ -108,6 +108,7 @@ public class PremiumReviewService {
                 .toList();
 
         premiumReviewDetailRepository.saveAll(details);
+        return savedReview.getId();
     }
 
     private PremiumReviewDetail createPremiumDetail(PremiumReview review, AnswerRequest request, AppUser user) {
