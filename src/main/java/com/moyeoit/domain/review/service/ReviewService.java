@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,7 @@ public class ReviewService {
     private final BasicReviewRepository basicReviewRepository;
     private final PremiumReviewRepository premiumReviewRepository;
 
+    @Transactional(readOnly = true)
     public Page<ReviewResponse> getReview(MyReviewSearchRequest request, Long userId, Pageable pageable) {
 
         if (Objects.equals(request.getReviewType(), ReviewType.BASIC)) {

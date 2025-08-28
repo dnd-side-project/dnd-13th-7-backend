@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 @Entity
 @Getter
@@ -36,7 +37,8 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private QuestionType type;
 
+    @BatchSize(size = 50)
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestionElement> questionElements = new ArrayList<>();
-    
+
 }
