@@ -30,7 +30,7 @@ public interface AppUserAPI {
                                    @CurrentUser AccessUser accessUser,
                                    @RequestBody ActivateRequest request);
 
-    @Operation(summary = "유저 프로일 이미지 등록 변경 API", description = "유저 프로필 사진을 변경합니다.")
+    @Operation(summary = "유저 프로필 이미지 등록 변경 API", description = "유저 프로필 사진을 변경합니다.")
     ResponseEntity<ApiResponse<AppUserDto>> uploadProfileImage(@RequestBody FileUploadRequest request,
                                                                @Parameter(hidden = true) @CurrentUser AccessUser user);
 
