@@ -48,7 +48,7 @@ public class ReviewController implements ReviewAPI {
     public ResponseEntity<ApiResponse<?>> createPremiumReview(@RequestBody PremiumReviewCreateRequest reviewCreateRequest,
                                                  @Parameter(hidden = true) @CurrentUser AccessUser user) {
         Long savedReviewId = premiumReviewService.createPremiumReview(reviewCreateRequest, user.getId());
-        return ResponseEntity.ok(ApiResponse.success("리뷰 저장에 성공하였습니다", Map.of("Saved Review Id",savedReviewId)));
+        return ResponseEntity.ok(ApiResponse.success("리뷰 저장에 성공하였습니다", Map.of("savedReviewId",savedReviewId)));
     }
 
 }
