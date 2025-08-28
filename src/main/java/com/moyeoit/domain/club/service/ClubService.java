@@ -68,8 +68,7 @@ public class ClubService {
 
     @Transactional(readOnly = true)
     public List<ClubFindListResponse> searchClubList(String keyword){
-        ClubKeyword clubKeyword =  keywordRepository.findClubKeywordByContent(keyword).orElseThrow(()-> new AppException(ClubErrorCode.NOT_FOUND_KEYWORD));
-        return clubKeyword.getClubs().stream().map(Club_ClubKeyword::getClub).map(ClubFindListResponse::from).toList();
+        return clubRepository.findByNameContaining(keyword).stream().map(ClubFindListResponse::from).toList();
     }
 
     @Transactional
