@@ -7,6 +7,7 @@ import com.moyeoit.domain.review.domain.ReviewCategory;
 import com.moyeoit.domain.review.domain.ReviewType;
 import com.moyeoit.domain.review.service.DisplayQuestionService;
 import com.moyeoit.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/display-question")
 @RequiredArgsConstructor
 @Slf4j
-public class DisplayQuestionController {
+@Tag(name = "리뷰 작성 질문 노출 API", description = "일반/프리미엄 후기 작성 시 보여지는 질문을 조회하고 생성하는 API 입니다.")
+
+public class DisplayQuestionController implements DisplayQuestionAPI {
 
     private final DisplayQuestionService displayQuestionService;
 

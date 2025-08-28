@@ -7,6 +7,7 @@ import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/comment")
-public class CommentController {
+@Tag(name = "프리미엄 후기 댓글 API", description = "프리미엄 후기의 댓글을 조회하고 작성하는 API 입니다.")
+public class CommentController implements CommentAPI {
 
     private final CommentService commentService;
 

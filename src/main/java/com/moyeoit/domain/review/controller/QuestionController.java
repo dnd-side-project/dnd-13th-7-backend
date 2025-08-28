@@ -4,6 +4,7 @@ import com.moyeoit.domain.review.controller.request.QuestionCreateRequest;
 import com.moyeoit.domain.review.controller.response.QuestionResponse;
 import com.moyeoit.domain.review.service.QuestionService;
 import com.moyeoit.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/question")
-public class QuestionController {
+@Tag(name = "질문 API", description = "후기 작성에 사용될 질문을 생성하고 조회하는 API 입니다.")
+public class QuestionController implements QuestionAPI {
 
     private final QuestionService questionService;
 
