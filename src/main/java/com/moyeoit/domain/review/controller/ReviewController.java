@@ -5,7 +5,6 @@ import com.moyeoit.domain.review.controller.request.PremiumReviewCreateRequest;
 import com.moyeoit.domain.review.controller.response.PremiumReviewResponse;
 import com.moyeoit.domain.review.service.BasicReviewService;
 import com.moyeoit.domain.review.service.PremiumReviewService;
-import com.moyeoit.domain.review.service.ReviewService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "후기 API", description = "일반/프리미엄 후기를 작성하고 관리하는 API 입니다.")
 public class ReviewController implements ReviewAPI {
 
-    private final ReviewService reviewService;
     private final BasicReviewService basicReviewService;
     private final PremiumReviewService premiumReviewService;
 
@@ -51,5 +49,5 @@ public class ReviewController implements ReviewAPI {
         premiumReviewService.createPremiumReview(reviewCreateRequest, user.getId());
         return ResponseEntity.ok("");
     }
-    
+
 }
