@@ -26,8 +26,12 @@ public class ReviewLikeController implements ReviewLikeAPI {
             @PathVariable Long reviewId,
             @PathVariable String reviewType,
             @Parameter(hidden = true) @CurrentUser AccessUser user) {
+        boolean liked = reviewLikeService.toggleLike(reviewId, reviewType, user.getId()).liked();
+        if(liked){
         return ApiResponse.success("리뷰 좋아요 토글을 성공하였습니다.",
                 reviewLikeService.toggleLike(reviewId, reviewType, user.getId()));
+        }
+        return ApiResponse.fail("이미 누른 좋아요 입니다");
     }
 
 }

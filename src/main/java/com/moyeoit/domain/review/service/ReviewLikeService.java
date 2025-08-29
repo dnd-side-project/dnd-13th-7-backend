@@ -33,16 +33,7 @@ public class ReviewLikeService {
         Optional<ReviewLike> existingLike = reviewLikeRepository.findReviewLikeByAppUserAndReviewIdAndReviewType(user, reviewId, type);
 
         boolean liked = existingLike
-                .map(like -> {
-                    reviewLikeRepository.delete(like);
-                    if (type == ReviewType.BASIC) {
-                        basicReviewRepository.minusLikeCount(reviewId);
-                    }
-                    if(type == ReviewType.PREMIUM) {
-                        premiumReviewRepository.minusLikeCount(reviewId);
-                    }
-                    return false;
-                })
+                .map(like -> false)
                 .orElseGet(() -> {
                     ReviewLike reviewLike = ReviewLike.builder()
                             .appUser(user)
