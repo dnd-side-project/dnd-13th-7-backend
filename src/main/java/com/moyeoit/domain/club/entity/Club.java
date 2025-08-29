@@ -54,6 +54,8 @@ public class Club {
     @Column(name = "online")
     private String online;
 
+    private String significant;
+
     @Column(name = "location")
     private String location;
 
@@ -67,6 +69,7 @@ public class Club {
     private String imageUrl;
 
     private Integer subscribeCount;
+
 
     @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private ClubRecruitment recruitment;

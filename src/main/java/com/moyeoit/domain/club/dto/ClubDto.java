@@ -15,6 +15,7 @@ public record ClubDto(
         Integer operation,
         String offline,
         String online,
+        String significant,
         String location,
         String address,
         Boolean recruiting,
@@ -31,6 +32,7 @@ public record ClubDto(
                 .operation(entity.getOperation())
                 .offline(entity.getOffline())
                 .online(entity.getOnline())
+                .significant(entity.getSignificant())
                 .location(entity.getLocation())
                 .address(entity.getAddress())
                 .recruiting(entity.getRecruiting())
