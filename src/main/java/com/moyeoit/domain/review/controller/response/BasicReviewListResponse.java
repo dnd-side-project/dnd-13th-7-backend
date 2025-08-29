@@ -5,8 +5,10 @@ import com.moyeoit.domain.review.domain.BasicReviewDetail;
 import com.moyeoit.domain.review.domain.QuestionElement;
 import com.moyeoit.domain.review.domain.enums.QuestionType;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public record BasicReviewListResponse(
         Long reviewId,
@@ -39,13 +41,24 @@ public record BasicReviewListResponse(
                         case SINGLE_CHOICE:
                         case MULTIPLE_CHOICE:
                             List<QuestionElement> elements = detail.getQuestion().getQuestionElements();
-                            String selectedElementId = detail.getValue();
+                            String savedValue = detail.getValue();
 
-                            answerValue = elements.stream()
-                                    .filter(element -> String.valueOf(element.getId()).equals(selectedElementId))
-                                    .findFirst()
-                                    .map(QuestionElement::getElementTitle)
-                                    .orElse(selectedElementId);
+                            if (savedValue != null && savedValue.contains(",")) {
+                                List<String> selectedSequences = Arrays.asList(savedValue.split("\\s*,\\s*"));
+                                answerValue = selectedSequences.stream()
+                                        .map(seq -> elements.stream()
+                                                .filter(element -> String.valueOf(element.getSequence()).equals(seq))
+                                                .findFirst()
+                                                .map(QuestionElement::getElementTitle)
+                                                .orElse(seq))
+                                        .collect(Collectors.joining(", "));
+                            } else {
+                                answerValue = elements.stream()
+                                        .filter(element -> String.valueOf(element.getSequence()).equals(savedValue))
+                                        .findFirst()
+                                        .map(QuestionElement::getElementTitle)
+                                        .orElse(savedValue);
+                            }
                             break;
 
                         default:
