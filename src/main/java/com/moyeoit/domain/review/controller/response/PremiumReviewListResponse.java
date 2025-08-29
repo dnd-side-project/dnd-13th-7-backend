@@ -13,12 +13,19 @@ public record PremiumReviewListResponse(
         Integer commentCount
 ) {
     public static PremiumReviewListResponse from(PremiumReviewInfo info) {
+
+        String jobFamily = switch (info.getPart()){
+            case String s when s.contains("개발자") -> "개발";
+            case String s when s.contains("디자이너") -> "디자인";
+            case String s when s.contains("PM") -> "기획";
+            default -> "기타";
+        };
+
         List<String> identifier = List.of(
                 info.getClubName(),
                 info.getCohort() + "기",
-                info.getPart()
+                jobFamily
         );
-
 
         return new PremiumReviewListResponse(
                 info.getReviewId(),
