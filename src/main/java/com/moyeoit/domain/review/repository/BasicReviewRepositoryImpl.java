@@ -94,12 +94,11 @@ public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom {
     }
 
     private BooleanExpression resultEq(String result) {
-        return result != null ? basicReview.resultType.eq(ResultType.valueOf(result)) : null;
+        return StringUtils.hasText(result) ? basicReview.resultType.eq(ResultType.valueOf(result.toUpperCase())) : null;
     }
 
     private BooleanExpression reviewTypeEq(String reviewType) {
-        return reviewType != null ? basicReview.reviewCategory.eq(ReviewCategory.valueOf(reviewType)) : null;
-    }
+        return StringUtils.hasText(reviewType) ? basicReview.reviewCategory.eq(ReviewCategory.valueOf(reviewType.toUpperCase())) : null;    }
 
     private BooleanExpression isRecruitingEq(Boolean isRecruiting) {
         return isRecruiting != null ? basicReview.club.recruiting.eq(isRecruiting) : null;
