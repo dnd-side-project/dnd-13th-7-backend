@@ -15,4 +15,6 @@ public interface ClubSubscribeRepository extends JpaRepository<ClubSubscribe, Lo
 
     @Query("SELECT count(cs) FROM ClubSubscribe cs WHERE cs.user.id = :userId")
     Long countByUserId(@Param("userId") Long userId);
+
+    boolean existsByClubAndUser(Club club, AppUser user);
 }

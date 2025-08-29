@@ -100,4 +100,11 @@ public class ClubService {
     public Page<ClubListResponse> subClubList(Long userId,Pageable pageable){
         return clubRepository.findSubscribedClubs(userId,pageable).map(ClubListResponse::from);
     }
+
+    @Transactional(readOnly = true)
+    public boolean findOutClubSub(Long clubId,Long userId){
+        Club club = clubRepository.findById(clubId).orElseThrow(()->new AppException(ClubErrorCode.NOT_FOUND));
+        AppUser user = userRepository.findById(userId).orElseThrow(()->new AppException(UserErrorCode.NOT_FOUND));
+        return clubSubscribeRepository.existsByClubAndUser(club,user);
+    }
 }
