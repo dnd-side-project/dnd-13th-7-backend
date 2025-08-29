@@ -85,7 +85,7 @@ public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCusto
 
     private BooleanExpression reviewTypeEq(String reviewCategory) {
         return StringUtils.hasText(reviewCategory) ? premiumReview.reviewCategory.eq(
-                ReviewCategory.valueOf(reviewCategory))
+                ReviewCategory.fromName(reviewCategory))
                 : null;
     }
 
@@ -100,7 +100,7 @@ public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCusto
 
 
     private BooleanExpression resultEq(String result) {
-        return StringUtils.hasText(result) ? premiumReview.resultType.eq(ResultType.valueOf(result)) : null;
+        return StringUtils.hasText(result) ? premiumReview.resultType.eq(ResultType.fromName(result)) : null;
     }
 
     private BooleanExpression isRecruitingEq(Boolean isRecruiting) {
