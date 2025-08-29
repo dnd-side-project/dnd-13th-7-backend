@@ -21,6 +21,7 @@ public record PremiumReviewListResponse(
             case String s when s.contains("PM") -> "기획";
             default -> "기타";
         };
+        String headLine = details.isEmpty() ? "헤드라인 없음" : details.getFirst().getAnswer();
 
         List<String> identifier = List.of(
                 info.getClubName(),
@@ -32,7 +33,7 @@ public record PremiumReviewListResponse(
                 info.getReviewId(),
                 info.getTitle(),
                 info.getImageUrl(),
-                details.getFirst().getAnswer(),
+                headLine,
                 identifier,
                 info.getLikeCount(),
                 info.getCommentCount()
