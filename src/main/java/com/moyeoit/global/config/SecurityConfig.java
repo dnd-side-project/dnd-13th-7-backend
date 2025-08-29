@@ -1,6 +1,7 @@
 package com.moyeoit.global.config;
 
 import com.moyeoit.domain.app_user.service.AppUserService;
+import com.moyeoit.global.auth.CustomOAuth2AuthorizationRequestResolver;
 import com.moyeoit.global.auth.CustomOAuth2UserService;
 import com.moyeoit.global.auth.CustomSuccessHandler;
 import com.moyeoit.global.auth.jwt.JwtFilter;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.NullSecurityContextRepository;
@@ -30,6 +32,10 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
+    private final ClientRegistrationRepository clientRegistrationRepository;
+
+    private final String AUTHORIZATION_ENDPOINT_URI = "/api/oauth2/authorize";
+    private final String REDIRECTION_ENDPOINT_URI = "/api/oauth2/login/*";
 
     @Bean //cors 설정 빈
     public CorsConfigurationSource corsConfigurationSource() {
@@ -68,8 +74,12 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
 
         http.oauth2Login(oauth -> oauth
-                .authorizationEndpoint(ep -> ep.baseUri("/api/oauth2/authorize"))
-                .redirectionEndpoint(redir -> redir.baseUri("/api/oauth2/login/*"))
+                .authorizationEndpoint(ep -> {
+                    ep.baseUri(AUTHORIZATION_ENDPOINT_URI);
+                    ep.authorizationRequestResolver(
+                            new CustomOAuth2AuthorizationRequestResolver(clientRegistrationRepository));
+                })
+                .redirectionEndpoint(redir -> redir.baseUri(REDIRECTION_ENDPOINT_URI))
                 .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                 .successHandler(customSuccessHandler)
         );
