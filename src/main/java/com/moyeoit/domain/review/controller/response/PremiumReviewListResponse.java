@@ -1,5 +1,6 @@
 package com.moyeoit.domain.review.controller.response;
 
+import com.moyeoit.domain.review.dto.PremiumReviewDetailDto;
 import com.moyeoit.domain.review.dto.ReviewQueryDto.PremiumReviewInfo;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public record PremiumReviewListResponse(
         Integer likeCount,
         Integer commentCount
 ) {
-    public static PremiumReviewListResponse from(PremiumReviewInfo info) {
+    public static PremiumReviewListResponse from(PremiumReviewInfo info, List<PremiumReviewDetailDto> details) {
 
         String jobFamily = switch (info.getPart()){
             case String s when s.contains("개발자") -> "개발";
@@ -31,7 +32,7 @@ public record PremiumReviewListResponse(
                 info.getReviewId(),
                 info.getTitle(),
                 info.getImageUrl(),
-                "헤드라인",
+                details.getFirst().getAnswer(),
                 identifier,
                 info.getLikeCount(),
                 info.getCommentCount()
