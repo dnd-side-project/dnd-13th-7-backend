@@ -71,4 +71,12 @@ public class ClubController implements ClubAPI {
             @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable) {
         return ApiResponse.success("유저의 동아리 구독 목록을 확인하였습니다.", clubService.subClubList(user.getId(), pageable));
     }
+
+    @GetMapping("/user-subscribe/check")
+    public ApiResponse<?> checkUserSubscription(
+            @Parameter(hidden = true) @CurrentUser AccessUser user,
+            @RequestParam Long clubId) {
+        boolean subscribed = clubService.findOutClubSub(clubId, user.getId());
+        return ApiResponse.success("유저의 동아리 구독 사실을 확인하였습니다.",Map.of("subscribed",subscribed));
+    }
 }
