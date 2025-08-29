@@ -2,6 +2,7 @@ package com.moyeoit.domain.review.controller.response;
 
 import com.moyeoit.domain.review.domain.BasicReview;
 import com.moyeoit.domain.review.domain.BasicReviewDetail;
+import com.moyeoit.domain.review.domain.QuestionElement;
 import com.moyeoit.domain.review.domain.enums.QuestionType;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,33 +22,56 @@ public record BasicReviewListResponse(
         Integer likeCount,
         String oneLineComment,
         String impressiveContentPreview,
-        List<QAPreview> qaPreviews
+        List< QuestionAnswerSet> qaPreviews
 ) {
 
-    public record QAPreview(
+    public record  QuestionAnswerSet(
             String questionTitle,
             String answerValue
     ){}
 
-    public static BasicReviewListResponse mapToDto(BasicReview review, List<BasicReviewDetail> details){
+    public static BasicReviewListResponse mapToDto(BasicReview review, List<BasicReviewDetail> details) {
 
-        List<QAPreview> qaPreviews = details.stream()
-                .filter(p->p.getQuestion().getType().equals(QuestionType.MULTIPLE_CHOICE))
-                .map(p->new QAPreview(p.getQuestion().getTitle(),p.getValue()))
-                .toList();
 
-        Optional<BasicReviewDetail> subjectiveDetail = details.stream()
-                .filter(p -> p.getQuestion().getType().equals(QuestionType.SUBJECTIVE))
+        Optional<BasicReviewDetail> representativeDetailOpt = details.stream()
+                .filter(detail -> detail.getQuestion().getType() == QuestionType.SUBJECTIVE)
                 .findFirst();
 
+        // 2. 찾은 대표 질문으로 oneLineComment와 impressiveContentPreview 값을 채웁니다.
         String oneLineComment = "";
         String impressiveContentPreview = "";
-
-        if (subjectiveDetail.isPresent()) {
-            BasicReviewDetail detail = subjectiveDetail.get();
-            oneLineComment = detail.getQuestion().getTitle();
-            impressiveContentPreview = detail.getValue();
+        if (representativeDetailOpt.isPresent()) {
+            BasicReviewDetail repDetail = representativeDetailOpt.get();
+            oneLineComment = repDetail.getQuestion().getTitle();
+            impressiveContentPreview = repDetail.getValue();
         }
+
+
+        List<QuestionAnswerSet> questionAnswerSets = details.stream()
+                .filter(detail -> representativeDetailOpt.map(rep -> !rep.equals(detail)).orElse(true))
+                .map(detail -> {
+                    String questionTitle = detail.getQuestion().getTitle();
+                    String answerValue;
+
+                    // 객관식 답변 처리 로직 (이전과 동일)
+                    switch (detail.getQuestion().getType()) {
+                        case SINGLE_CHOICE:
+                        case MULTIPLE_CHOICE:
+                            List<QuestionElement> elements = detail.getQuestion().getQuestionElements();
+                            String selectedElementId = detail.getValue();
+                            answerValue = elements.stream()
+                                    .filter(element -> String.valueOf(element.getId()).equals(selectedElementId))
+                                    .findFirst()
+                                    .map(QuestionElement::getElementTitle)
+                                    .orElse(selectedElementId);
+                            break;
+                        default:
+                            answerValue = detail.getValue();
+                            break;
+                    }
+                    return new QuestionAnswerSet(questionTitle, answerValue);
+                })
+                .toList();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -72,7 +96,7 @@ public record BasicReviewListResponse(
                 review.getLikeCount(),
                 oneLineComment,
                 impressiveContentPreview,
-                qaPreviews
+                questionAnswerSets
         );
     }
 }
