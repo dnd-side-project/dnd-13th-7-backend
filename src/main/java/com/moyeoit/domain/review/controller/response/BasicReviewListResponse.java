@@ -14,6 +14,7 @@ public record BasicReviewListResponse(
         String clubName,
         String cohort,
         String part,
+        String position,
         Double rate,
         String reviewCategory,
         String createdAt,
@@ -50,6 +51,13 @@ public record BasicReviewListResponse(
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+        String jobFamily = switch (review.getJob().getName()){
+            case String s when s.contains("개발자") -> "개발";
+            case String s when s.contains("디자이너") -> "디자인";
+            case String s when s.contains("PM") -> "기획";
+            default -> "기타";
+        };
+
         return new BasicReviewListResponse(
                 review.getId(),
                 review.getUser().getProfileImageUrl(),
@@ -57,6 +65,7 @@ public record BasicReviewListResponse(
                 review.getClub().getName(),
                 review.getCohort().toString(),
                 review.getJob().getName(),
+                jobFamily,
                 review.getRate(),
                 review.getReviewCategory().name,
                 review.getCreateDate().format(formatter),
