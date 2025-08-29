@@ -6,6 +6,7 @@ import static com.moyeoit.domain.club.entity.QClub.club;
 import static com.moyeoit.domain.review.domain.QBasicReview.basicReview;
 import static com.moyeoit.domain.review.domain.QBasicReviewDetail.basicReviewDetail;
 import static com.moyeoit.domain.review.domain.QQuestion.question;
+import static com.moyeoit.domain.review.domain.QQuestionElement.questionElement;
 
 import com.moyeoit.domain.review.controller.request.ReviewPagingRequest;
 import com.moyeoit.domain.review.domain.BasicReview;
@@ -68,6 +69,7 @@ public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom {
         List<BasicReviewDetail> details = queryFactory
                 .selectFrom(basicReviewDetail)
                 .join(basicReviewDetail.question, question).fetchJoin()
+                .leftJoin(question.questionElements, questionElement).fetchJoin()
                 .where(basicReviewDetail.review.id.in(reviewIds))
                 .fetch();
 
