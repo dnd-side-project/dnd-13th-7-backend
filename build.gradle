@@ -4,8 +4,16 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
+
 group = 'com.moyeoit'
 version = '0.0.1-SNAPSHOT'
+
+def queryDslVersion = "7.0" // 25년 8월 기준 가장 최신
+def querydslSrcDir = layout.buildDirectory.dir("generated/querydsl").get().asFile // build/generated/querydsl
+
+tasks.withType(JavaCompile).configureEach {
+    options.getGeneratedSourceOutputDirectory().set(file(querydslSrcDir))
+}
 
 java {
     toolchain {
@@ -13,10 +21,20 @@ java {
     }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs += querydslSrcDir
+        }
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    querydsl.extendsFrom compileClasspath
+
 }
 
 repositories {
@@ -28,19 +46,34 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-mysql'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.1.0'
 
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'com.mysql:mysql-connector-j:8.4.0'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    //micrometer-newrelic
+    implementation "io.micrometer:micrometer-registry-new-relic"
+    //QueryDSL
+    implementation("io.github.openfeign.querydsl:querydsl-core:${queryDslVersion}")
+    implementation("io.github.openfeign.querydsl:querydsl-jpa:$queryDslVersion")
+    annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:$queryDslVersion:jpa")
+
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    jvmArgs "-javaagent:${configurations.testRuntimeClasspath.find { it.name.contains("byte-buddy-agent") }.absolutePath}"
 }

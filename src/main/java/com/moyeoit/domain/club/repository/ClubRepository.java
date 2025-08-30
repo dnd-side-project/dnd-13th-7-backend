@@ -1,0 +1,29 @@
+package com.moyeoit.domain.club.repository;
+
+import com.moyeoit.domain.club.entity.Club;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ClubRepository extends JpaRepository<Club, Long>, ClubRepositoryCustom{
+
+    @Query("SELECT s.club FROM ClubSubscribe s WHERE s.user.id = :userId")
+    Page<Club> findSubscribedClubs(@Param("userId") Long userId, Pageable pageable);
+
+    @Modifying
+    @Query("UPDATE Club c SET c.subscribeCount = c.subscribeCount+1 where c.id = :id ")
+    void plusSubCount(@Param("id")Long clubId);
+
+    @Modifying
+    @Query("UPDATE Club c SET c.subscribeCount = c.subscribeCount-1 where c.id = :id ")
+    void minusSubCount(@Param("id")Long clubId);
+
+    List<Club> findByNameContaining(String name);
+}

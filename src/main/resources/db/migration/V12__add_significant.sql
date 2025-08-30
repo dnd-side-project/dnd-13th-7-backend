@@ -1,0 +1,2 @@
+ALTER TABLE club
+    ADD COLUMN significant VARCHAR(255) NULL
