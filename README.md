@@ -1,4 +1,4 @@
-# 🧑‍💻 IT활동 탐색 및 후기 서비스 "모여잇" 
+# 🔍 IT활동 탐색 및 후기 서비스 "모여잇" 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/24e0bc4a-ab44-491b-857a-5156af0df1f5" />
 
 - 배포 주소 https://moyeoit.com/
