@@ -5,6 +5,7 @@ import com.moyeoit.domain.app_user.controller.response.ActivateResponse;
 import com.moyeoit.domain.app_user.controller.response.InterestsResponse;
 import com.moyeoit.domain.app_user.controller.response.TermResponse;
 import com.moyeoit.domain.app_user.domain.AppUser;
+import com.moyeoit.domain.app_user.domain.AuthProvider;
 import com.moyeoit.domain.app_user.domain.Job;
 import com.moyeoit.domain.app_user.domain.Term;
 import com.moyeoit.domain.app_user.repository.AppUserRepository;
@@ -13,14 +14,14 @@ import com.moyeoit.domain.app_user.repository.TermRepository;
 import com.moyeoit.domain.app_user.service.dto.AppUserDto;
 import com.moyeoit.domain.club.repository.ClubSubscribeRepository;
 import com.moyeoit.domain.review.repository.ReviewLikeRepository;
-import com.moyeoit.global.auth.extractor.OAuth2UserProfile;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.UserErrorCode;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -44,21 +45,18 @@ public class AppUserService {
         return AppUserDto.of(user);
     }
 
-    /**
-     * OAuth2 기반 AppUser 생성
-     */
     @Transactional
-    public AppUserDto findOrCreateAppUserFromOAuth2(OAuth2UserProfile profile) {
-        Optional<AppUser> findAppUser = appUserRepository.findByEmailAndProvider(profile.getEmail(),
-                profile.getProvider());
+    public AppUserDto findOrCreateAppUserFromOAuth(String name, String email, AuthProvider provider) {
+        Optional<AppUser> findAppUser = appUserRepository.findByEmailAndProvider(email, provider);
+
         if (findAppUser.isPresent()) {
             return AppUserDto.of(findAppUser.get());
         }
 
         AppUser user = AppUser.builder()
-                .name(profile.getName())
-                .email(profile.getEmail())
-                .provider(profile.getProvider())
+                .name(name)
+                .email(email)
+                .provider(provider)
                 .active(false)
                 .build();
 
