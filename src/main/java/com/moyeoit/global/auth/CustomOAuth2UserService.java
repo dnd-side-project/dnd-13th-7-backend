@@ -1,7 +1,7 @@
 package com.moyeoit.global.auth;
 
-import com.moyeoit.domain.app_user.service.AppUserService;
-import com.moyeoit.domain.app_user.service.dto.AppUserDto;
+import com.moyeoit.domain.user.service.AppUserService;
+import com.moyeoit.domain.user.service.dto.AppUserDto;
 import com.moyeoit.global.auth.extractor.GoogleProfileExtractor;
 import com.moyeoit.global.auth.extractor.KakaoProfileExtractor;
 import com.moyeoit.global.auth.extractor.ProfileExtractor;

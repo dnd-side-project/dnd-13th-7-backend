@@ -1,13 +1,14 @@
 package com.moyeoit.domain.review.repository;
 
-import com.moyeoit.domain.app_user.domain.AppUser;
 import com.moyeoit.domain.review.domain.ReviewLike;
 import com.moyeoit.domain.review.domain.ReviewType;
-import java.util.Optional;
+import com.moyeoit.domain.user.domain.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {

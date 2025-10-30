@@ -1,20 +1,21 @@
 package com.moyeoit.domain.review.service;
 
 
-import com.moyeoit.domain.app_user.domain.AppUser;
-import com.moyeoit.domain.app_user.repository.AppUserRepository;
 import com.moyeoit.domain.review.controller.response.ReviewLikeResponse;
 import com.moyeoit.domain.review.domain.ReviewLike;
 import com.moyeoit.domain.review.domain.ReviewType;
 import com.moyeoit.domain.review.repository.BasicReviewRepository;
 import com.moyeoit.domain.review.repository.PremiumReviewRepository;
 import com.moyeoit.domain.review.repository.ReviewLikeRepository;
+import com.moyeoit.domain.user.domain.AppUser;
+import com.moyeoit.domain.user.repository.AppUserRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.UserErrorCode;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class ReviewLikeService {
                     if (type == ReviewType.BASIC) {
                         basicReviewRepository.plusLikeCount(reviewId);
                     }
-                    if(type == ReviewType.PREMIUM){
+                    if (type == ReviewType.PREMIUM) {
                         premiumReviewRepository.plusLikeCount(reviewId);
                     }
                     return true;

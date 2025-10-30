@@ -1,12 +1,11 @@
 package com.moyeoit.global.config;
 
-import com.moyeoit.domain.app_user.service.AppUserService;
+import com.moyeoit.domain.user.service.AppUserService;
 import com.moyeoit.global.auth.CustomOAuth2AuthorizationRequestResolver;
 import com.moyeoit.global.auth.CustomOAuth2UserService;
 import com.moyeoit.global.auth.CustomSuccessHandler;
 import com.moyeoit.global.auth.jwt.JwtFilter;
 import com.moyeoit.global.auth.jwt.JwtValidator;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +22,8 @@ import org.springframework.security.web.context.NullSecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity

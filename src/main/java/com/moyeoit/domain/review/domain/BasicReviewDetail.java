@@ -1,18 +1,8 @@
 package com.moyeoit.domain.review.domain;
 
-import com.moyeoit.domain.app_user.domain.AppUser;
 import com.moyeoit.domain.review.domain.enums.AnswerType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import com.moyeoit.domain.user.domain.AppUser;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,5 +36,5 @@ public class BasicReviewDetail {
 
     @Enumerated(EnumType.STRING)
     private AnswerType answerType;
-    
+
 }

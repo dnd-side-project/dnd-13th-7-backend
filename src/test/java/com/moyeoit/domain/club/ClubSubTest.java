@@ -1,26 +1,24 @@
 package com.moyeoit.domain.club;
 
-import com.moyeoit.domain.app_user.domain.AppUser;
-import com.moyeoit.domain.app_user.domain.AuthProvider;
-import com.moyeoit.domain.app_user.domain.Job;
-import com.moyeoit.domain.app_user.repository.AppUserRepository;
 import com.moyeoit.domain.club.entity.Club;
 import com.moyeoit.domain.club.entity.ClubSubscribe;
 import com.moyeoit.domain.club.repository.ClubRepository;
 import com.moyeoit.domain.club.repository.ClubSubscribeRepository;
 import com.moyeoit.domain.club.service.ClubService;
-import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
-import java.util.Optional;
+import com.moyeoit.domain.user.domain.AppUser;
+import com.moyeoit.domain.user.domain.AuthProvider;
+import com.moyeoit.domain.user.domain.Job;
+import com.moyeoit.domain.user.repository.AppUserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

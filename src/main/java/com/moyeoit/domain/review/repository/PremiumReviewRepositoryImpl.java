@@ -1,12 +1,6 @@
 package com.moyeoit.domain.review.repository;
 
 
-import static com.moyeoit.domain.app_user.domain.QAppUser.appUser;
-import static com.moyeoit.domain.app_user.domain.QJob.job;
-import static com.moyeoit.domain.club.entity.QClub.club;
-import static com.moyeoit.domain.review.domain.QPremiumReview.premiumReview;
-import static com.moyeoit.domain.review.domain.QPremiumReviewComment.premiumReviewComment;
-
 import com.moyeoit.domain.review.controller.request.ReviewPagingRequest;
 import com.moyeoit.domain.review.domain.ResultType;
 import com.moyeoit.domain.review.domain.ReviewCategory;
@@ -17,13 +11,20 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
+
+import static com.moyeoit.domain.club.entity.QClub.club;
+import static com.moyeoit.domain.review.domain.QPremiumReview.premiumReview;
+import static com.moyeoit.domain.review.domain.QPremiumReviewComment.premiumReviewComment;
+import static com.moyeoit.domain.user.domain.QAppUser.appUser;
+import static com.moyeoit.domain.user.domain.QJob.job;
 
 @Repository
 @RequiredArgsConstructor
@@ -109,7 +110,7 @@ public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCusto
 
 
     private OrderSpecifier<?> getOrderSpecifier(String sort) {
-        if(ReviewSort.fromString(sort)==ReviewSort.인기순){
+        if (ReviewSort.fromString(sort) == ReviewSort.인기순) {
             return premiumReview.likeCount.desc();
         }
         return premiumReview.createDate.desc();

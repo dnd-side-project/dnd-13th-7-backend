@@ -1,9 +1,5 @@
 package com.moyeoit.domain.review.service;
 
-import com.moyeoit.domain.app_user.domain.AppUser;
-import com.moyeoit.domain.app_user.domain.Job;
-import com.moyeoit.domain.app_user.repository.AppUserRepository;
-import com.moyeoit.domain.app_user.repository.JobRepository;
 import com.moyeoit.domain.club.entity.Club;
 import com.moyeoit.domain.club.repository.ClubRepository;
 import com.moyeoit.domain.review.controller.request.BasicReviewCreateRequest;
@@ -18,17 +14,22 @@ import com.moyeoit.domain.review.domain.enums.AnswerType;
 import com.moyeoit.domain.review.repository.BasicReviewDetailRepository;
 import com.moyeoit.domain.review.repository.BasicReviewRepository;
 import com.moyeoit.domain.review.repository.QuestionRepository;
+import com.moyeoit.domain.user.domain.AppUser;
+import com.moyeoit.domain.user.domain.Job;
+import com.moyeoit.domain.user.repository.AppUserRepository;
+import com.moyeoit.domain.user.repository.JobRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ClubErrorCode;
 import com.moyeoit.global.exception.code.QuestionErrorCode;
 import com.moyeoit.global.exception.code.ReviewErrorCode;
 import com.moyeoit.global.exception.code.UserErrorCode;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j

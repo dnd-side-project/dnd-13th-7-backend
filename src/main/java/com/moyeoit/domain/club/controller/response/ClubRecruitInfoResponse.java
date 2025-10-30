@@ -1,8 +1,9 @@
 package com.moyeoit.domain.club.controller.response;
 
-import com.moyeoit.domain.app_user.domain.Job;
 import com.moyeoit.domain.club.entity.ClubRecruitment;
 import com.moyeoit.domain.club.entity.RecruitmentPart;
+import com.moyeoit.domain.user.domain.Job;
+
 import java.util.List;
 
 public record ClubRecruitInfoResponse(

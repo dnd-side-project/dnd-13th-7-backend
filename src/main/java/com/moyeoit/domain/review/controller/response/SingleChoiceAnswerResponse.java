@@ -1,9 +1,9 @@
 package com.moyeoit.domain.review.controller.response;
 
-import com.moyeoit.domain.app_user.service.dto.AppUserDto;
 import com.moyeoit.domain.review.domain.BasicReviewDetail;
 import com.moyeoit.domain.review.domain.PremiumReviewDetail;
 import com.moyeoit.domain.review.domain.enums.AnswerType;
+import com.moyeoit.domain.user.service.dto.AppUserDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

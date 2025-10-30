@@ -1,9 +1,5 @@
 package com.moyeoit.domain.review.service;
 
-import com.moyeoit.domain.app_user.domain.AppUser;
-import com.moyeoit.domain.app_user.domain.Job;
-import com.moyeoit.domain.app_user.repository.AppUserRepository;
-import com.moyeoit.domain.app_user.repository.JobRepository;
 import com.moyeoit.domain.club.entity.Club;
 import com.moyeoit.domain.club.repository.ClubRepository;
 import com.moyeoit.domain.review.controller.request.PremiumReviewCreateRequest;
@@ -11,11 +7,7 @@ import com.moyeoit.domain.review.controller.request.answer.AnswerRequest;
 import com.moyeoit.domain.review.controller.request.answer.MultipleChoiceAnswer;
 import com.moyeoit.domain.review.controller.request.answer.SingleChoiceAnswer;
 import com.moyeoit.domain.review.controller.request.answer.SubjectiveAnswer;
-import com.moyeoit.domain.review.controller.response.AnswerResponse;
-import com.moyeoit.domain.review.controller.response.MultipleChoiceAnswerResponse;
-import com.moyeoit.domain.review.controller.response.PremiumReviewResponse;
-import com.moyeoit.domain.review.controller.response.SingleChoiceAnswerResponse;
-import com.moyeoit.domain.review.controller.response.SubjectiveAnswerResponse;
+import com.moyeoit.domain.review.controller.response.*;
 import com.moyeoit.domain.review.domain.PremiumReview;
 import com.moyeoit.domain.review.domain.PremiumReviewDetail;
 import com.moyeoit.domain.review.domain.Question;
@@ -23,19 +15,24 @@ import com.moyeoit.domain.review.domain.enums.AnswerType;
 import com.moyeoit.domain.review.repository.PremiumReviewDetailRepository;
 import com.moyeoit.domain.review.repository.PremiumReviewRepository;
 import com.moyeoit.domain.review.repository.QuestionRepository;
+import com.moyeoit.domain.user.domain.AppUser;
+import com.moyeoit.domain.user.domain.Job;
+import com.moyeoit.domain.user.repository.AppUserRepository;
+import com.moyeoit.domain.user.repository.JobRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ClubErrorCode;
 import com.moyeoit.global.exception.code.QuestionErrorCode;
 import com.moyeoit.global.exception.code.ReviewErrorCode;
 import com.moyeoit.global.exception.code.UserErrorCode;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

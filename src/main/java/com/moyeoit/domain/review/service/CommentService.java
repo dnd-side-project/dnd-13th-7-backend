@@ -1,26 +1,27 @@
 package com.moyeoit.domain.review.service;
 
-import com.moyeoit.domain.app_user.domain.AppUser;
-import com.moyeoit.domain.app_user.repository.AppUserRepository;
-import com.moyeoit.domain.app_user.service.dto.AppUserDto;
 import com.moyeoit.domain.review.controller.request.CommentCreateRequest;
 import com.moyeoit.domain.review.controller.response.CommentResponse;
 import com.moyeoit.domain.review.domain.PremiumReview;
 import com.moyeoit.domain.review.domain.PremiumReviewComment;
 import com.moyeoit.domain.review.repository.PremiumReviewCommentRepository;
 import com.moyeoit.domain.review.repository.PremiumReviewRepository;
+import com.moyeoit.domain.user.domain.AppUser;
+import com.moyeoit.domain.user.repository.AppUserRepository;
+import com.moyeoit.domain.user.service.dto.AppUserDto;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ReviewErrorCode;
 import com.moyeoit.global.exception.code.UserErrorCode;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
