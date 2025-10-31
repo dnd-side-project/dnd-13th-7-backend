@@ -4,8 +4,8 @@ import com.moyeoit.CoreDbContextTest;
 import com.moyeoit.domain.user.controller.request.ActivateRequest;
 import com.moyeoit.domain.user.domain.Job;
 import com.moyeoit.domain.user.domain.User;
+import com.moyeoit.domain.user.infra.jpa.JpaUserRepository;
 import com.moyeoit.domain.user.repository.JobRepository;
-import com.moyeoit.domain.user.repository.UserRepository;
 import com.moyeoit.domain.user.service.UserService;
 import com.moyeoit.domain.user.service.dto.UserDto;
 import com.moyeoit.fixture.JobGenerator;
@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserServiceTest extends CoreDbContextTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private JpaUserRepository jpaUserRepository;
 
     @Autowired
     private JobRepository jobRepository;
@@ -31,7 +31,7 @@ public class UserServiceTest extends CoreDbContextTest {
     void updateProfileImage() {
         // Given
         Job createdJob = jobRepository.save(JobGenerator.createJob("개발자", "developer"));
-        User createdUser = userRepository.save(UserGenerator.createActivatedUser(createdJob));
+        User createdUser = jpaUserRepository.save(UserGenerator.createActivatedUser(createdJob));
         String testImageUrl = "https://test.com/test_image_url.jpg";
 
         // When
@@ -48,15 +48,16 @@ public class UserServiceTest extends CoreDbContextTest {
     void activateUserTest() {
         // Given
         jobRepository.save(JobGenerator.createJob("개발자", "developer"));
-        User createdUser = userRepository.save(UserGenerator.createNonActivateUser());
+        User createdUser = jpaUserRepository.save(UserGenerator.createNonActivateUser());
         ActivateRequest activateRequest = new ActivateRequest("홍길동 닉네임", createdUser.getId(), true, true, true, true, true);
 
 
         // When
         userService.activateUser(createdUser.getId(), activateRequest);
+        User user = jpaUserRepository.findById(createdUser.getId()).get();
+
 
         // then
-        User user = userRepository.findById(createdUser.getId()).get();
         Assertions.assertThat(user).isNotNull();
         Assertions.assertThat(user.getId()).isEqualTo(createdUser.getId());
         Assertions.assertThat(user.isActive()).isTrue();
