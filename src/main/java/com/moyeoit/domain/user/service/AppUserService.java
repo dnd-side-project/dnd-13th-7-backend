@@ -2,25 +2,14 @@ package com.moyeoit.domain.user.service;
 
 import com.moyeoit.domain.club.repository.ClubSubscribeRepository;
 import com.moyeoit.domain.review.repository.ReviewLikeRepository;
-import com.moyeoit.domain.user.controller.request.ActivateRequest;
-import com.moyeoit.domain.user.controller.response.ActivateResponse;
 import com.moyeoit.domain.user.controller.response.InterestsResponse;
-import com.moyeoit.domain.user.controller.response.TermResponse;
-import com.moyeoit.domain.user.domain.Job;
-import com.moyeoit.domain.user.domain.Term;
-import com.moyeoit.domain.user.repository.UserRepository;
+import com.moyeoit.domain.user.domain.repository.UserRepository;
 import com.moyeoit.domain.user.repository.JobRepository;
 import com.moyeoit.domain.user.repository.TermRepository;
-import com.moyeoit.domain.user.service.dto.AppUserDto;
-import com.moyeoit.global.auth.extractor.OAuth2UserProfile;
-import com.moyeoit.global.exception.AppException;
-import com.moyeoit.global.exception.code.UserErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Slf4j

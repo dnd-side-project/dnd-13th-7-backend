@@ -17,7 +17,7 @@ import com.moyeoit.domain.review.repository.PremiumReviewRepository;
 import com.moyeoit.domain.review.repository.QuestionRepository;
 import com.moyeoit.domain.user.domain.Job;
 import com.moyeoit.domain.user.domain.User;
-import com.moyeoit.domain.user.repository.UserRepository;
+import com.moyeoit.domain.user.domain.repository.UserRepository;
 import com.moyeoit.domain.user.repository.JobRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ClubErrorCode;

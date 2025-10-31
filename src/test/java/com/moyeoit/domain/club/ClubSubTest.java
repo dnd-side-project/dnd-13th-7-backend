@@ -7,7 +7,7 @@ import com.moyeoit.domain.club.service.ClubService;
 import com.moyeoit.domain.user.domain.AuthProvider;
 import com.moyeoit.domain.user.domain.Job;
 import com.moyeoit.domain.user.domain.User;
-import com.moyeoit.domain.user.repository.UserRepository;
+import com.moyeoit.domain.user.domain.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

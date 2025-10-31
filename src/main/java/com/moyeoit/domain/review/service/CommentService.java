@@ -7,7 +7,7 @@ import com.moyeoit.domain.review.domain.PremiumReviewComment;
 import com.moyeoit.domain.review.repository.PremiumReviewCommentRepository;
 import com.moyeoit.domain.review.repository.PremiumReviewRepository;
 import com.moyeoit.domain.user.domain.User;
-import com.moyeoit.domain.user.repository.UserRepository;
+import com.moyeoit.domain.user.domain.repository.UserRepository;
 import com.moyeoit.domain.user.service.dto.AppUserDto;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ReviewErrorCode;

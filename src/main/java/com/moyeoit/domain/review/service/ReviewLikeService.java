@@ -8,7 +8,7 @@ import com.moyeoit.domain.review.repository.BasicReviewRepository;
 import com.moyeoit.domain.review.repository.PremiumReviewRepository;
 import com.moyeoit.domain.review.repository.ReviewLikeRepository;
 import com.moyeoit.domain.user.domain.User;
-import com.moyeoit.domain.user.repository.UserRepository;
+import com.moyeoit.domain.user.domain.repository.UserRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.UserErrorCode;
 import lombok.RequiredArgsConstructor;

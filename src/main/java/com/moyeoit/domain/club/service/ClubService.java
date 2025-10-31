@@ -15,7 +15,7 @@ import com.moyeoit.domain.club.repository.ClubKeywordRepository;
 import com.moyeoit.domain.club.repository.ClubRepository;
 import com.moyeoit.domain.club.repository.ClubSubscribeRepository;
 import com.moyeoit.domain.user.domain.User;
-import com.moyeoit.domain.user.repository.UserRepository;
+import com.moyeoit.domain.user.domain.repository.UserRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ClubErrorCode;
 import com.moyeoit.global.exception.code.UserErrorCode;
