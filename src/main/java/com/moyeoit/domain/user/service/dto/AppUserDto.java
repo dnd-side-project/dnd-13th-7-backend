@@ -1,7 +1,8 @@
 package com.moyeoit.domain.user.service.dto;
 
-import com.moyeoit.domain.user.domain.AppUser;
 import com.moyeoit.domain.user.domain.AuthProvider;
+import com.moyeoit.domain.user.domain.Job;
+import com.moyeoit.domain.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,16 +23,28 @@ public class AppUserDto {
     private AuthProvider provider;
     private boolean active;
 
-    public static AppUserDto of(AppUser user) {
+    public static AppUserDto of(User user) {
         return new AppUserDto(
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getNickname(),
                 user.getProfileImageUrl(),
-                JobDto.ofNullable(user.getJob()),
+                JobDto.ofNullable(new Job()),
                 user.getProvider(),
                 user.isActive());
     }
+
+//    public static AppUserDto of(User user) {
+//        return new AppUserDto(
+//                user.getId(),
+//                user.getName(),
+//                user.getEmail(),
+//                user.getNickname(),
+//                user.getProfileImageUrl(),
+//                user.getJobId(),
+//                user.getProvider(),
+//                user.isActive());
+//    }
 
 }

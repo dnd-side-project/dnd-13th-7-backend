@@ -7,8 +7,8 @@ import com.moyeoit.domain.review.domain.ReviewType;
 import com.moyeoit.domain.review.repository.BasicReviewRepository;
 import com.moyeoit.domain.review.repository.PremiumReviewRepository;
 import com.moyeoit.domain.review.repository.ReviewLikeRepository;
-import com.moyeoit.domain.user.domain.AppUser;
-import com.moyeoit.domain.user.repository.AppUserRepository;
+import com.moyeoit.domain.user.domain.User;
+import com.moyeoit.domain.user.repository.UserRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.UserErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +22,14 @@ import java.util.Optional;
 public class ReviewLikeService {
 
     private final ReviewLikeRepository reviewLikeRepository;
-    private final AppUserRepository appUserRepository;
+    private final UserRepository userRepository;
     private final BasicReviewRepository basicReviewRepository;
     private final PremiumReviewRepository premiumReviewRepository;
 
     @Transactional
     public ReviewLikeResponse toggleLike(Long reviewId, String reviewType, Long userId) {
         ReviewType type = ReviewType.fromString(reviewType);
-        AppUser user = appUserRepository.findById(userId).orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
 
         Optional<ReviewLike> existingLike = reviewLikeRepository.findReviewLikeByAppUserAndReviewIdAndReviewType(user, reviewId, type);
 

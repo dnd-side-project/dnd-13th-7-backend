@@ -3,7 +3,7 @@ ALTER TABLE `club_recruitment`
     DROP COLUMN `recruitment_part`;
 
 ALTER TABLE `club`
-    DROP COLUMN `position`;
+    DROP COLUMN `clubPosition`;
 
 CREATE TABLE `process` (
                            `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -13,7 +13,7 @@ CREATE TABLE `process` (
                            CONSTRAINT `fk_process_to_club` FOREIGN KEY (`club_id`) REFERENCES `club` (`id`) ON DELETE CASCADE
 );
 
-CREATE TABLE `position` (
+CREATE TABLE `clubPosition` (
                             `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
                             `position_name` VARCHAR(255),
                             `club_id` BIGINT,

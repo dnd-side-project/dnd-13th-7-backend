@@ -1,6 +1,6 @@
 package com.moyeoit.domain.club.dto;
 
-import com.moyeoit.domain.club.entity.ClubActivity;
+import com.moyeoit.domain.club.entity.activity.ClubActivity;
 import lombok.Builder;
 
 @Builder
@@ -14,10 +14,10 @@ public record ClubActivityDto(
     public static ClubActivityDto from(ClubActivity entity) {
         return ClubActivityDto.builder()
                 .hashtag(entity.getHashtag())
-                .activityName(entity.getActivityName())
-                .activityDescribe(entity.getActivityDescribe())
+                .activityName(entity.getName())
+                .activityDescribe(entity.getDescription())
                 .imageUrl(entity.getImageUrl())
-                .activityOrder(entity.getActivityOrder())
+                .activityOrder(entity.getSequence())
                 .build();
     }
 }

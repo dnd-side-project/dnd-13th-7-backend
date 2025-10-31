@@ -30,17 +30,17 @@ public class ClubSlimDto {
         return new ClubSlimDto(
                 club.getId(),
                 club.getName(),
-                club.getSlogan(),
-                club.getBio(),
-                club.getEstablishment(),
-                club.getTotalParticipant(),
-                club.getOperation(),
-                club.getOffline(),
-                club.getOnline(),
-                club.getLocation(),
-                club.getAddress(),
+                club.getClubProfile().getSlogan(),
+                club.getClubProfile().getBio(),
+                club.getClubProfile().getEstablishment().getYear(),
+                club.getClubProfile().getTotalParticipant(),
+                club.getClubProfile().getOperation(),
+                club.getClubMethod().getOffline(),
+                club.getClubMethod().getOnline(),
+                club.getClubAddress().getLocation(),
+                club.getClubAddress().getAddress(),
                 club.getRecruiting(),
-                club.getImageUrl()
+                club.getClubProfile().getImageUrl()
         );
     }
 

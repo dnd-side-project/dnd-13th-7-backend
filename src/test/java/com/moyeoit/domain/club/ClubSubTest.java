@@ -1,20 +1,20 @@
 package com.moyeoit.domain.club;
 
-import com.moyeoit.domain.club.entity.Club;
-import com.moyeoit.domain.club.entity.ClubSubscribe;
+import com.moyeoit.domain.club.entity.*;
 import com.moyeoit.domain.club.repository.ClubRepository;
 import com.moyeoit.domain.club.repository.ClubSubscribeRepository;
 import com.moyeoit.domain.club.service.ClubService;
-import com.moyeoit.domain.user.domain.AppUser;
 import com.moyeoit.domain.user.domain.AuthProvider;
 import com.moyeoit.domain.user.domain.Job;
-import com.moyeoit.domain.user.repository.AppUserRepository;
+import com.moyeoit.domain.user.domain.User;
+import com.moyeoit.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -28,7 +28,7 @@ class ClubSubTest {
     private ClubRepository clubRepository;
 
     @Mock
-    private AppUserRepository appUserRepository;
+    private UserRepository userRepository;
 
     @Mock
     private ClubSubscribeRepository clubSubscribeRepository;
@@ -43,44 +43,56 @@ class ClubSubTest {
                 .build();
     }
 
-    public static AppUser createAppUser() {
+    public static User createAppUser() {
         Job job = createJob();
-        return AppUser.builder()
+        return User.builder()
                 .id(1L)
                 .name("희태 박")
                 .email("heetae@example.com")
                 .nickname("heetae123")
                 .provider(AuthProvider.GOOGLE)
                 .active(true)
-                .job(job)
+                .jobId(job.getId())
                 .build();
     }
 
     public static Club createClub() {
+        ClubProfile clubProfile = new ClubProfile(
+                "함께 성장하는 개발 커뮤니티",
+                "실무형 프로젝트와 스터디를 중심으로 활동하는 개발 동아리 입니다.",
+                LocalDate.of(2025, 1, 1),
+                50,
+                1,
+                "https://example.com/club-image.png"
+        );
+
+        ClubMethod clubMethod = new ClubMethod(
+                "서울 강남구",
+                "https://zoom.example.com"
+        );
+
+        ClubAddress clubAddress = new ClubAddress(
+                "서울",
+                "서울 강남구 테헤란로 123"
+        );
+
         return Club.builder()
                 .id(1L)
                 .name("모여잇 개발 동아리")
-                .slogan("함께 성장하는 개발 커뮤니티")
-                .bio("실무형 프로젝트와 스터디를 중심으로 활동하는 개발 동아리입니다.")
-                .establishment(2015)
-                .totalParticipant(50)
-                .operation(1)
-                .offline("서울 강남구")
-                .online("https://zoom.example.com")
-                .location("서울")
-                .address("서울 강남구 테헤란로 123")
+                .clubProfile(clubProfile)
+                .clubMethod(clubMethod)
+                .clubAddress(clubAddress)
                 .recruiting(true)
-                .imageUrl("https://example.com/club-image.png")
                 .subscribeCount(10)
                 .build();
     }
 
     @Test
     void Club_Subscribe_test() {
-        AppUser user = createAppUser();
+        User user = createAppUser();
         Club club = createClub();
 
-        when(appUserRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         when(clubRepository.findById(club.getId())).thenReturn(Optional.of(club));
 
         when(clubSubscribeRepository.findByUserAndClub(user, club)).thenReturn(Optional.empty());

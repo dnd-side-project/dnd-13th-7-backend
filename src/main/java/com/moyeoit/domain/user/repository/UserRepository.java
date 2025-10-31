@@ -1,11 +1,11 @@
 package com.moyeoit.domain.user.repository;
 
-import com.moyeoit.domain.user.domain.AppUser;
+import com.moyeoit.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AppUserRepository extends JpaRepository<AppUser, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 
 }

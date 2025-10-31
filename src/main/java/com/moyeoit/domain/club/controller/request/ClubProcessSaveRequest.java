@@ -1,7 +1,7 @@
 package com.moyeoit.domain.club.controller.request;
 
 import com.moyeoit.domain.club.entity.Club;
-import com.moyeoit.domain.club.entity.Process;
+import com.moyeoit.domain.club.entity.process.ClubProcess;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,10 +12,10 @@ public class ClubProcessSaveRequest {
     private Integer sequence;
     private Long clubId;
 
-    public static Process of(ClubProcessSaveRequest request, Club club){
-        return Process.builder()
+    public static ClubProcess of(ClubProcessSaveRequest request, Club club){
+        return ClubProcess.builder()
                 .club(club)
-                .processDescription(request.getProcessDescription())
+                .description(request.getProcessDescription())
                 .sequence(request.getSequence())
                 .build();
     }

@@ -12,7 +12,7 @@ public record ClubFindListResponse(
         return new ClubFindListResponse(
                 club.getId(),
                 club.getName(),
-                club.getImageUrl()
+                club.getClubProfile().getImageUrl()
         );
     }
 }

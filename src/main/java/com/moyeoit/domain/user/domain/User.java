@@ -2,10 +2,7 @@ package com.moyeoit.domain.user.domain;
 
 import com.moyeoit.global.base.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Table(name = "tb_user")
 public class User extends BaseEntity {
 
@@ -52,6 +50,7 @@ public class User extends BaseEntity {
     public void activate(String nickname, Long jobId) {
         this.nickname = nickname;
         this.jobId = jobId;
+        this.active = true;
     }
 
     public void updateProfileImage(String profileImageUrl) {

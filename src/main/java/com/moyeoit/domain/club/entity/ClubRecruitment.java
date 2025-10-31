@@ -1,16 +1,7 @@
 package com.moyeoit.domain.club.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -23,38 +14,40 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Getter
+@Table(name = "tb_club_recruitment")
 public class ClubRecruitment {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "club_id")
-    private Long club_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "club_recruitment_id")
+    private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
-    @MapsId
     private Club club;
 
     @OneToMany(mappedBy = "clubRecruitment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RecruitmentPart> recruitmentParts = new ArrayList<>();
-
-    @Column(name = "qualification")
-    private String qualification;
-
-    @Column(name = "recruitment_schedule")
-    private String recruitmentSchedule;
+    private List<ClubRecruitmentPart> clubRecruitmentParts = new ArrayList<>();
 
     @Column(name = "activity_period")
     private String activityPeriod;
+
+    @Column(name = "recruitment_schedule")
+    private String recruitmentSchedule; // TODO : AttributeConverter 사용하기
+
+    @Column(name = "qualification")
+    private String qualification;
 
     @Column(name = "activity_method")
     private String activityMethod;
 
     @Column(name = "activity_fee")
-    private String activityFee;
+    private Long activityFee;
 
     @Column(name = "homepage_url")
     private String homepageUrl;
 
     @Column(name = "notice_url")
     private String noticeUrl;
+
 }

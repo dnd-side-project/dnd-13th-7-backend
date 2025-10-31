@@ -1,8 +1,9 @@
 package com.moyeoit.global.config;
 
 import com.moyeoit.domain.user.service.AppUserService;
+import com.moyeoit.domain.user.service.UserService;
 import com.moyeoit.global.auth.CustomOAuth2AuthorizationRequestResolver;
-import com.moyeoit.global.auth.CustomOAuth2UserService;
+//import com.moyeoit.global.auth.CustomOAuth2UserService;
 import com.moyeoit.global.auth.CustomSuccessHandler;
 import com.moyeoit.global.auth.jwt.JwtFilter;
 import com.moyeoit.global.auth.jwt.JwtValidator;
@@ -31,7 +32,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
+//    private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomSuccessHandler customSuccessHandler;
     private final ClientRegistrationRepository clientRegistrationRepository;
 
@@ -55,8 +56,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtValidator jwtValidator,
-                                           AppUserService appUserService) throws Exception {
-        JwtFilter jwtFilter = new JwtFilter(jwtValidator, appUserService);
+                                           UserService userService) throws Exception {
+        JwtFilter jwtFilter = new JwtFilter(jwtValidator, userService);
 
         //cors 설정
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
@@ -81,7 +82,7 @@ public class SecurityConfig {
                             new CustomOAuth2AuthorizationRequestResolver(clientRegistrationRepository));
                 })
                 .redirectionEndpoint(redir -> redir.baseUri(REDIRECTION_ENDPOINT_URI))
-                .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+//                .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                 .successHandler(customSuccessHandler)
         );
 

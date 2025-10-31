@@ -1,6 +1,6 @@
 package com.moyeoit.domain.review.domain;
 
-import com.moyeoit.domain.user.domain.AppUser;
+import com.moyeoit.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +24,7 @@ public class ReviewLike {
 
     @ManyToOne
     @JoinColumn(name = "app_user_id", nullable = false)
-    private AppUser appUser;
+    private User appUser;
 
     @Column(name = "review_id", nullable = false)
     private Long reviewId;

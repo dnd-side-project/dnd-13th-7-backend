@@ -8,13 +8,18 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class JobDto {
 
     private Long id;
     private String name;
     private String engName;
+
+    public JobDto(Long id, String name, String engName) {
+        this.id = id;
+        this.name = name;
+        this.engName = engName;
+    }
 
     public static JobDto of(Job job) {
         return new JobDto(job.getId(),

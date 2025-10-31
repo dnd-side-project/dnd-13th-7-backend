@@ -17,45 +17,45 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
-@Slf4j
-public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-
-    private final String GOOGLE_REGISTRATION = "google";
-    private final String KAKAO_REGISTRATION = "kakao";
-
-    private final AppUserService appUserService;
-
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest req) throws OAuth2AuthenticationException {
-        DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
-        OAuth2User user = delegate.loadUser(req);
-
-        ProfileExtractor profileExtractor = getProfileExtractor(req);
-
-        AppUserDto userDto = appUserService.findOrCreateAppUserFromOAuth2(profileExtractor.extract(user));
-
-        return new CustomOAuth2User(
-                userDto.getId(),
-                userDto.getName(),
-                userDto.getEmail(),
-                userDto.isActive(),
-                userDto.getProvider(),
-                null
-        );
-    }
-
-    private ProfileExtractor getProfileExtractor(OAuth2UserRequest req) {
-        if (req.getClientRegistration().getRegistrationId().equals(GOOGLE_REGISTRATION)) {
-            return new GoogleProfileExtractor();
-        }
-
-        if (req.getClientRegistration().getRegistrationId().equals(KAKAO_REGISTRATION)) {
-            return new KakaoProfileExtractor();
-        }
-
-        throw new AppException(BaseErrorCode.UNAUTHORIZED);
-    }
-
-}
+//@Component
+//@RequiredArgsConstructor
+//@Slf4j
+//public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+//
+//    private final String GOOGLE_REGISTRATION = "google";
+//    private final String KAKAO_REGISTRATION = "kakao";
+//
+//    private final AppUserService appUserService;
+//
+//    @Override
+//    public OAuth2User loadUser(OAuth2UserRequest req) throws OAuth2AuthenticationException {
+//        DefaultOAuth2UserService delegate = new DefaultOAuth2UserService();
+//        OAuth2User user = delegate.loadUser(req);
+//
+//        ProfileExtractor profileExtractor = getProfileExtractor(req);
+//
+//        AppUserDto userDto = appUserService.findOrCreateAppUserFromOAuth2(profileExtractor.extract(user));
+//
+//        return new CustomOAuth2User(
+//                userDto.getId(),
+//                userDto.getName(),
+//                userDto.getEmail(),
+//                userDto.isActive(),
+//                userDto.getProvider(),
+//                null
+//        );
+//    }
+//
+//    private ProfileExtractor getProfileExtractor(OAuth2UserRequest req) {
+//        if (req.getClientRegistration().getRegistrationId().equals(GOOGLE_REGISTRATION)) {
+//            return new GoogleProfileExtractor();
+//        }
+//
+//        if (req.getClientRegistration().getRegistrationId().equals(KAKAO_REGISTRATION)) {
+//            return new KakaoProfileExtractor();
+//        }
+//
+//        throw new AppException(BaseErrorCode.UNAUTHORIZED);
+//    }
+//
+//}

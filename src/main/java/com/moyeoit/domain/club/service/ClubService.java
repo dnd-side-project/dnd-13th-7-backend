@@ -9,11 +9,13 @@ import com.moyeoit.domain.club.dto.ClubActivityDto;
 import com.moyeoit.domain.club.dto.ClubDto;
 import com.moyeoit.domain.club.dto.ClubScheduleDto;
 import com.moyeoit.domain.club.entity.*;
+import com.moyeoit.domain.club.entity.activity.ClubActivity;
+import com.moyeoit.domain.club.entity.schedule.ClubSchedule;
 import com.moyeoit.domain.club.repository.ClubKeywordRepository;
 import com.moyeoit.domain.club.repository.ClubRepository;
 import com.moyeoit.domain.club.repository.ClubSubscribeRepository;
-import com.moyeoit.domain.user.domain.AppUser;
-import com.moyeoit.domain.user.repository.AppUserRepository;
+import com.moyeoit.domain.user.domain.User;
+import com.moyeoit.domain.user.repository.UserRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ClubErrorCode;
 import com.moyeoit.global.exception.code.UserErrorCode;
@@ -32,12 +34,19 @@ public class ClubService {
 
     private final ClubRepository clubRepository;
     private final ClubKeywordRepository keywordRepository;
-    private final AppUserRepository userRepository;
+    private final UserRepository userRepository;
     private final ClubSubscribeRepository clubSubscribeRepository;
 
+    /**
+     * 동아리 프로필/활동/일정 정보를 조회합니다.
+     * @param clubId
+     * @return
+     */
     @Transactional(readOnly = true)
     public ClubInfoResponse findDetailInfo(Long clubId) {
-        Club club = clubRepository.findById(clubId).orElseThrow(() -> new AppException(ClubErrorCode.NOT_FOUND));
+        Club club = clubRepository.findClubWithActivitiesById(clubId)
+                .orElseThrow(() -> new AppException(ClubErrorCode.NOT_FOUND));
+
         List<ClubActivity> activities = club.getActivities();
         List<ClubSchedule> schedules = club.getSchedules();
 
@@ -47,13 +56,21 @@ public class ClubService {
                 schedules.stream().map(ClubScheduleDto::from).toList());
     }
 
+
+    /**
+     * 동아리 프로필/공고 정보를 조회합니다.
+     * @param clubId
+     * @return
+     */
     @Transactional(readOnly = true)
     public ClubRecruitInfoResponse findRecruitInfo(Long clubId) {
-        Club club = clubRepository.findById(clubId).orElseThrow(() -> new AppException(ClubErrorCode.NOT_FOUND));
+        Club club = clubRepository.findClubWithRecruitmentById(clubId)
+                .orElseThrow(() -> new AppException(ClubErrorCode.NOT_FOUND));
 
         ClubRecruitment recruitment = club.getRecruitment();
         return ClubRecruitInfoResponse.from(recruitment);
     }
+
 
     @Transactional(readOnly = true)
     public Page<ClubListResponse> findClubList(ClubPagingRequest request, Pageable pageable) {
@@ -68,7 +85,7 @@ public class ClubService {
     @Transactional
     public boolean subscribeClub(Long clubId, Long userId) {
         Club club = clubRepository.findById(clubId).orElseThrow(() -> new AppException(ClubErrorCode.NOT_FOUND));
-        AppUser user = userRepository.findById(userId).orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
 
         Optional<ClubSubscribe> existingSubscribe = clubSubscribeRepository.findByUserAndClub(user, club);
         boolean subscribed = existingSubscribe
@@ -98,7 +115,7 @@ public class ClubService {
     @Transactional(readOnly = true)
     public boolean findOutClubSub(Long clubId, Long userId) {
         Club club = clubRepository.findById(clubId).orElseThrow(() -> new AppException(ClubErrorCode.NOT_FOUND));
-        AppUser user = userRepository.findById(userId).orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+        User user = userRepository.findById(userId).orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
         return clubSubscribeRepository.existsByClubAndUser(club, user);
     }
 }

@@ -27,7 +27,7 @@ import static com.moyeoit.domain.review.domain.QBasicReview.basicReview;
 import static com.moyeoit.domain.review.domain.QBasicReviewDetail.basicReviewDetail;
 import static com.moyeoit.domain.review.domain.QQuestion.question;
 import static com.moyeoit.domain.review.domain.QQuestionElement.questionElement;
-import static com.moyeoit.domain.user.domain.QAppUser.appUser;
+import static com.moyeoit.domain.user.domain.QUser.user;
 import static com.moyeoit.domain.user.domain.QJob.job;
 
 @Repository
@@ -47,7 +47,7 @@ public class BasicReviewRepositoryImpl implements BasicReviewRepositoryCustom {
         };
         List<BasicReview> reviews = queryFactory
                 .selectFrom(basicReview)
-                .join(basicReview.user, appUser).fetchJoin()
+                .join(basicReview.user, user).fetchJoin()
                 .join(basicReview.club, club).fetchJoin()
                 .join(basicReview.job, job).fetchJoin()
                 .where(conditions)

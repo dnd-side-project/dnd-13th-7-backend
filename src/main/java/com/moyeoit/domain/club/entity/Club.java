@@ -1,16 +1,12 @@
 package com.moyeoit.domain.club.entity;
 
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Version;
+import com.moyeoit.domain.club.entity.activity.ClubActivity;
+import com.moyeoit.domain.club.entity.position.ClubPosition;
+import com.moyeoit.domain.club.entity.process.ClubProcess;
+import com.moyeoit.domain.club.entity.schedule.ClubSchedule;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -23,6 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Getter
+@Table(name = "tb_club")
 public class Club {
 
     @Id
@@ -33,63 +30,36 @@ public class Club {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "slogan")
-    private String slogan;
+    @Embedded
+    private ClubProfile clubProfile;
 
-    @Column(name = "bio")
-    private String bio;
+    @Embedded
+    private ClubMethod clubMethod;
 
-    @Column(name = "establishment")
-    private Integer establishment;
-
-    @Column(name = "total_participant")
-    private Integer totalParticipant;
-
-    @Column(name = "operation")
-    private Integer operation;
-
-    @Column(name = "offline")
-    private String offline;
-
-    @Column(name = "online")
-    private String online;
+    @Embedded
+    private ClubAddress clubAddress;
 
     private String significant;
-
-    @Column(name = "location")
-    private String location;
-
-    @Column(name = "address")
-    private String address;
 
     @Column(name = "recruiting")
     private Boolean recruiting;
 
-    @Column(name = "image_url")
-    private String imageUrl;
-
+    @Column(name = "subscribe_count")
     private Integer subscribeCount;
 
-
-    @OneToOne(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "club", fetch = FetchType.LAZY)
     private ClubRecruitment recruitment;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClubActivity> activities = new ArrayList<>();
+    @OneToMany(mappedBy = "club", fetch = FetchType.LAZY)
+    private List<ClubActivity> activities;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClubSchedule> schedules = new ArrayList<>();
+    @OneToMany(mappedBy = "club", fetch = FetchType.LAZY)
+    private List<ClubSchedule> schedules;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Process> process = new ArrayList<>();
+    @OneToMany(mappedBy = "club", fetch = FetchType.LAZY)
+    private List<ClubProcess> processes;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Position> position = new ArrayList<>();
-
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Target> target = new ArrayList<>();
-
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Club_ClubKeyword> clubKeywords = new ArrayList<>();
+    @OneToMany(mappedBy = "club", fetch = FetchType.LAZY)
+    private List<ClubPosition> positions;
 
 }

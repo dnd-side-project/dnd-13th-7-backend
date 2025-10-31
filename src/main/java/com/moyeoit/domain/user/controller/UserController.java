@@ -6,9 +6,9 @@ import com.moyeoit.domain.review.controller.response.ReviewResponse;
 import com.moyeoit.domain.review.service.ReviewService;
 import com.moyeoit.domain.user.controller.request.ActivateRequest;
 import com.moyeoit.domain.user.controller.response.ActivateResponse;
-import com.moyeoit.domain.user.controller.response.InterestsResponse;
-import com.moyeoit.domain.user.service.AppUserService;
-import com.moyeoit.domain.user.service.dto.AppUserDto;
+import com.moyeoit.domain.user.service.UserService;
+import com.moyeoit.domain.user.service.dto.UserDto;
+import com.moyeoit.domain.user.service.dto.UserProfileResponse;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RequestMapping("/v1/user")
 @Tag(name = "회원 API", description = "회원 및 마이페이지 관련 API")
-public class UserController implements UserAPI {
+public class UserController {
 
-    private final AppUserService appUserService;
     private final ReviewService reviewService;
+    private final UserService userService;
 
     @GetMapping("/me")
     public ResponseEntity<String> getMe(@CurrentUser AccessUser user) {
@@ -38,55 +38,60 @@ public class UserController implements UserAPI {
     }
 
     /**
-     * 해당 유저가 활성 상태를 응답합니다.
+     * 해당 유저의 활성 상태를 응답합니다.
      */
     @GetMapping("/activate/{userId}")
-    public ResponseEntity<ApiResponse<ActivateResponse>> isActivateUser(@PathVariable Long userId) {
-        ActivateResponse response = appUserService.getActivateStatus(userId);
-        return ResponseEntity.ok(ApiResponse.success(response));
+    public ApiResponse<ActivateResponse> isActivateUser(@PathVariable Long userId) {
+        ActivateResponse response = userService.getActivateStatus(userId);
+        return ApiResponse.success(response);
     }
 
+    /**
+     * 유저 정보를 조회합니다.
+     */
     @GetMapping("/{userId}")
-    public ResponseEntity<ApiResponse> getUser(@PathVariable Long userId) {
-        AppUserDto appUserDto = appUserService.getAppUser(userId);
-        return ResponseEntity.ok(ApiResponse.success("HELLO APP_USER" + appUserDto.getEmail(), appUserDto));
+    public ApiResponse<UserDto> getUser(@PathVariable Long userId) {
+        UserDto user = userService.getUser(userId);
+        return ApiResponse.success(user);
     }
 
+    /**
+     * 접근한 유저를 활성 상태로 변경합니다.
+     */
     @PostMapping("/activate")
-    public ResponseEntity<?> activateUser(@Parameter(hidden = true) @CurrentUser AccessUser accessUser,
-                                          @RequestBody ActivateRequest request) {
-        AppUserDto dto = appUserService.activateUser(accessUser.getId(), request);
-        return ResponseEntity.ok("");
+    public ApiResponse<UserDto> activateUser(@Parameter(hidden = true) @CurrentUser AccessUser accessUser,
+                                             @RequestBody ActivateRequest request) {
+        UserDto user = userService.activateUser(accessUser.getId(), request);
+        return ApiResponse.success(user);
     }
 
     /**
      * 유저 프로필 사진 업데이트 API
      */
     @PostMapping("/profile/image")
-    public ResponseEntity<ApiResponse<AppUserDto>> uploadProfileImage(@RequestBody FileUploadRequest request,
+    public ApiResponse<UserDto> uploadProfileImage(@RequestBody FileUploadRequest request,
                                                                       @Parameter(hidden = true) @CurrentUser AccessUser user) {
-        AppUserDto userDto = appUserService.updateProfileImage(user.getId(), request.getFileUrl());
-        return ResponseEntity.ok(ApiResponse.success(userDto));
+        UserDto userDto = userService.updateProfileImage(user.getId(), request.getFileUrl());
+        return ApiResponse.success(userDto);
     }
 
     /**
      * 내 정보 조회 API
      */
     @GetMapping("/profile")
-    public ResponseEntity<ApiResponse<AppUserDto>> getProfile(@Parameter(hidden = true) @CurrentUser AccessUser user) {
-        AppUserDto appUser = appUserService.getProfile(user.getId());
-        return ResponseEntity.ok(ApiResponse.success(appUser));
+    public ApiResponse<UserProfileResponse> getProfile(@CurrentUser AccessUser user) {
+        return ApiResponse.success(userService.getProfile(user.getId()));
     }
 
     /**
      * 관심 활동 조회 API (동아리 구독 수, 리뷰 좋아요 개수)
      */
-    @GetMapping("/interests")
-    public ResponseEntity<ApiResponse<InterestsResponse>> getInterests(
-            @Parameter(hidden = true) @CurrentUser AccessUser user) {
-        InterestsResponse response = appUserService.getInterests(user.getId());
-        return ResponseEntity.ok(ApiResponse.success(response));
-    }
+//    @GetMapping("/interests")
+//    public ResponseEntity<ApiResponse<InterestsResponse>> getInterests(
+//            @Parameter(hidden = true) @CurrentUser AccessUser user) {
+//        InterestsResponse response = appUserService.getInterests(user.getId());
+//        return ResponseEntity.ok(ApiResponse.success(response));
+//    }
 
     @GetMapping("/review")
     public ResponseEntity<ApiResponse<Page<ReviewResponse>>> getReview(@ModelAttribute MyReviewSearchRequest request,

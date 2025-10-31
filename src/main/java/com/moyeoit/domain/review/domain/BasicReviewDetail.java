@@ -1,7 +1,7 @@
 package com.moyeoit.domain.review.domain;
 
 import com.moyeoit.domain.review.domain.enums.AnswerType;
-import com.moyeoit.domain.user.domain.AppUser;
+import com.moyeoit.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "tb_basic_review_detail")
 public class BasicReviewDetail {
 
     @Id
@@ -29,7 +30,7 @@ public class BasicReviewDetail {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private AppUser appUser;
+    private User appUser;
 
     @Lob
     private String value;

@@ -1,6 +1,6 @@
 package com.moyeoit.domain.review.domain;
 
-import com.moyeoit.domain.user.domain.AppUser;
+import com.moyeoit.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "tb_premium_review_comment")
 public class PremiumReviewComment {
 
     @Id
@@ -28,7 +29,7 @@ public class PremiumReviewComment {
 
     @ManyToOne
     @JoinColumn(name = "app_user_id")
-    private AppUser appUser;
+    private User appUser;
 
     @Column(name = "content")
     private String content;

@@ -7,6 +7,7 @@ import com.moyeoit.domain.user.controller.request.ActivateRequest;
 import com.moyeoit.domain.user.controller.response.ActivateResponse;
 import com.moyeoit.domain.user.controller.response.InterestsResponse;
 import com.moyeoit.domain.user.service.dto.AppUserDto;
+import com.moyeoit.domain.user.service.dto.UserProfileResponse;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
@@ -35,7 +36,7 @@ public interface UserAPI {
                                                                @Parameter(hidden = true) @CurrentUser AccessUser user);
 
     @Operation(summary = "유저 프로필 조회 API", description = "유저 프로필 정보를 조회합니다.")
-    ResponseEntity<ApiResponse<AppUserDto>> getProfile(@Parameter(hidden = true) @CurrentUser AccessUser user);
+    ApiResponse<UserProfileResponse> getProfile(@Parameter(hidden = true) @CurrentUser AccessUser user);
 
     @Operation(summary = "관심 활동 조회 API", description = "동아리 구독 수, 리뷰 좋아요 개수를 조회합니다.")
     ResponseEntity<ApiResponse<InterestsResponse>> getInterests(@Parameter(hidden = true) @CurrentUser AccessUser user);

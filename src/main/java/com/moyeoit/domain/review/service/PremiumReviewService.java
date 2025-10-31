@@ -15,9 +15,9 @@ import com.moyeoit.domain.review.domain.enums.AnswerType;
 import com.moyeoit.domain.review.repository.PremiumReviewDetailRepository;
 import com.moyeoit.domain.review.repository.PremiumReviewRepository;
 import com.moyeoit.domain.review.repository.QuestionRepository;
-import com.moyeoit.domain.user.domain.AppUser;
 import com.moyeoit.domain.user.domain.Job;
-import com.moyeoit.domain.user.repository.AppUserRepository;
+import com.moyeoit.domain.user.domain.User;
+import com.moyeoit.domain.user.repository.UserRepository;
 import com.moyeoit.domain.user.repository.JobRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ClubErrorCode;
@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class PremiumReviewService {
 
-    private final AppUserRepository appUserRepository;
+    private final UserRepository userRepository;
     private final ClubRepository clubRepository;
     private final JobRepository jobRepository;
 
@@ -75,7 +75,7 @@ public class PremiumReviewService {
     @Transactional
     public Long createPremiumReview(PremiumReviewCreateRequest request, Long userId) {
         // 유저 조회
-        AppUser user = appUserRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
 
         // 동아리 조회
@@ -108,7 +108,7 @@ public class PremiumReviewService {
         return savedReview.getId();
     }
 
-    private PremiumReviewDetail createPremiumDetail(PremiumReview review, AnswerRequest request, AppUser user) {
+    private PremiumReviewDetail createPremiumDetail(PremiumReview review, AnswerRequest request, User user) {
         Question question = questionRepository.findById(request.getQuestionId())
                 .orElseThrow(() -> new AppException(QuestionErrorCode.NOT_FOUND));
 

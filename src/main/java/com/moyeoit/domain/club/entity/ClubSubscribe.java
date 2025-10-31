@@ -1,6 +1,6 @@
 package com.moyeoit.domain.club.entity;
 
-import com.moyeoit.domain.user.domain.AppUser;
+import com.moyeoit.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Getter
+@Table(name = "tb_club_subscribe")
 public class ClubSubscribe {
 
     @Id
@@ -24,7 +25,7 @@ public class ClubSubscribe {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private AppUser user; // 구독하는 유저
+    private User user; // 구독하는 유저
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")

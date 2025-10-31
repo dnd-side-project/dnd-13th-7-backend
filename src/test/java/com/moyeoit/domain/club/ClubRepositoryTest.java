@@ -2,6 +2,7 @@ package com.moyeoit.domain.club;
 
 import com.moyeoit.domain.club.controller.request.ClubPagingRequest;
 import com.moyeoit.domain.club.entity.*;
+import com.moyeoit.domain.club.entity.position.ClubPosition;
 import com.moyeoit.domain.club.repository.ClubRepository;
 import com.moyeoit.domain.user.domain.Job;
 import com.moyeoit.global.config.QueryDslConfig;
@@ -37,27 +38,27 @@ public class ClubRepositoryTest {
     @Autowired
     private EntityManager em;
 
-    @BeforeEach
-    void setUp() {
-        Job javaJob = Job.builder().name("Java").engName("Java").build();
-        Job reactJob = Job.builder().name("React").engName("React").build();
-        Job pythonJob = Job.builder().name("Python").engName("Python").build();
-        Job figmaJob = Job.builder().name("Figma").engName("Figma").build();
-        em.persist(javaJob);
-        em.persist(reactJob);
-        em.persist(pythonJob);
-        em.persist(figmaJob);
-
-        Club club1 = createClub("백엔드 온라인 스터디", "백엔드", "온라인", List.of(javaJob), List.of("대학생"), 2023);
-        Club club2 = createClub("프론트엔드 오프라인 프로젝트", "프론트엔드", "오프라인", List.of(reactJob), List.of("취준생"), 2024);
-        Club club3 = createClub("알고리즘 온라인 스터디", "백엔드", "온라인", List.of(pythonJob, javaJob), List.of("누구나"), 2025);
-        Club club4 = createClub("디자인 오프라인 프로젝트", "디자인", "오프라인", List.of(figmaJob), List.of("직장인", "대학생"), 2022);
-
-        clubRepository.saveAll(List.of(club1, club2, club3, club4));
-
-        em.flush();
-        em.clear();
-    }
+//    @BeforeEach
+//    void setUp() {
+//        Job javaJob = Job.builder().name("Java").engName("Java").build();
+//        Job reactJob = Job.builder().name("React").engName("React").build();
+//        Job pythonJob = Job.builder().name("Python").engName("Python").build();
+//        Job figmaJob = Job.builder().name("Figma").engName("Figma").build();
+//        em.persist(javaJob);
+//        em.persist(reactJob);
+//        em.persist(pythonJob);
+//        em.persist(figmaJob);
+//
+//        Club club1 = createClub("백엔드 온라인 스터디", "백엔드", "온라인", List.of(javaJob), List.of("대학생"), 2023);
+//        Club club2 = createClub("프론트엔드 오프라인 프로젝트", "프론트엔드", "오프라인", List.of(reactJob), List.of("취준생"), 2024);
+//        Club club3 = createClub("알고리즘 온라인 스터디", "백엔드", "온라인", List.of(pythonJob, javaJob), List.of("누구나"), 2025);
+//        Club club4 = createClub("디자인 오프라인 프로젝트", "디자인", "오프라인", List.of(figmaJob), List.of("직장인", "대학생"), 2022);
+//
+//        clubRepository.saveAll(List.of(club1, club2, club3, club4));
+//
+//        em.flush();
+//        em.clear();
+//    }
 
     @Test
     @DisplayName("1. 필터 조건이 없을 때 전체 클럽을 최신순(ID)으로 페이징하여 조회한다")
@@ -131,34 +132,34 @@ public class ClubRepositoryTest {
         assertThat(result.getContent()).isEmpty();
     }
 
-    private Club createClub(String name, String field, String way, List<Job> jobs, List<String> targets, Integer establishmentYear) {
-        Club club = Club.builder()
-                .name(name)
-                .establishment(establishmentYear)
-                .online("온라인".equals(way) ? "ZOOM" : null)
-                .offline("오프라인".equals(way) ? "강남역" : null)
-                .position(new ArrayList<>())
-                .target(new ArrayList<>())
-                .build();
-
-        Position position = new Position(null, field, club);
-        club.getPosition().add(position);
-
-        targets.forEach(targetName -> {
-            Target target = new Target(null, targetName, club);
-            club.getTarget().add(target);
-        });
-
-        ClubRecruitment recruitment = ClubRecruitment.builder()
-                .club(club)
-                .recruitmentParts(new ArrayList<>())
-                .build();
-
-        jobs.forEach(job -> {
-            RecruitmentPart part = new RecruitmentPart(null, job, recruitment);
-            recruitment.getRecruitmentParts().add(part);
-        });
-
-        return club;
-    }
+//    private Club createClub(String name, String field, String way, List<Job> jobs, List<String> targets, Integer establishmentYear) {
+//        Club club = Club.builder()
+//                .name(name)
+//                .establishment(establishmentYear)
+//                .online("온라인".equals(way) ? "ZOOM" : null)
+//                .offline("오프라인".equals(way) ? "강남역" : null)
+//                .clubPosition(new ArrayList<>())
+//                .target(new ArrayList<>())
+//                .build();
+//
+//        ClubPosition clubPosition = new ClubPosition(null, field, club);
+//        club.getClubPosition().add(clubPosition);
+//
+//        targets.forEach(targetName -> {
+//            Target target = new Target(null, targetName, club);
+//            club.getTarget().add(target);
+//        });
+//
+//        ClubRecruitment recruitment = ClubRecruitment.builder()
+//                .club(club)
+//                .clubRecruitmentParts(new ArrayList<>())
+//                .build();
+//
+//        jobs.forEach(job -> {
+//            ClubRecruitmentPart part = new ClubRecruitmentPart(null, job, recruitment);
+//            recruitment.getClubRecruitmentParts().add(part);
+//        });
+//
+//        return club;
+//    }
 }

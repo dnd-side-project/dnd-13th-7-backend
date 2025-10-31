@@ -1,6 +1,6 @@
 package com.moyeoit.domain.club.repository;
 
-import com.moyeoit.domain.club.entity.ClubActivity;
+import com.moyeoit.domain.club.entity.activity.ClubActivity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -51,7 +51,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
     }
 
     private BooleanExpression eqField(String field){
-        return StringUtils.hasText(field) ? club.position.any().positionName.eq(field) : null;
+        return StringUtils.hasText(field) ? club.positions.any().name.eq(field) : null;
     }
     private BooleanExpression eqWay(String way){
         Way method = Way.fromString(way);
@@ -60,17 +60,18 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
             return null;
         }
 
-        return method==Way.온라인 ? club.online.isNotNull() : club.offline.isNotNull();
+        return method==Way.온라인 ? club.clubMethod.online.isNotNull() : club.clubMethod.offline.isNotNull();
     }
     private BooleanExpression eqPart(String parts){
-        if (parts == null || parts.isEmpty()) {
-            return null;
-        }
-        List<String> part = Arrays.stream(parts.split(","))
-                .map(String::trim)
-                .toList();
-
-        return club.recruitment.recruitmentParts.any().job.name.in(part);
+//        if (parts == null || parts.isEmpty()) {
+//            return null;
+//        }
+//        List<String> part = Arrays.stream(parts.split(","))
+//                .map(String::trim)
+//                .toList();
+//
+//        return club.recruitment.clubRecruitmentParts.any().job.name.in(part);
+        return null;
     }
     private BooleanExpression eqTarget(String targets) {
         if (targets == null || targets.isEmpty()) {
@@ -81,7 +82,8 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
                 .map(String::trim)
                 .toList();
 
-        return club.target.any().targetName.in(target);
+//        return club.target.any().targetName.in(target);
+        return null;
     }
 
     private OrderSpecifier<?> getOrderSpecifier(String sort,Pageable pageable){

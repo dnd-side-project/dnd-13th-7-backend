@@ -1,7 +1,9 @@
 package com.moyeoit.global.auth.jwt;
 
 import com.moyeoit.domain.user.service.AppUserService;
+import com.moyeoit.domain.user.service.UserService;
 import com.moyeoit.domain.user.service.dto.AppUserDto;
+import com.moyeoit.domain.user.service.dto.UserDto;
 import com.moyeoit.global.auth.user.CustomUserPrincipal;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,11 +25,11 @@ public class JwtFilter extends OncePerRequestFilter {
     private final String BEARER = "Bearer ";
 
     private final JwtValidator jwtValidator;
-    private final AppUserService appUserService;
+    private final UserService userService;
 
-    public JwtFilter(JwtValidator jwtValidator, AppUserService appUserService) {
+    public JwtFilter(JwtValidator jwtValidator, UserService userService) {
         this.jwtValidator = jwtValidator;
-        this.appUserService = appUserService;
+        this.userService = userService;
     }
 
     @Override
@@ -36,11 +38,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String bearer = request.getHeader(AUTHORIZATION_HEADER);
         String token = (StringUtils.hasText(bearer) && bearer.startsWith(BEARER)) ? bearer.substring(7) : null;
-
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             if (jwtValidator.isValid(token)) { // 토큰이 유효하다면
                 Long userId = jwtValidator.subject(token).get();
-                AppUserDto user = appUserService.getAppUser(userId);
+                UserDto user = userService.getUser(userId);
 
                 CustomUserPrincipal principal = new CustomUserPrincipal(
                         user.getId(),

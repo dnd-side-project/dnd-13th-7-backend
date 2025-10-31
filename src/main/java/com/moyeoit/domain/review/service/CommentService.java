@@ -6,8 +6,8 @@ import com.moyeoit.domain.review.domain.PremiumReview;
 import com.moyeoit.domain.review.domain.PremiumReviewComment;
 import com.moyeoit.domain.review.repository.PremiumReviewCommentRepository;
 import com.moyeoit.domain.review.repository.PremiumReviewRepository;
-import com.moyeoit.domain.user.domain.AppUser;
-import com.moyeoit.domain.user.repository.AppUserRepository;
+import com.moyeoit.domain.user.domain.User;
+import com.moyeoit.domain.user.repository.UserRepository;
 import com.moyeoit.domain.user.service.dto.AppUserDto;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ReviewErrorCode;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class CommentService {
 
     private final PremiumReviewRepository premiumReviewRepository;
-    private final AppUserRepository appUserRepository;
+    private final UserRepository userRepository;
     private final PremiumReviewCommentRepository premiumReviewCommentRepository;
 
     public List<CommentResponse> getCommentOfPremiumReview(Long premiumReviewId) {
@@ -68,12 +68,12 @@ public class CommentService {
         PremiumReview premiumReview = premiumReviewRepository.findById(premiumReviewId)
                 .orElseThrow(() -> new AppException(ReviewErrorCode.NOT_FOUND));
 
-        AppUser appUser = appUserRepository.findById(appUserId)
+        User user = userRepository.findById(appUserId)
                 .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
 
         PremiumReviewComment comment = PremiumReviewComment.builder()
                 .premiumReview(premiumReview)
-                .appUser(appUser)
+                .appUser(user)
                 .content(request.getContent())
                 .parentCommentId(request.getParentCommentId())
                 .build();

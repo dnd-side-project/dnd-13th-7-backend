@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
+@Table(name = "tb_term")
 public class Term {
 
     @Id

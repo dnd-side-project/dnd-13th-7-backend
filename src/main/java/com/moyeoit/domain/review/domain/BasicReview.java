@@ -1,8 +1,8 @@
 package com.moyeoit.domain.review.domain;
 
 import com.moyeoit.domain.club.entity.Club;
-import com.moyeoit.domain.user.domain.AppUser;
 import com.moyeoit.domain.user.domain.Job;
+import com.moyeoit.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +20,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "tb_basic_review")
 public class BasicReview {
 
     @Id
@@ -36,7 +37,7 @@ public class BasicReview {
     private Job job;
 
     @ManyToOne
-    private AppUser user;
+    private User user;
 
     private Double rate;
 

@@ -1,7 +1,7 @@
 package com.moyeoit.domain.club.controller.response;
 
 import com.moyeoit.domain.club.entity.Club;
-import com.moyeoit.domain.club.entity.Position;
+import com.moyeoit.domain.club.entity.position.ClubPosition;
 import java.util.List;
 
 public record ClubListResponse(
@@ -15,9 +15,9 @@ public record ClubListResponse(
         return new ClubListResponse(
                 club.getId(),
                 club.getName(),
-                club.getBio(),
-                club.getPosition().stream().map(Position::getPositionName).toList(),
-                club.getImageUrl(),
+                club.getClubProfile().getBio(),
+                club.getPositions().stream().map(ClubPosition::getName).toList(),
+                club.getClubProfile().getImageUrl(),
                 club.getRecruiting()
         );
     }

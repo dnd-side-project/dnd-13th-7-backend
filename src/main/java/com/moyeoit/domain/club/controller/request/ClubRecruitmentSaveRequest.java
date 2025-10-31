@@ -24,7 +24,7 @@ public class ClubRecruitmentSaveRequest {
                 .recruitmentSchedule(request.getRecruitmentSchedule())
                 .activityPeriod(request.getActivityPeriod())
                 .activityMethod(request.getActivityMethod())
-                .activityFee(request.getActivityFee())
+                .activityFee(Long.valueOf(request.getActivityFee()))
                 .homepageUrl(request.getHomepageUrl())
                 .noticeUrl(request.getNoticeUrl())
                 .build();

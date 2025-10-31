@@ -14,7 +14,7 @@ CREATE TABLE `club`
 (
     `id`                BIGINT AUTO_INCREMENT PRIMARY KEY,
     `name`              VARCHAR(255),
-    `position`          VARCHAR(255),
+    `clubPosition`          VARCHAR(255),
     `slogan`            VARCHAR(255),
     `bio`               TEXT,
     `establishment`     INT,

@@ -2,7 +2,8 @@ package com.moyeoit.domain.review.repository;
 
 import com.moyeoit.domain.review.domain.ReviewLike;
 import com.moyeoit.domain.review.domain.ReviewType;
-import com.moyeoit.domain.user.domain.AppUser;
+
+import com.moyeoit.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
-    Optional<ReviewLike> findReviewLikeByAppUserAndReviewIdAndReviewType(AppUser appUser, Long reviewId,
+    Optional<ReviewLike> findReviewLikeByAppUserAndReviewIdAndReviewType(User appUser, Long reviewId,
                                                                          ReviewType reviewType);
 
     Integer countByReviewIdAndReviewType(Long reviewId, ReviewType reviewType);

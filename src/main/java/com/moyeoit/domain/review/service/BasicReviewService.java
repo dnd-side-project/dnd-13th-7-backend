@@ -14,9 +14,9 @@ import com.moyeoit.domain.review.domain.enums.AnswerType;
 import com.moyeoit.domain.review.repository.BasicReviewDetailRepository;
 import com.moyeoit.domain.review.repository.BasicReviewRepository;
 import com.moyeoit.domain.review.repository.QuestionRepository;
-import com.moyeoit.domain.user.domain.AppUser;
 import com.moyeoit.domain.user.domain.Job;
-import com.moyeoit.domain.user.repository.AppUserRepository;
+import com.moyeoit.domain.user.domain.User;
+import com.moyeoit.domain.user.repository.UserRepository;
 import com.moyeoit.domain.user.repository.JobRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ClubErrorCode;
@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BasicReviewService {
 
-    private final AppUserRepository appUserRepository;
+    private final UserRepository userRepository;
     private final ClubRepository clubRepository;
     private final JobRepository jobRepository;
     private final BasicReviewRepository basicReviewRepository;
@@ -47,7 +47,7 @@ public class BasicReviewService {
     @Transactional
     public void createBasicReview(BasicReviewCreateRequest request, Long userId) {
         // 유저 조회
-        AppUser user = appUserRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
 
         // 동아리 조회
@@ -78,7 +78,7 @@ public class BasicReviewService {
     }
 
 
-    private BasicReviewDetail createBasicDetail(BasicReview review, AnswerRequest request, AppUser user) {
+    private BasicReviewDetail createBasicDetail(BasicReview review, AnswerRequest request, User user) {
         Question question = questionRepository.findById(request.getQuestionId())
                 .orElseThrow(() -> new AppException(QuestionErrorCode.NOT_FOUND));
 

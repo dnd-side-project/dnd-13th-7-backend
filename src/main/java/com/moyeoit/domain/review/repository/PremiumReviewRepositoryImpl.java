@@ -23,7 +23,7 @@ import java.util.List;
 import static com.moyeoit.domain.club.entity.QClub.club;
 import static com.moyeoit.domain.review.domain.QPremiumReview.premiumReview;
 import static com.moyeoit.domain.review.domain.QPremiumReviewComment.premiumReviewComment;
-import static com.moyeoit.domain.user.domain.QAppUser.appUser;
+import static com.moyeoit.domain.user.domain.QUser.user;
 import static com.moyeoit.domain.user.domain.QJob.job;
 
 @Repository
@@ -54,7 +54,7 @@ public class PremiumReviewRepositoryImpl implements PremiumReviewRepositoryCusto
                         premiumReviewComment.id.count().intValue()
                 ))
                 .from(premiumReview)
-                .join(premiumReview.user, appUser)
+                .join(premiumReview.user, user)
                 .join(premiumReview.club, club)
                 .join(premiumReview.job, job)
                 .leftJoin(premiumReviewComment).on(premiumReviewComment.premiumReview.eq(premiumReview))

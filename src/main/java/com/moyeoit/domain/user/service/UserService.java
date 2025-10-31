@@ -5,8 +5,10 @@ import com.moyeoit.domain.user.controller.response.ActivateResponse;
 import com.moyeoit.domain.user.domain.Term;
 import com.moyeoit.domain.user.domain.User;
 import com.moyeoit.domain.user.domain.repository.UserRepository;
+import com.moyeoit.domain.user.infra.query.QueryUserRepository;
 import com.moyeoit.domain.user.repository.JobRepository;
 import com.moyeoit.domain.user.service.dto.UserDto;
+import com.moyeoit.domain.user.service.dto.UserProfileResponse;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.UserErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final JobRepository jobRepository;
     private final TermService termService;
+    private final QueryUserRepository queryUserRepository;
 
     @Transactional(readOnly = true)
     public UserDto getUser(Long id) {
@@ -40,7 +43,6 @@ public class UserService {
         user.updateProfileImage(profileImageUrl);
         return UserDto.of(user);
     }
-
 
     /**
      * 유저 활성화
@@ -73,5 +75,11 @@ public class UserService {
 
         return ActivateResponse.from(user);
     }
+
+    public UserProfileResponse getProfile(Long userId) {
+        return queryUserRepository.findUserWithJob(userId)
+                .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+    }
+
 
 }

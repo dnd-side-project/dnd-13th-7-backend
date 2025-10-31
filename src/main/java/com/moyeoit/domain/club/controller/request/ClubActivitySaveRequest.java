@@ -1,11 +1,10 @@
 package com.moyeoit.domain.club.controller.request;
 
 import com.moyeoit.domain.club.entity.Club;
-import com.moyeoit.domain.club.entity.ClubActivity;
+import com.moyeoit.domain.club.entity.activity.ClubActivity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
@@ -22,10 +21,10 @@ public class ClubActivitySaveRequest {
         return ClubActivity.builder()
                 .club(club)
                 .hashtag(request.getHashtag())
-                .activityName(request.getActivityName())
-                .activityDescribe(request.getActivityDescribe())
+                .name(request.getActivityName())
+                .description(request.getActivityDescribe())
                 .imageUrl(request.getImageUrl())
-                .activityOrder(request.getActivityOrder())
+                .sequence(request.getActivityOrder())
                 .build();
     }
 }

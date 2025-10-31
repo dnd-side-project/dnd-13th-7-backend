@@ -14,6 +14,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClubRepository extends JpaRepository<Club, Long>, ClubRepositoryCustom{
 
+    @Query("SELECT c FROM Club c LEFT JOIN FETCH c.recruitment WHERE c.id = :clubId")
+    Optional<Club> findClubWithRecruitmentById(@Param("clubId") Long clubId);
+
+    @Query("SELECT c FROM Club c LEFT JOIN FETCH c.activities WHERE c.id = :clubId")
+    Optional<Club> findClubWithActivitiesById(@Param("clubId") Long clubId);
+
     @Query("SELECT s.club FROM ClubSubscribe s WHERE s.user.id = :userId")
     Page<Club> findSubscribedClubs(@Param("userId") Long userId, Pageable pageable);
 
