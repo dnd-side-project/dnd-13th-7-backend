@@ -1,19 +1,17 @@
 package com.moyeoit.domain.review.controller;
 
-import com.moyeoit.domain.review.controller.request.BasicReviewCreateRequest;
-import com.moyeoit.domain.review.controller.request.PremiumReviewCreateRequest;
-import com.moyeoit.domain.review.controller.response.PremiumReviewResponse;
-import com.moyeoit.domain.review.service.BasicReviewService;
-import com.moyeoit.domain.review.service.PremiumReviewService;
+import com.moyeoit.domain.review.controller.request.v2.ReviewCreateRequest;
+import com.moyeoit.domain.review.controller.response.v2.ReviewMetadata;
+import com.moyeoit.domain.review.controller.response.v2.ReviewSummary;
+import com.moyeoit.domain.review.controller.response.v2.ReviewView;
+import com.moyeoit.domain.review.service.ReviewServiceV2;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.Map;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,34 +19,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1/review")
-@Tag(name = "후기 API", description = "일반/프리미엄 후기를 작성하고 관리하는 API 입니다.")
-public class ReviewController implements ReviewAPI {
+@Tag(name = "리뷰 API", description = "리뷰를 작성하고 관리하는 API 입니다.")
+public class ReviewController {
 
-    private final BasicReviewService basicReviewService;
-    private final PremiumReviewService premiumReviewService;
+    private final ReviewServiceV2 reviewServiceV2;
 
-    @GetMapping("/premium/{premiumReviewId}")
-    public ResponseEntity<ApiResponse<PremiumReviewResponse>> getPremiumReview(@PathVariable Long premiumReviewId) {
-        PremiumReviewResponse response = premiumReviewService.getPremiumReview(premiumReviewId);
-        return ResponseEntity.ok(ApiResponse.success(response));
+    @GetMapping("/{reviewId}")
+    public ApiResponse<ReviewView> getReview(@PathVariable Long reviewId) {
+        ReviewView response = reviewServiceV2.getReview(reviewId);
+        return ApiResponse.success(response);
     }
 
-    @PostMapping("/basic")
-    public ResponseEntity<?> createBasicReview(@RequestBody BasicReviewCreateRequest request,
-                                               @Parameter(hidden = true) @CurrentUser AccessUser user) {
-        basicReviewService.createBasicReview(request, user.getId());
-        return ResponseEntity.ok("");
+    @GetMapping
+    public ApiResponse<List<ReviewSummary>> search() {
+        List<ReviewSummary> response = reviewServiceV2.getReivews(null);
+        return ApiResponse.success(response);
     }
 
-    @PostMapping("/premium")
-    public ResponseEntity<ApiResponse<?>> createPremiumReview(@RequestBody PremiumReviewCreateRequest reviewCreateRequest,
-                                                 @Parameter(hidden = true) @CurrentUser AccessUser user) {
-        Long savedReviewId = premiumReviewService.createPremiumReview(reviewCreateRequest, user.getId());
-        return ResponseEntity.ok(ApiResponse.success("리뷰 저장에 성공하였습니다", Map.of("savedReviewId",savedReviewId)));
+    @PostMapping
+    public void createReview(@RequestBody ReviewCreateRequest request,
+                             @CurrentUser AccessUser user) {
+        reviewServiceV2.createReview(request, user.getId());
     }
 
 }

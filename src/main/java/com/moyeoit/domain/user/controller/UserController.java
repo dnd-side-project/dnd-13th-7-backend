@@ -2,8 +2,7 @@ package com.moyeoit.domain.user.controller;
 
 import com.moyeoit.domain.file.controller.response.FileUploadRequest;
 import com.moyeoit.domain.review.controller.request.MyReviewSearchRequest;
-import com.moyeoit.domain.review.controller.response.ReviewResponse;
-import com.moyeoit.domain.review.service.ReviewService;
+//import com.moyeoit.domain.review.service.ReviewService;
 import com.moyeoit.domain.user.controller.request.ActivateRequest;
 import com.moyeoit.domain.user.controller.response.ActivateResponse;
 import com.moyeoit.domain.user.service.UserService;
@@ -29,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "회원 API", description = "회원 및 마이페이지 관련 API")
 public class UserController {
 
-    private final ReviewService reviewService;
+//    private final ReviewService reviewService;
     private final UserService userService;
 
     @GetMapping("/me")
@@ -93,12 +92,12 @@ public class UserController {
 //        return ResponseEntity.ok(ApiResponse.success(response));
 //    }
 
-    @GetMapping("/review")
-    public ResponseEntity<ApiResponse<Page<ReviewResponse>>> getReview(@ModelAttribute MyReviewSearchRequest request,
-                                                                       @ParameterObject Pageable pageable,
-                                                                       @Parameter(hidden = true) @CurrentUser AccessUser user) {
-        Page<ReviewResponse> response = reviewService.getReview(request, user.getId(), pageable);
-        return ResponseEntity.ok(ApiResponse.success(response));
-    }
+//    @GetMapping("/review")
+//    public ResponseEntity<ApiResponse<Page<ReviewResponse>>> getReview(@ModelAttribute MyReviewSearchRequest request,
+//                                                                       @ParameterObject Pageable pageable,
+//                                                                       @Parameter(hidden = true) @CurrentUser AccessUser user) {
+//        Page<ReviewResponse> response = reviewService.getReview(request, user.getId(), pageable);
+//        return ResponseEntity.ok(ApiResponse.success(response));
+//    }
 
 }

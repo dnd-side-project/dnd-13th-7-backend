@@ -1,0 +1,20 @@
+package com.moyeoit.domain.review.controller.response.v2;
+
+import com.moyeoit.domain.club.dto.ClubWithNameAndImageUrlDto;
+import com.moyeoit.domain.user.service.dto.JobDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class ReviewMetadata {
+
+    private JobDto job;
+    private ClubWithNameAndImageUrlDto club;
+    private Integer generation;
+
+}

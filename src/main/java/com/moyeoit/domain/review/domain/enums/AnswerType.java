@@ -5,6 +5,8 @@ public enum AnswerType {
     INTEGER,
     DOUBLE,
     TEXT,
-    ARRAY_INTEGER;
+    ARRAY_TEXT,
+    ARRAY_INTEGER
+    ;
 
 }
