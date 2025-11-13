@@ -8,6 +8,8 @@ import com.moyeoit.domain.review.controller.response.QuestionResponse;
 import com.moyeoit.domain.review.controller.response.v2.*;
 import com.moyeoit.domain.review.domain.enums.AnswerType;
 import com.moyeoit.domain.review.domain.enums.QuestionType;
+import com.moyeoit.domain.review.service.dto.ReviewOptionSummaryDto;
+import com.moyeoit.domain.review.service.dto.ReviewQuestionSummaryDto;
 import com.moyeoit.domain.user.service.dto.JobDto;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.ConstructorExpression;
@@ -18,7 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.awt.print.Pageable;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.moyeoit.domain.club.entity.QClub.club;
@@ -33,12 +38,12 @@ import static com.querydsl.core.types.Projections.list;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class ReviewRepositoryImpl {
+public class QueryReviewRepository {
 
     private final JPAQueryFactory queryFactory;
     private final ObjectMapper objectMapper;
 
-    public OriginalReviewDetailView findReviewById(Long reviewId)  {
+    public OriginalReviewDetailView findReviewById(Long reviewId) {
         ReviewMetadata view = queryFactory
                 .select(createReviewDetailView())
                 .from(review)
@@ -73,6 +78,53 @@ public class ReviewRepositoryImpl {
 //                list(Projections.constructor())
 //                )
 //    }
+
+    /**
+     * Question ID 목록으로 Question과 Option 목록을 조회합니다.
+     *
+     * @param questionIds
+     */
+    public List<ReviewQuestionSummaryDto> findQuestionWithOptionsByQuestionIds(List<Long> questionIds) {
+        return queryFactory
+                .from(reviewQuestion)
+                .leftJoin(reviewOption).on(reviewOption.question.id.eq(reviewQuestion.id))
+                .where(reviewQuestion.id.in(questionIds))
+                .transform(
+                        groupBy(reviewQuestion.id).list(
+                                Projections.constructor(ReviewQuestionSummaryDto.class,
+                                        reviewQuestion.id,
+                                        reviewQuestion.title,
+                                        list(
+                                                Projections.constructor(ReviewOptionSummaryDto.class,
+                                                        reviewOption.title,
+                                                        reviewOption.description,
+                                                        reviewOption.sequence)
+                                        ))
+                        )
+                );
+    }
+
+    public ReviewQuestionSummaryDto findQuestionWithOptionByQuestionId(Long questionId) {
+        return queryFactory
+                .select(Projections.constructor(
+                        ReviewQuestionSummaryDto.class,
+                        reviewQuestion.id,
+                        reviewQuestion.title,
+                        list(
+                                Projections.constructor(
+                                        ReviewOptionSummaryDto.class,
+                                        reviewOption.title,
+                                        reviewOption.description,
+                                        reviewOption.sequence
+                                )
+                        )
+                ))
+                .from(reviewQuestion)
+                .leftJoin(reviewOption).on(reviewOption.question.id.eq(reviewQuestion.id))
+                .where(reviewQuestion.id.eq(questionId))
+                .fetchOne();
+    }
+
 
     public List<ReviewSummary> search(ReviewPagingRequest request, Pageable pageable) {
 

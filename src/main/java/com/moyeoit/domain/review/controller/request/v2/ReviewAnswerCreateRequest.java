@@ -2,7 +2,6 @@ package com.moyeoit.domain.review.controller.request.v2;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.moyeoit.domain.review.controller.request.answer.SubjectiveAnswer;
 import com.moyeoit.domain.review.domain.enums.QuestionType;
 
 @JsonTypeInfo(
@@ -21,5 +20,9 @@ import com.moyeoit.domain.review.domain.enums.QuestionType;
 public interface ReviewAnswerCreateRequest {
 
     QuestionType getQuestionType();
+
+    Long getQuestionId();
+
+    Integer getSequence();
 
 }

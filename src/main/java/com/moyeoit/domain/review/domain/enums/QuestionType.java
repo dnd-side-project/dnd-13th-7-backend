@@ -14,4 +14,14 @@ public enum QuestionType {
         this.name = name;
     }
 
+    public boolean isChoice() {
+        if (this.equals(MULTIPLE_CHOICE) || this.equals(SINGLE_CHOICE)) return true;
+        return false;
+    }
+
+    public boolean isSubjective() {
+        if (this.equals(MULTIPLE_SUBJECTIVE) || this.equals(SINGLE_SUBJECTIVE)) return true;
+        return false;
+    }
+    
 }
