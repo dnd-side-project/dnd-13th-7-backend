@@ -35,4 +35,7 @@ public class ReviewAnswer extends BaseEntity {
     @Column(name = "numeric_value")
     private Double numericValue;
 
+    @Column(name = "sequence")
+    private Integer sequence;
+
 }
