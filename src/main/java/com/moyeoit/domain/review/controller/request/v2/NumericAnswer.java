@@ -21,4 +21,6 @@ public class NumericAnswer implements ReviewAnswerCreateRequest {
 
     private Double value;
 
+    private Integer sequence;
+
 }

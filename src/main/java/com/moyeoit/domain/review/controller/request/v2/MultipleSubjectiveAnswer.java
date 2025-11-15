@@ -23,4 +23,6 @@ public class MultipleSubjectiveAnswer implements ReviewAnswerCreateRequest {
 
     private List<String> value;
 
+    private Integer sequence;
+
 }

@@ -21,4 +21,6 @@ public class SingleChoiceAnswerV2 implements ReviewAnswerCreateRequest {
 
     private Integer value;
 
+    private Integer sequence;
+
 }

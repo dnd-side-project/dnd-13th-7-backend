@@ -23,4 +23,6 @@ public class MultipleChoiceAnswerV2 implements ReviewAnswerCreateRequest {
 
     private List<Integer> value;
 
+    private Integer sequence;
+
 }

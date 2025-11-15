@@ -20,4 +20,6 @@ public class SingleSubjectiveAnswer implements ReviewAnswerCreateRequest {
     private QuestionType questionType;
     private String value;
 
+    private Integer sequence;
+
 }
