@@ -12,6 +12,7 @@ import com.moyeoit.domain.review.domain.v2.ReviewAnswer;
 import com.moyeoit.domain.review.infra.QueryReviewRepository;
 import com.moyeoit.domain.review.infra.ReviewAnswerRepository;
 import com.moyeoit.domain.review.infra.ReviewRepository;
+import com.moyeoit.domain.review.infra.generator.ReviewAnswerGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class ReviewServiceV2 {
     private final ReviewRepository reviewRepository;
     private final ReviewAnswerRepository reviewAnswerRepository;
     private final ReviewAnswerConverter reviewAnswerConverter;
+    private final ReviewAnswerGenerator reviewAnswerGenerator;
     private final QueryReviewRepository queryReviewRepository;
 
     private final ReviewSummaryService reviewSummaryService;
@@ -42,7 +44,7 @@ public class ReviewServiceV2 {
                 .build();
 
         Review savedReview = reviewRepository.save(review);
-        List<ReviewAnswer> answers = reviewAnswerConverter.generate(review, req.getAnswers());
+        List<ReviewAnswer> answers = reviewAnswerGenerator.generate(review, req.getAnswers());
 
         reviewAnswerRepository.saveAll(answers);
         reviewSummaryService.createReviewSummary(savedReview, req.getAnswers());
