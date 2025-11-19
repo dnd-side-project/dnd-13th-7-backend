@@ -1,29 +1,25 @@
-package com.moyeoit.domain.review.controller.request.v2;
+package com.moyeoit.domain.review.presentation.request;
 
 import com.moyeoit.domain.review.domain.enums.ReviewCategory;
 import com.moyeoit.domain.review.domain.enums.ReviewResult;
+import com.moyeoit.domain.review.domain.enums.ReviewSort;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewCreateRequest {
+public class ReviewSearchRequest {
 
     private String title;
     private ReviewCategory category;
-    private Double rate;
-    private ReviewResult result;
-    private Integer generation;
-
     private Long clubId;
-    private Long jobId;
+    private Integer generation;
+    private ReviewResult result;
 
-    private List<ReviewAnswerCreateRequest> answers;
+    private ReviewSort sort = ReviewSort.LATEST;
 
 }

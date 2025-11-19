@@ -4,9 +4,9 @@ import com.moyeoit.domain.review.controller.request.v2.MultipleChoiceAnswerV2;
 import com.moyeoit.domain.review.controller.request.v2.ReviewAnswerCreateRequest;
 import com.moyeoit.domain.review.controller.request.v2.SingleChoiceAnswerV2;
 import com.moyeoit.domain.review.controller.request.v2.SingleSubjectiveAnswer;
-import com.moyeoit.domain.review.domain.ReviewContentSummary;
 import com.moyeoit.domain.review.domain.enums.QuestionType;
-import com.moyeoit.domain.review.domain.v2.Review;
+import com.moyeoit.domain.review.domain.model.Review;
+import com.moyeoit.domain.review.domain.model.ReviewContentSummary;
 import com.moyeoit.domain.review.infra.QueryReviewRepository;
 import com.moyeoit.domain.review.repository.ReviewSummaryRepository;
 import com.moyeoit.domain.review.service.dto.ReviewOptionSummaryDto;
@@ -30,10 +30,36 @@ public class ReviewSummaryService {
     private final QueryReviewRepository queryReviewRepository;
     private final ReviewSummaryRepository reviewSummaryRepository;
 
+    /**
+     *
+     * @param originalReview 리뷰 데이터
+     * @param requests       유저가 작성한 리뷰 질문/답변 데이터
+     * @return
+     */
     public Long createReviewSummary(Review originalReview, List<ReviewAnswerCreateRequest> requests) {
+        // 1) 객관식 대표 답변 요약 생성
+        List<String> choiceSummaries = createChoiceSummary(requests);
 
-        // 1) 객관식 답변 변환
+        // 2) 주관식 대표 답변 요약 생성
+        String subjectiveSummary = createSubjectiveSummary(requests);
 
+        // 3) 리뷰 요약 데이터를 생성합니다.
+        ReviewContentSummary reviewContentSummary = ReviewContentSummary.builder()
+                .review(originalReview)
+                .choiceSummary(choiceSummaries)
+                .subjectiveSummary(subjectiveSummary)
+                .build();
+
+        reviewSummaryRepository.save(reviewContentSummary);
+        return reviewContentSummary.getId();
+    }
+
+    /**
+     * 객관식 답변의 요약을 생성합니다.
+     *
+     * @param requests 유저가 작성한 리뷰 질문/답변 데이터
+     */
+    private List<String> createChoiceSummary(List<ReviewAnswerCreateRequest> requests) {
         // 1-1) 객관식 질문/답변만 추출
         List<ReviewAnswerCreateRequest> choiceQnas = requests.stream()
                 .filter(req -> req.getQuestionType().isChoice())
@@ -46,16 +72,22 @@ public class ReviewSummaryService {
 
         // 1-3) 객관식 질문/답변과 연관된 Question ID 기반의 Question 및 Option 데이터 조회 후 유저의 선택과 맞는 Option의 title 추출
         List<ReviewQuestionSummaryDto> reviewQuestionSummariesOfChoice = queryReviewRepository.findQuestionWithOptionsByQuestionIds(choiceQuestionIds);
-        List<String> choiceSummaries = requests.stream()
+
+        return choiceQnas.stream()
                 .map(req -> resolveChoiceSummary(reviewQuestionSummariesOfChoice, req))
                 .flatMap(List::stream)
                 .toList();
+    }
 
-
+    /**
+     * 주관식 답변의 요약을 생성합니다.
+     *
+     * @param requests
+     */
+    private String createSubjectiveSummary(List<ReviewAnswerCreateRequest> requests) {
         // 2) 주관식 대표 답변 변환
-        // TODO: 한줄평만 가지고 오는건 확장적이지 않음. 코드를 부여해서 그 코드를 지정하는 방법으로 해야함.
         // 2-1) 주관식 답변인 것들 중 처음으로 오는 주관식 답변을 조회합니다.
-
+        // TODO: 한줄평만 가지고 오기 위해 SINGLE_SUBJECTIVE 답변과 그 중 sequence가 가장 낮은 데이터를 가지고 온다.
         SingleSubjectiveAnswer subjectiveQna = (SingleSubjectiveAnswer) requests.stream()
                 .filter(req -> req.getQuestionType() == QuestionType.SINGLE_SUBJECTIVE || req instanceof SingleSubjectiveAnswer)
                 .min(Comparator.comparing(ReviewAnswerCreateRequest::getSequence))
@@ -63,17 +95,7 @@ public class ReviewSummaryService {
 
         // 2-2) 해당 답변의 Question ID로 Question.title을 가져와서 '질문|v|답변' 으로 변환합니다.
         ReviewQuestionSummaryDto reviewQuestionSummaryOfSubjective = queryReviewRepository.findQuestionWithOptionByQuestionId(subjectiveQna.getQuestionId());
-        String subjectiveSummary = reviewQuestionSummaryOfSubjective.getTitle() + "|v|" + subjectiveQna.getValue();
-
-        // 3) 리뷰 요약 데이터를 생성합니다.
-        ReviewContentSummary reviewContentSummary = ReviewContentSummary.builder()
-                .review(originalReview)
-                .choiceSummary(choiceSummaries)
-                .subjectiveSummary(subjectiveSummary)
-                .build();
-
-        reviewSummaryRepository.save(reviewContentSummary);
-        return reviewContentSummary.getId();
+        return reviewQuestionSummaryOfSubjective.getTitle() + "|v|" + subjectiveQna.getValue();
     }
 
 

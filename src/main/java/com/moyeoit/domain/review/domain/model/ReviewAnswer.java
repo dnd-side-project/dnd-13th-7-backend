@@ -1,4 +1,4 @@
-package com.moyeoit.domain.review.domain.v2;
+package com.moyeoit.domain.review.domain.model;
 
 import com.moyeoit.domain.review.domain.enums.AnswerType;
 import com.moyeoit.global.base.BaseEntity;

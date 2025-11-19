@@ -2,6 +2,8 @@ package com.moyeoit.domain.review.controller.request.v2;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.moyeoit.domain.review.domain.enums.QuestionType;
 
 @JsonTypeInfo(
@@ -17,6 +19,7 @@ import com.moyeoit.domain.review.domain.enums.QuestionType;
         @JsonSubTypes.Type(value = MultipleChoiceAnswerV2.class, name = "MULTIPLE_CHOICE"),
         @JsonSubTypes.Type(value = NumericAnswer.class, name = "NUMERIC"),
 })
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public interface ReviewAnswerCreateRequest {
 
     QuestionType getQuestionType();

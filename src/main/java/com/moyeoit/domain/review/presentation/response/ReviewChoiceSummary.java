@@ -1,4 +1,4 @@
-package com.moyeoit.domain.review.controller.request;
+package com.moyeoit.domain.review.presentation.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentCreateRequest {
+public class ReviewChoiceSummary {
 
-    private String content;
-    private Long parentCommentId;
+    private String questionTitleSummary;
+    private String answerSummary;
 
 }

@@ -2,8 +2,8 @@ package com.moyeoit.domain.review.infra.generator;
 
 import com.moyeoit.domain.review.controller.request.v2.*;
 import com.moyeoit.domain.review.domain.enums.AnswerType;
-import com.moyeoit.domain.review.domain.v2.Review;
-import com.moyeoit.domain.review.domain.v2.ReviewAnswer;
+import com.moyeoit.domain.review.domain.model.Review;
+import com.moyeoit.domain.review.domain.model.ReviewAnswer;
 import com.moyeoit.domain.review.infra.util.ArrayConverter;
 import org.springframework.stereotype.Component;
 

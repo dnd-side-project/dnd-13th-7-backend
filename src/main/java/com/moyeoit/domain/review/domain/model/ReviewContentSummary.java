@@ -1,6 +1,6 @@
-package com.moyeoit.domain.review.domain;
+package com.moyeoit.domain.review.domain.model;
 
-import com.moyeoit.domain.review.domain.v2.Review;
+import com.moyeoit.domain.review.infra.converter.ChoiceSummaryConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +17,6 @@ import java.util.List;
 @Builder
 public class ReviewContentSummary {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_content_summray_id")
@@ -27,7 +26,7 @@ public class ReviewContentSummary {
     @JoinColumn(name = "review_id")
     private Review review;
 
-    // TODO : ADD Converter
+    @Convert(converter = ChoiceSummaryConverter.class)
     @Column(name = "choice_summary")
     private List<String> choiceSummary;
 

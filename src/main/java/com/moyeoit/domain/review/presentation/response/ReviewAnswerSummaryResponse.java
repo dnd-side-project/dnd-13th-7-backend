@@ -1,4 +1,4 @@
-package com.moyeoit.domain.review.controller.response;
+package com.moyeoit.domain.review.presentation.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class QuestionElementResponse {
+public class ReviewAnswerSummaryResponse {
 
-    private Long id;
     private String title;
-    private Integer sequence;
+    private String answer;
 
 }
