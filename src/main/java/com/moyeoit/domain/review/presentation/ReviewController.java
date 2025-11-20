@@ -1,9 +1,10 @@
 package com.moyeoit.domain.review.presentation;
 
-import com.moyeoit.domain.review.controller.request.v2.ReviewCreateRequest;
-import com.moyeoit.domain.review.controller.response.v2.ReviewView;
+import com.moyeoit.domain.review.presentation.request.ReviewCreateRequest;
 import com.moyeoit.domain.review.presentation.request.ReviewSearchRequest;
 import com.moyeoit.domain.review.presentation.response.ReviewSummaryResponse;
+import com.moyeoit.domain.review.presentation.response.ReviewView;
+import com.moyeoit.domain.review.service.ReviewLikeService;
 import com.moyeoit.domain.review.service.ReviewService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewController implements ReviewAPI {
 
     private final ReviewService reviewService;
+    private final ReviewLikeService reviewLikeService;
 
     @GetMapping("/{reviewId}")
     public ApiResponse<ReviewView> getReview(@PathVariable Long reviewId) {
@@ -35,6 +37,11 @@ public class ReviewController implements ReviewAPI {
     public void createReview(@RequestBody ReviewCreateRequest request,
                              @CurrentUser AccessUser user) {
         reviewService.createReview(request, user.getId());
+    }
+
+    @PostMapping("/like/{reviewId}")
+    public void likeReview(@RequestParam Long reviewId, @CurrentUser AccessUser user) {
+        reviewLikeService.toggleLike(reviewId, user.getId());
     }
 
     @GetMapping("/search")

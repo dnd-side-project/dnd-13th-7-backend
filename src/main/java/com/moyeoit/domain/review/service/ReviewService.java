@@ -1,9 +1,7 @@
 package com.moyeoit.domain.review.service;
 
-import com.moyeoit.domain.review.controller.request.v2.ReviewCreateRequest;
 import com.moyeoit.domain.review.controller.response.v2.OriginalReviewDetailView;
 import com.moyeoit.domain.review.controller.response.v2.ReviewAnswerResponse;
-import com.moyeoit.domain.review.controller.response.v2.ReviewView;
 import com.moyeoit.domain.review.domain.model.Review;
 import com.moyeoit.domain.review.domain.model.ReviewAnswer;
 import com.moyeoit.domain.review.domain.service.ReviewAnswerConverter;
@@ -11,8 +9,10 @@ import com.moyeoit.domain.review.infra.QueryReviewRepository;
 import com.moyeoit.domain.review.infra.ReviewAnswerRepository;
 import com.moyeoit.domain.review.infra.ReviewRepository;
 import com.moyeoit.domain.review.infra.generator.ReviewAnswerGenerator;
+import com.moyeoit.domain.review.presentation.request.ReviewCreateRequest;
 import com.moyeoit.domain.review.presentation.request.ReviewSearchRequest;
 import com.moyeoit.domain.review.presentation.response.ReviewSummaryResponse;
+import com.moyeoit.domain.review.presentation.response.ReviewView;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ReviewErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +34,7 @@ public class ReviewService {
     private final ReviewAnswerConverter reviewAnswerConverter;
     private final ReviewAnswerGenerator reviewAnswerGenerator;
     private final QueryReviewRepository queryReviewRepository;
+    private final ReviewLikeService reviewLikeService;
 
     private final ReviewSummaryService reviewSummaryService;
 
