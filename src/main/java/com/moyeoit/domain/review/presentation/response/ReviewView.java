@@ -1,6 +1,8 @@
-package com.moyeoit.domain.review.controller.response.v2;
+package com.moyeoit.domain.review.presentation.response;
 
 import com.moyeoit.domain.club.dto.ClubWithNameAndImageUrlDto;
+import com.moyeoit.domain.review.controller.response.v2.ReviewAnswerResponse;
+import com.moyeoit.domain.review.domain.enums.ReviewResult;
 import com.moyeoit.domain.user.service.dto.JobDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,15 +15,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewSummary {
+public class ReviewView {
 
+    private String title;
+    private Double rate;
+    private ReviewResult result;
+    private JobDto job;
     private ClubWithNameAndImageUrlDto club;
     private Integer generation;
-    private JobDto job;
-//    private Double rate;
-//    private String rateTitle;
-
-    private List<ReviewAnswerSummary> answers;
-//    private String textSummary;
+    private List<ReviewAnswerResponse> answers;
 
 }

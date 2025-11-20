@@ -11,20 +11,15 @@ import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -77,6 +72,6 @@ public class ClubController implements ClubAPI {
             @Parameter(hidden = true) @CurrentUser AccessUser user,
             @RequestParam Long clubId) {
         boolean subscribed = clubService.findOutClubSub(clubId, user.getId());
-        return ApiResponse.success("유저의 동아리 구독 사실을 확인하였습니다.",Map.of("subscribed",subscribed));
+        return ApiResponse.success("유저의 동아리 구독 사실을 확인하였습니다.", Map.of("subscribed", subscribed));
     }
 }

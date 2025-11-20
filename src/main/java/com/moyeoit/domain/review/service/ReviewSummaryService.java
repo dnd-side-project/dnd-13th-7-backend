@@ -1,13 +1,13 @@
 package com.moyeoit.domain.review.service;
 
-import com.moyeoit.domain.review.controller.request.v2.MultipleChoiceAnswerV2;
-import com.moyeoit.domain.review.controller.request.v2.ReviewAnswerCreateRequest;
-import com.moyeoit.domain.review.controller.request.v2.SingleChoiceAnswerV2;
-import com.moyeoit.domain.review.controller.request.v2.SingleSubjectiveAnswer;
 import com.moyeoit.domain.review.domain.enums.QuestionType;
 import com.moyeoit.domain.review.domain.model.Review;
 import com.moyeoit.domain.review.domain.model.ReviewContentSummary;
 import com.moyeoit.domain.review.infra.QueryReviewRepository;
+import com.moyeoit.domain.review.presentation.request.answer.MultipleChoiceAnswer;
+import com.moyeoit.domain.review.presentation.request.answer.ReviewAnswerCreateRequest;
+import com.moyeoit.domain.review.presentation.request.answer.SingleChoiceAnswer;
+import com.moyeoit.domain.review.presentation.request.answer.SingleSubjectiveAnswer;
 import com.moyeoit.domain.review.repository.ReviewSummaryRepository;
 import com.moyeoit.domain.review.service.dto.ReviewOptionSummaryDto;
 import com.moyeoit.domain.review.service.dto.ReviewQuestionSummaryDto;
@@ -113,12 +113,12 @@ public class ReviewSummaryService {
                 .orElseThrow(() -> new AppException(ReviewErrorCode.INVALID_REVIEW_WRITE_REQUEST));
 
         if (QuestionType.SINGLE_CHOICE.equals(reviewAnswer.getQuestionType())) {
-            SingleChoiceAnswerV2 answer = (SingleChoiceAnswerV2) reviewAnswer;
+            SingleChoiceAnswer answer = (SingleChoiceAnswer) reviewAnswer;
             return resolveSingleChoiceSummary(summaryDto, answer.getValue());
         }
 
         if (QuestionType.MULTIPLE_CHOICE.equals(reviewAnswer.getQuestionType())) {
-            MultipleChoiceAnswerV2 answer = (MultipleChoiceAnswerV2) reviewAnswer;
+            MultipleChoiceAnswer answer = (MultipleChoiceAnswer) reviewAnswer;
             return resolveMultipleChoiceSummary(summaryDto, answer.getValue());
         }
 

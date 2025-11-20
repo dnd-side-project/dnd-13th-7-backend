@@ -1,9 +1,9 @@
 package com.moyeoit.domain.review.presentation;
 
-import com.moyeoit.domain.review.controller.request.v2.ReviewCreateRequest;
-import com.moyeoit.domain.review.controller.response.v2.ReviewView;
+import com.moyeoit.domain.review.presentation.request.ReviewCreateRequest;
 import com.moyeoit.domain.review.presentation.request.ReviewSearchRequest;
 import com.moyeoit.domain.review.presentation.response.ReviewSummaryResponse;
+import com.moyeoit.domain.review.presentation.response.ReviewView;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;

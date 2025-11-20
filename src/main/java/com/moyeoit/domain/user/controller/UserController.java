@@ -1,8 +1,6 @@
 package com.moyeoit.domain.user.controller;
 
 import com.moyeoit.domain.file.controller.response.FileUploadRequest;
-import com.moyeoit.domain.review.controller.request.MyReviewSearchRequest;
-//import com.moyeoit.domain.review.service.ReviewService;
 import com.moyeoit.domain.user.controller.request.ActivateRequest;
 import com.moyeoit.domain.user.controller.response.ActivateResponse;
 import com.moyeoit.domain.user.service.UserService;
@@ -15,9 +13,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "회원 API", description = "회원 및 마이페이지 관련 API")
 public class UserController {
 
-//    private final ReviewService reviewService;
     private final UserService userService;
 
     @GetMapping("/me")
@@ -69,7 +63,7 @@ public class UserController {
      */
     @PostMapping("/profile/image")
     public ApiResponse<UserDto> uploadProfileImage(@RequestBody FileUploadRequest request,
-                                                                      @Parameter(hidden = true) @CurrentUser AccessUser user) {
+                                                   @Parameter(hidden = true) @CurrentUser AccessUser user) {
         UserDto userDto = userService.updateProfileImage(user.getId(), request.getFileUrl());
         return ApiResponse.success(userDto);
     }

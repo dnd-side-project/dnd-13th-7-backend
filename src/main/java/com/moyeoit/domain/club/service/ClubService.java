@@ -8,7 +8,9 @@ import com.moyeoit.domain.club.controller.response.ClubRecruitInfoResponse;
 import com.moyeoit.domain.club.dto.ClubActivityDto;
 import com.moyeoit.domain.club.dto.ClubDto;
 import com.moyeoit.domain.club.dto.ClubScheduleDto;
-import com.moyeoit.domain.club.entity.*;
+import com.moyeoit.domain.club.entity.Club;
+import com.moyeoit.domain.club.entity.ClubRecruitment;
+import com.moyeoit.domain.club.entity.ClubSubscribe;
 import com.moyeoit.domain.club.entity.activity.ClubActivity;
 import com.moyeoit.domain.club.entity.schedule.ClubSchedule;
 import com.moyeoit.domain.club.repository.ClubKeywordRepository;
@@ -39,6 +41,7 @@ public class ClubService {
 
     /**
      * 동아리 프로필/활동/일정 정보를 조회합니다.
+     *
      * @param clubId
      * @return
      */
@@ -59,6 +62,7 @@ public class ClubService {
 
     /**
      * 동아리 프로필/공고 정보를 조회합니다.
+     *
      * @param clubId
      * @return
      */
@@ -118,4 +122,5 @@ public class ClubService {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
         return clubSubscribeRepository.existsByClubAndUser(club, user);
     }
+
 }

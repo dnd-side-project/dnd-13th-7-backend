@@ -1,7 +1,8 @@
-package com.moyeoit.domain.review.controller.request.v2;
+package com.moyeoit.domain.review.presentation.request;
 
 import com.moyeoit.domain.review.domain.enums.ReviewCategory;
 import com.moyeoit.domain.review.domain.enums.ReviewResult;
+import com.moyeoit.domain.review.presentation.request.answer.ReviewAnswerCreateRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

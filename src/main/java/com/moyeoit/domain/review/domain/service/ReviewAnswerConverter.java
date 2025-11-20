@@ -1,8 +1,10 @@
 package com.moyeoit.domain.review.domain.service;
 
-import com.moyeoit.domain.review.controller.response.v2.*;
+import com.moyeoit.domain.review.controller.response.v2.OriginalReviewAnswer;
+import com.moyeoit.domain.review.controller.response.v2.ReviewAnswerResponse;
 import com.moyeoit.domain.review.domain.enums.AnswerType;
 import com.moyeoit.domain.review.infra.util.ArrayConverter;
+import com.moyeoit.domain.review.presentation.response.answer.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,7 @@
-package com.moyeoit.domain.review.controller.response.v2;
+package com.moyeoit.domain.review.presentation.response.answer;
 
 import com.moyeoit.domain.review.controller.response.QuestionResponse;
+import com.moyeoit.domain.review.controller.response.v2.ReviewAnswerResponse;
 import com.moyeoit.domain.review.domain.enums.AnswerType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

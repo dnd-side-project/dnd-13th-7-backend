@@ -1,10 +1,10 @@
 package com.moyeoit.domain.review.infra.generator;
 
-import com.moyeoit.domain.review.controller.request.v2.*;
 import com.moyeoit.domain.review.domain.enums.AnswerType;
 import com.moyeoit.domain.review.domain.model.Review;
 import com.moyeoit.domain.review.domain.model.ReviewAnswer;
 import com.moyeoit.domain.review.infra.util.ArrayConverter;
+import com.moyeoit.domain.review.presentation.request.answer.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,12 +19,12 @@ public class ReviewAnswerGenerator {
     }
 
     public ReviewAnswer generate(Review review, ReviewAnswerCreateRequest answer) {
-        if (answer instanceof SingleChoiceAnswerV2) {
-            return generateSingleChoiceAnswer(review, (SingleChoiceAnswerV2) answer);
+        if (answer instanceof SingleChoiceAnswer) {
+            return generateSingleChoiceAnswer(review, (SingleChoiceAnswer) answer);
         }
 
-        if (answer instanceof MultipleChoiceAnswerV2) {
-            return generateMultipleChoiceAnswer(review, (MultipleChoiceAnswerV2) answer);
+        if (answer instanceof MultipleChoiceAnswer) {
+            return generateMultipleChoiceAnswer(review, (MultipleChoiceAnswer) answer);
         }
 
         if (answer instanceof SingleSubjectiveAnswer) {
@@ -44,7 +44,7 @@ public class ReviewAnswerGenerator {
     /**
      * 단일 객관식 답변 생성
      */
-    private ReviewAnswer generateSingleChoiceAnswer(Review review, SingleChoiceAnswerV2 answer) {
+    private ReviewAnswer generateSingleChoiceAnswer(Review review, SingleChoiceAnswer answer) {
         return ReviewAnswer.builder()
                 .review(review)
                 .reviewQuestionId(answer.getQuestionId())
@@ -58,7 +58,7 @@ public class ReviewAnswerGenerator {
     /**
      * 다중 객관식 답변 생성 (구분자: ,)
      */
-    private ReviewAnswer generateMultipleChoiceAnswer(Review review, MultipleChoiceAnswerV2 answer) {
+    private ReviewAnswer generateMultipleChoiceAnswer(Review review, MultipleChoiceAnswer answer) {
         return ReviewAnswer.builder()
                 .review(review)
                 .reviewQuestionId(answer.getQuestionId())

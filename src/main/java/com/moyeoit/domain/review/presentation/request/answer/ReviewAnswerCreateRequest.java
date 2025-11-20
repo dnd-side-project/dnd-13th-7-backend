@@ -1,4 +1,4 @@
-package com.moyeoit.domain.review.controller.request.v2;
+package com.moyeoit.domain.review.presentation.request.answer;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -15,8 +15,8 @@ import com.moyeoit.domain.review.domain.enums.QuestionType;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SingleSubjectiveAnswer.class, name = "SINGLE_SUBJECTIVE"),
         @JsonSubTypes.Type(value = MultipleSubjectiveAnswer.class, name = "MULTIPLE_SUBJECTIVE"),
-        @JsonSubTypes.Type(value = SingleChoiceAnswerV2.class, name = "SINGLE_CHOICE"),
-        @JsonSubTypes.Type(value = MultipleChoiceAnswerV2.class, name = "MULTIPLE_CHOICE"),
+        @JsonSubTypes.Type(value = SingleChoiceAnswer.class, name = "SINGLE_CHOICE"),
+        @JsonSubTypes.Type(value = MultipleChoiceAnswer.class, name = "MULTIPLE_CHOICE"),
         @JsonSubTypes.Type(value = NumericAnswer.class, name = "NUMERIC"),
 })
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
