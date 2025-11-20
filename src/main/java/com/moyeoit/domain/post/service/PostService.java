@@ -1,6 +1,7 @@
 package com.moyeoit.domain.post.service;
 
 import com.moyeoit.domain.post.controller.request.PostCreateRequest;
+import com.moyeoit.domain.post.controller.response.PostCardResponse;
 import com.moyeoit.domain.post.model.Category;
 import com.moyeoit.domain.post.model.Post;
 import com.moyeoit.domain.post.model.PostImage;
@@ -11,6 +12,8 @@ import com.moyeoit.domain.user.domain.repository.UserRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.UserErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,5 +45,9 @@ public class PostService {
 
         Post saved = postRepository.save(post);
         return saved.getId();
+    }
+
+    public Page<PostCardResponse> getFeed(Long categoryId, Pageable pageable) {
+        return postRepository.findFeed(categoryId,pageable);
     }
 }

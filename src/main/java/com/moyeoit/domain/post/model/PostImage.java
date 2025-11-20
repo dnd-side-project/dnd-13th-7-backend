@@ -41,6 +41,9 @@ public class PostImage {
     @Column(name = "order_index")
     private Integer orderIndex;
 
+    @Builder.Default
+    private boolean isRepresentative = false;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

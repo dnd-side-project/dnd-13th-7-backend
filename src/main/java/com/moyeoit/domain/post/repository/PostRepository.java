@@ -1,7 +1,40 @@
 package com.moyeoit.domain.post.repository;
 
+import com.moyeoit.domain.post.controller.response.PostCardResponse;
 import com.moyeoit.domain.post.model.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface PostRepository extends JpaRepository<Post,Long> {
+
+    @Query(value = """
+            select new com.moyeoit.domain.post.controller.response.PostCardResponse(
+                        p.id,
+                        p.title,
+                        FUNCTION('SUBSTRING_INDEX', p.content, '\\n', 2),
+                        (select pi.imageUrl from PostImage pi where pi.post = p and pi.isRepresentative = true),
+                        p.category.id,
+                        p.category.name,
+                        p.author.nickname,
+                        p.viewCount,
+                        p.likeCount,
+                        p.commentCount,
+                        p.createdAt
+                        )
+            from Post p
+            where p.isDeleted = false
+            and (:categoryId is null or p.category.id = :categoryId)
+            order by p.createdAt desc
+            """,
+            countQuery = """
+        select count(p)
+        from Post p
+            where p.isDeleted = false
+            and (:categoryId is null or p.category.id = :categoryId)
+        """
+    )
+    Page<PostCardResponse> findFeed(@Param("categoryId") Long categoryId, Pageable pageable);
 }
