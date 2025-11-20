@@ -44,6 +44,7 @@ public class UserController {
      */
     @GetMapping("/{userId}")
     public ApiResponse<UserDto> getUser(@PathVariable Long userId) {
+        log.info("userId {}", userId);
         UserDto user = userService.getUser(userId);
         return ApiResponse.success(user);
     }

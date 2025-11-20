@@ -7,6 +7,7 @@ import com.moyeoit.domain.auth.infra.OAuthUserInfo;
 import com.moyeoit.domain.auth.infra.provider.OAuthProvider;
 import com.moyeoit.domain.user.domain.AuthProvider;
 import com.moyeoit.global.exception.AppException;
+import com.moyeoit.global.exception.code.AuthErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;

@@ -1,5 +1,6 @@
 package com.moyeoit.domain.user.infra;
 
+import com.moyeoit.domain.user.domain.AuthProvider;
 import com.moyeoit.domain.user.domain.User;
 import com.moyeoit.domain.user.domain.repository.UserRepository;
 import com.moyeoit.domain.user.infra.jpa.JpaUserRepository;
@@ -22,5 +23,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<User> findById(Long id) {
         return jpaUserRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> findByEmailAndProvider(String email, AuthProvider provider) {
+        return jpaUserRepository.findByEmailAndProvider(email, provider);
     }
 }

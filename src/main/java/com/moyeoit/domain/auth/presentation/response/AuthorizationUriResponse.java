@@ -1,4 +1,4 @@
-package com.moyeoit.global.auth.extractor;
+package com.moyeoit.domain.auth.presentation.response;
 
 import com.moyeoit.domain.user.domain.AuthProvider;
 import lombok.AllArgsConstructor;
@@ -10,10 +10,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OAuth2UserProfile {
+public class AuthorizationUriResponse {
 
-    private String name;
-    private String email;
+    private String url;
+    private String state;
     private AuthProvider provider;
-
+    
 }

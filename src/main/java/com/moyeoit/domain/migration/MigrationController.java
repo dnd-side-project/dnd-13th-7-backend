@@ -1,5 +1,6 @@
 package com.moyeoit.domain.migration;
 
+import com.moyeoit.global.auth.jwt.JwtCreateResult;
 import com.moyeoit.global.auth.jwt.JwtIssuer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +17,9 @@ public class MigrationController {
 
     @GetMapping("/get-token")
     public String getToken(@RequestParam Long userId,
-            @RequestParam String userEmail) {
-        String token = issuer.issueAccess(userId, userEmail, true);
-        return token;
+                           @RequestParam String userEmail) {
+        JwtCreateResult result = issuer.issueAccess(userId, userEmail, true);
+        return result.getAccessToken();
     }
 
 }

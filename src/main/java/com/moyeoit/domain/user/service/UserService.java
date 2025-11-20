@@ -1,7 +1,11 @@
 package com.moyeoit.domain.user.service;
 
+import com.moyeoit.domain.club.repository.ClubSubscribeRepository;
+import com.moyeoit.domain.review.repository.ReviewLikeRepository;
 import com.moyeoit.domain.user.controller.request.ActivateRequest;
 import com.moyeoit.domain.user.controller.response.ActivateResponse;
+import com.moyeoit.domain.user.controller.response.InterestsResponse;
+import com.moyeoit.domain.user.domain.AuthProvider;
 import com.moyeoit.domain.user.domain.Term;
 import com.moyeoit.domain.user.domain.User;
 import com.moyeoit.domain.user.domain.repository.UserRepository;
@@ -16,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -26,9 +32,12 @@ public class UserService {
     private final JobRepository jobRepository;
     private final TermService termService;
     private final QueryUserRepository queryUserRepository;
+    private final ReviewLikeRepository reviewLikeRepository;
+    private final ClubSubscribeRepository clubSubscribeRepository;
 
     @Transactional(readOnly = true)
     public UserDto getUser(Long id) {
+        log.info("{}", id);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
 
@@ -36,21 +45,25 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto updateProfileImage(Long userId, String profileImageUrl) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+    public UserDto findOrCreateUserFromOAuth(String name, String email, AuthProvider provider) {
+        Optional<User> user = userRepository.findByEmailAndProvider(email, provider);
 
-        user.updateProfileImage(profileImageUrl);
-        return UserDto.of(user);
+        if (user.isPresent()) {
+            return UserDto.of(user.get());
+        }
+
+        User newUser = User.builder()
+                .name(name)
+                .email(email)
+                .provider(provider)
+                .active(false)
+                .deleted(false)
+                .build();
+
+        userRepository.save(newUser);
+        return UserDto.of(newUser);
     }
 
-    /**
-     * 유저 활성화
-     *
-     * @param userId 유저 ID
-     * @param req    활성 요청 객체
-     * @return
-     */
     public UserDto activateUser(Long userId, ActivateRequest req) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
@@ -79,6 +92,23 @@ public class UserService {
     public UserProfileResponse getProfile(Long userId) {
         return queryUserRepository.findUserWithJob(userId)
                 .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+    }
+
+    @Transactional
+    public UserDto updateProfileImage(Long userId, String profileImageUrl) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+
+        user.updateProfileImage(profileImageUrl);
+        return UserDto.of(user);
+    }
+
+    public InterestsResponse getInterests(Long userId) {
+        Long likeCount = reviewLikeRepository.countByUserId(userId);
+
+        Long subscribeCount = clubSubscribeRepository.countByUserId(userId);
+
+        return new InterestsResponse(likeCount, subscribeCount);
     }
 
 
