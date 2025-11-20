@@ -1,5 +1,6 @@
 package com.moyeoit.domain.post.repository;
 
+import com.moyeoit.domain.post.controller.response.PopularPostResponse;
 import com.moyeoit.domain.post.controller.response.PostCardResponse;
 import com.moyeoit.domain.post.model.Post;
 import org.springframework.data.domain.Page;
@@ -37,4 +38,20 @@ public interface PostRepository extends JpaRepository<Post,Long> {
         """
     )
     Page<PostCardResponse> findFeed(@Param("categoryId") Long categoryId, Pageable pageable);
+
+    @Query(value = """
+            select new com.moyeoit.domain.post.controller.response.PostCardResponse(
+                p.id,
+                p.title,
+                FUNCTION('SUBSTRING_INDEX', p.content, '\\n', 2),
+                p.category.id,
+                p.category.name,
+                p.likeCount,
+                p.commentCount
+                )
+            from Post p
+            where p.isDeleted = false
+            order by p.createdAt desc, p.likeCount desc
+    """)
+    Page<PopularPostResponse> findPopular(Long categoryId,Pageable pageable);
 }
