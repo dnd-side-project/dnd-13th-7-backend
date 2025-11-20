@@ -1,6 +1,7 @@
 package com.moyeoit.domain.post.service;
 
 import com.moyeoit.domain.post.controller.request.PostCreateRequest;
+import com.moyeoit.domain.post.controller.response.PopularPostResponse;
 import com.moyeoit.domain.post.controller.response.PostCardResponse;
 import com.moyeoit.domain.post.model.Category;
 import com.moyeoit.domain.post.model.Post;
@@ -49,5 +50,9 @@ public class PostService {
 
     public Page<PostCardResponse> getFeed(Long categoryId, Pageable pageable) {
         return postRepository.findFeed(categoryId,pageable);
+    }
+
+    public Page<PopularPostResponse> getPopular(Long categoryId,Pageable pageable) {
+        return postRepository.findPopular(categoryId,pageable);
     }
 }

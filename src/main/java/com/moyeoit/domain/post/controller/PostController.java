@@ -1,6 +1,7 @@
 package com.moyeoit.domain.post.controller;
 
 import com.moyeoit.domain.post.controller.request.PostCreateRequest;
+import com.moyeoit.domain.post.controller.response.PopularPostResponse;
 import com.moyeoit.domain.post.controller.response.PostCardResponse;
 import com.moyeoit.domain.post.service.PostService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
@@ -41,12 +42,22 @@ public class PostController {
     }
 
     // 일반 피드: 8개씩 무한스크롤
-    // 예: GET /api/post/feed?page=0&size=8&categoryId=&
+    // 예: GET /api/v2/post/feed?page=0&size=8&categoryId=&
     @GetMapping("/feed")
     public Page<PostCardResponse> feed(
             @PageableDefault(size = 8, direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(required = false) Long categoryId
             ) {
         return postService.getFeed(categoryId, pageable);
+    }
+
+    //인기글: likeCount desc, viewCount desc 3개씩
+    // 예: GET /api/v2/post/popular?page=0&size=3
+    @GetMapping("/popular")
+    public Page<PopularPostResponse> popular(
+            @PageableDefault(size = 3, direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(required = false) Long categoryId
+    ) {
+        return postService.getPopular(categoryId, pageable);
     }
 }
