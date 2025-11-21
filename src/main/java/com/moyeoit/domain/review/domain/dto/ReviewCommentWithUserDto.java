@@ -19,5 +19,6 @@ public class ReviewCommentWithUserDto {
     private String content;
     private LocalDateTime createdDate;
     private Long parentId;
+    private Boolean deleted;
 
 }

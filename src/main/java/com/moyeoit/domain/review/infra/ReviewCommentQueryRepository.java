@@ -34,7 +34,8 @@ public class ReviewCommentQueryRepository {
                 user.profileImageUrl,
                 reviewComment.content,
                 reviewComment.createdDate,
-                reviewComment.parent.id
+                reviewComment.parent.id,
+                reviewComment.deleted
         );
     }
 

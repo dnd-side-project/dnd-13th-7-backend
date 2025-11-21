@@ -22,6 +22,7 @@ public class ReviewCommentResponse {
     private String content;
     private LocalDateTime createDate;
     private List<ReviewCommentResponse> children;
+    private Boolean deleted;
 
     public static ReviewCommentResponse from(ReviewCommentWithUserDto dto) {
         return new ReviewCommentResponse(
@@ -30,7 +31,8 @@ public class ReviewCommentResponse {
                 dto.getProfileImageUrl(),
                 dto.getContent(),
                 dto.getCreatedDate(),
-                new ArrayList<>());
+                new ArrayList<>(),
+                dto.getDeleted());
     }
 
 }
