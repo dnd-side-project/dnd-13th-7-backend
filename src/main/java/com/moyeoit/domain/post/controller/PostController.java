@@ -4,6 +4,7 @@ import com.moyeoit.domain.post.controller.request.PostCreateRequest;
 import com.moyeoit.domain.post.controller.response.PopularPostResponse;
 import com.moyeoit.domain.post.controller.response.PostCardResponse;
 import com.moyeoit.domain.post.controller.response.PostDetailInfoResponse;
+import com.moyeoit.domain.post.controller.response.PostLikeResponse;
 import com.moyeoit.domain.post.service.PostService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
@@ -74,6 +75,15 @@ public class PostController {
             @PathVariable Long postId,
             @Parameter(hidden = true) @CurrentUser AccessUser user) {
         PostDetailInfoResponse response = postService.getDetailInfo(postId, user.getId());
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    // 좋아요를 누르거나 좋아요를 취소하는 기능
+    @PostMapping("/detail/{postId}/like")
+    public ResponseEntity<ApiResponse<PostLikeResponse>> like(
+            @PathVariable Long postId,
+            @Parameter(hidden = true) @CurrentUser AccessUser user) {
+        PostLikeResponse response = postService.like(postId,user.getId());
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 

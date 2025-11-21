@@ -12,4 +12,6 @@ public interface UserRepository {
     Optional<User> findById(Long id);
 
     Optional<User> findByEmailAndProvider(String email, AuthProvider provider);
+
+    boolean existsByUserId(Long userId);
 }

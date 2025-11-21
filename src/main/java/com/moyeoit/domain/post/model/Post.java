@@ -84,4 +84,13 @@ public class Post {
         image.setPost(this);
     }
 
+    public void decreaseLikeCount() {
+        if (likeCount > 0) {
+            this.likeCount--;
+        }
+    }
+
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
 }

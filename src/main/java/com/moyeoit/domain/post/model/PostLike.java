@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "post_likes")
@@ -27,8 +28,8 @@ public class PostLike {
     @Column(name = "like_id")
     private Long id;
 
-    @Column(name = "app_user_id", nullable = false)
-    private Long appUserId;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "target_type", nullable = false)
@@ -37,6 +38,7 @@ public class PostLike {
     @Column(name = "target_id", nullable = false)
     private Long targetId;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
