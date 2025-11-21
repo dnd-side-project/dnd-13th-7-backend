@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Embeddable
 @Getter
@@ -25,7 +24,7 @@ public class ClubProfile {
     @Column(name = "establishment")
     private LocalDate establishment; // 설립일시
 
-    @Column(name = "totalParticipant")
+    @Column(name = "total_participant")
     private Integer totalParticipant;       // 총 참여자
 
     @Column(name = "operation")

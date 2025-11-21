@@ -19,7 +19,7 @@ public class Term {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "app_user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private boolean overAge;

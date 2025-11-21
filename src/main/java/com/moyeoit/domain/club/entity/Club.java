@@ -6,13 +6,12 @@ import com.moyeoit.domain.club.entity.position.ClubPosition;
 import com.moyeoit.domain.club.entity.process.ClubProcess;
 import com.moyeoit.domain.club.entity.schedule.ClubSchedule;
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -24,7 +23,7 @@ public class Club {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "club_id")
     private Long id;
 
     @Column(name = "name")
@@ -39,6 +38,7 @@ public class Club {
     @Embedded
     private ClubAddress clubAddress;
 
+    @Column(name = "significant")
     private String significant;
 
     @Column(name = "recruiting")

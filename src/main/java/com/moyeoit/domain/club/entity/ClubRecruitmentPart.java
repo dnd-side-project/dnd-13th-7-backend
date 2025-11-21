@@ -1,6 +1,5 @@
 package com.moyeoit.domain.club.entity;
 
-import com.moyeoit.domain.user.domain.Job;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +14,7 @@ public class ClubRecruitmentPart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "club_recruitment_part_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

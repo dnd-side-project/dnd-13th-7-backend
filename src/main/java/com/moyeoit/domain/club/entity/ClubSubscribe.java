@@ -20,16 +20,16 @@ public class ClubSubscribe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "club_subscribe_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user; // 구독하는 유저
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
-    private Club club; // 구독 대상 클럽
+    private Club club;
 
     @CreationTimestamp
     @Column(updatable = false)

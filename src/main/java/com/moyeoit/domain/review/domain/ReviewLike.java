@@ -23,7 +23,7 @@ public class ReviewLike extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "review_like_id", nullable = false)
     private Long id;
 
     @Column(name = "user_id", nullable = false)

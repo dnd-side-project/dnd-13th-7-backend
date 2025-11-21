@@ -6,6 +6,7 @@ import com.moyeoit.global.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -52,6 +53,12 @@ public class Review extends BaseEntity {
 
     @Column(name = "comment_count")
     private Long commentCount;
+
+    @Column(name = "deleted")
+    private boolean deleted;
+
+    @Column(name = "deleted_date")
+    private LocalDateTime deletedDate;
 
     @OneToMany(mappedBy = "review", fetch = FetchType.LAZY)
     private List<ReviewAnswer> answers;
