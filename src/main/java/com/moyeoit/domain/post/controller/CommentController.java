@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,11 +45,20 @@ public class CommentController {
         return commentService.getThreads(postId, pageable);
     }
 
+    //댓글 수정
     @PatchMapping("/comments/{commentId}")
     public PostCommentResponse update(
             @PathVariable Long commentId,
             @Parameter(hidden = true) @CurrentUser AccessUser user,
             @RequestBody CommentUpdateRequest request) {
         return commentService.update(commentId, user.getId(), request);
+    }
+
+    // 삭제(Soft)
+    @DeleteMapping("/comments/{commentId}")
+    public void delete(
+            @PathVariable Long commentId,
+            @Parameter(hidden = true) @CurrentUser AccessUser user) {
+        commentService.delete(commentId, user.getId());
     }
 }
