@@ -16,6 +16,7 @@ public class Term {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "term_id")
     private Long id;
 
     @OneToOne
