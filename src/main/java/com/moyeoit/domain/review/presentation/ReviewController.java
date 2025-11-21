@@ -39,6 +39,12 @@ public class ReviewController implements ReviewAPI {
         reviewService.createReview(request, user.getId());
     }
 
+    @DeleteMapping("/{reviewId}")
+    public void deleteReview(@PathVariable Long reviewId,
+                             @CurrentUser AccessUser user) {
+        reviewService.delete(reviewId, user.getId());
+    }
+
     @PostMapping("/like/{reviewId}")
     public void likeReview(@RequestParam Long reviewId, @CurrentUser AccessUser user) {
         reviewLikeService.toggleLike(reviewId, user.getId());

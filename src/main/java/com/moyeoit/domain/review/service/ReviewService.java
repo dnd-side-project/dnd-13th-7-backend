@@ -15,6 +15,7 @@ import com.moyeoit.domain.review.presentation.response.ReviewSummaryResponse;
 import com.moyeoit.domain.review.presentation.response.ReviewView;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ReviewErrorCode;
+import com.moyeoit.global.time.TimeProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -34,8 +35,8 @@ public class ReviewService {
     private final ReviewAnswerConverter reviewAnswerConverter;
     private final ReviewAnswerGenerator reviewAnswerGenerator;
     private final ReviewQueryRepository reviewQueryRepository;
-
     private final ReviewSummaryService reviewSummaryService;
+    private final TimeProvider timeProvider;
 
     @Transactional
     public void createReview(ReviewCreateRequest req, Long userId) {
@@ -80,6 +81,19 @@ public class ReviewService {
                 review.getClub(),
                 review.getGeneration(),
                 reviewAnswerResponses);
+    }
+
+    @Transactional
+    public void delete(Long reviewId, Long userId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new AppException(ReviewErrorCode.NOT_FOUND));
+
+        if (!review.isAuthor(userId)) {
+            throw new AppException(ReviewErrorCode.NOT_REVIEW_OWNER);
+        }
+
+        review.delete(timeProvider.now());
+        // TODO : 관련된 ReviewLike 모두 삭제
     }
 
 }

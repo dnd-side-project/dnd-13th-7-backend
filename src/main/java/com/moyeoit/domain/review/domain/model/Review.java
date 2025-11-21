@@ -63,4 +63,13 @@ public class Review extends BaseEntity {
     @OneToMany(mappedBy = "review", fetch = FetchType.LAZY)
     private List<ReviewAnswer> answers;
 
+    public boolean isAuthor(Long userId) {
+        return this.userId.equals(userId);
+    }
+
+    public void delete(LocalDateTime deletedDate) {
+        this.deleted = true;
+        this.deletedDate = deletedDate;
+    }
+
 }
