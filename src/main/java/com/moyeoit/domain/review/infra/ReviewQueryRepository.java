@@ -42,7 +42,7 @@ import static com.querydsl.core.group.GroupBy.list;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class QueryReviewRepository {
+public class ReviewQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 

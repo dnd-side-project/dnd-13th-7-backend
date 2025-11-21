@@ -5,8 +5,8 @@ import com.moyeoit.domain.review.controller.response.v2.ReviewAnswerResponse;
 import com.moyeoit.domain.review.domain.model.Review;
 import com.moyeoit.domain.review.domain.model.ReviewAnswer;
 import com.moyeoit.domain.review.domain.service.ReviewAnswerConverter;
-import com.moyeoit.domain.review.infra.QueryReviewRepository;
 import com.moyeoit.domain.review.infra.ReviewAnswerRepository;
+import com.moyeoit.domain.review.infra.ReviewQueryRepository;
 import com.moyeoit.domain.review.infra.ReviewRepository;
 import com.moyeoit.domain.review.infra.generator.ReviewAnswerGenerator;
 import com.moyeoit.domain.review.presentation.request.ReviewCreateRequest;
@@ -33,8 +33,7 @@ public class ReviewService {
     private final ReviewAnswerRepository reviewAnswerRepository;
     private final ReviewAnswerConverter reviewAnswerConverter;
     private final ReviewAnswerGenerator reviewAnswerGenerator;
-    private final QueryReviewRepository queryReviewRepository;
-    private final ReviewLikeService reviewLikeService;
+    private final ReviewQueryRepository reviewQueryRepository;
 
     private final ReviewSummaryService reviewSummaryService;
 
@@ -66,12 +65,12 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public Page<ReviewSummaryResponse> search(ReviewSearchRequest request, Pageable pageable) {
-        return queryReviewRepository.search(request, pageable);
+        return reviewQueryRepository.search(request, pageable);
     }
 
     @Transactional(readOnly = true)
     public ReviewView getReview(Long reviewId) {
-        OriginalReviewDetailView review = queryReviewRepository.findReviewById(reviewId);
+        OriginalReviewDetailView review = reviewQueryRepository.findReviewById(reviewId);
         List<ReviewAnswerResponse> reviewAnswerResponses = reviewAnswerConverter.toResponses(review.getAnswers());
         return new ReviewView(
                 review.getTitle(),

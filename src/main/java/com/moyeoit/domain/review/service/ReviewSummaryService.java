@@ -3,7 +3,7 @@ package com.moyeoit.domain.review.service;
 import com.moyeoit.domain.review.domain.enums.QuestionType;
 import com.moyeoit.domain.review.domain.model.Review;
 import com.moyeoit.domain.review.domain.model.ReviewContentSummary;
-import com.moyeoit.domain.review.infra.QueryReviewRepository;
+import com.moyeoit.domain.review.infra.ReviewQueryRepository;
 import com.moyeoit.domain.review.presentation.request.answer.MultipleChoiceAnswer;
 import com.moyeoit.domain.review.presentation.request.answer.ReviewAnswerCreateRequest;
 import com.moyeoit.domain.review.presentation.request.answer.SingleChoiceAnswer;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ReviewSummaryService {
 
-    private final QueryReviewRepository queryReviewRepository;
+    private final ReviewQueryRepository reviewQueryRepository;
     private final ReviewSummaryRepository reviewSummaryRepository;
 
     /**
@@ -71,7 +71,7 @@ public class ReviewSummaryService {
                 .toList();
 
         // 1-3) 객관식 질문/답변과 연관된 Question ID 기반의 Question 및 Option 데이터 조회 후 유저의 선택과 맞는 Option의 title 추출
-        List<ReviewQuestionSummaryDto> reviewQuestionSummariesOfChoice = queryReviewRepository.findQuestionWithOptionsByQuestionIds(choiceQuestionIds);
+        List<ReviewQuestionSummaryDto> reviewQuestionSummariesOfChoice = reviewQueryRepository.findQuestionWithOptionsByQuestionIds(choiceQuestionIds);
 
         return choiceQnas.stream()
                 .map(req -> resolveChoiceSummary(reviewQuestionSummariesOfChoice, req))
@@ -94,7 +94,7 @@ public class ReviewSummaryService {
                 .orElseThrow(() -> new AppException(ReviewErrorCode.INVALID_REVIEW_WRITE_REQUEST));
 
         // 2-2) 해당 답변의 Question ID로 Question.title을 가져와서 '질문|v|답변' 으로 변환합니다.
-        ReviewQuestionSummaryDto reviewQuestionSummaryOfSubjective = queryReviewRepository.findQuestionWithOptionByQuestionId(subjectiveQna.getQuestionId());
+        ReviewQuestionSummaryDto reviewQuestionSummaryOfSubjective = reviewQueryRepository.findQuestionWithOptionByQuestionId(subjectiveQna.getQuestionId());
         return reviewQuestionSummaryOfSubjective.getTitle() + "|v|" + subjectiveQna.getValue();
     }
 
