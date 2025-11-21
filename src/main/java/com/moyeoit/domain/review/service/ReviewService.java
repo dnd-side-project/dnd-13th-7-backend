@@ -80,7 +80,10 @@ public class ReviewService {
                 review.getJob(),
                 review.getClub(),
                 review.getGeneration(),
-                reviewAnswerResponses);
+                review.getLikeCount(),
+                review.getCommentCount(),
+                reviewAnswerResponses
+        );
     }
 
     @Transactional

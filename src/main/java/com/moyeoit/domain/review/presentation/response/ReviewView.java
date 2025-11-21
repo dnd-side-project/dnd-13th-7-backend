@@ -23,6 +23,8 @@ public class ReviewView {
     private JobDto job;
     private ClubWithNameAndImageUrlDto club;
     private Integer generation;
+    private Long likeCount;
+    private Long commentCount;
     private List<ReviewAnswerResponse> answers;
 
 }

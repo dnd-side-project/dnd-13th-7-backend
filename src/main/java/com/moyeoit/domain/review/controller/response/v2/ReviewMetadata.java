@@ -20,5 +20,7 @@ public class ReviewMetadata {
     private JobDto job;
     private ClubWithNameAndImageUrlDto club;
     private Integer generation;
+    private Long likeCount;
+    private Long commentCount;
 
 }

@@ -72,6 +72,8 @@ public class ReviewQueryRepository {
                 view.getJob(),
                 view.getClub(),
                 view.getGeneration(),
+                view.getLikeCount(),
+                view.getCommentCount(),
                 answers
         );
     }
@@ -219,7 +221,9 @@ public class ReviewQueryRepository {
                 Projections.constructor(ClubWithNameAndImageUrlDto.class,
                         club.name,
                         club.clubProfile.imageUrl),
-                review.generation
+                review.generation,
+                review.likeCount,
+                review.commentCount
         );
     }
 
