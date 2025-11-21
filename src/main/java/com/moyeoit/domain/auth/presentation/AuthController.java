@@ -6,6 +6,7 @@ import com.moyeoit.domain.auth.presentation.response.AuthResponse;
 import com.moyeoit.domain.auth.presentation.response.AuthorizationUriResponse;
 import com.moyeoit.domain.user.domain.AuthProvider;
 import com.moyeoit.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "인증 API", description = "유저 인증을 담당하는 API 입니다.")
+
 public class AuthController {
 
     private final AuthService authService;
