@@ -28,6 +28,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             from Post p
             where p.isDeleted = false
             and (:categoryId is null or p.category.id = :categoryId)
+            and (COALESCE(:categoryId, 0) <> 1 or p.likeCount >= 10)
             order by p.createdAt desc
             """,
             countQuery = """
@@ -35,12 +36,13 @@ public interface PostRepository extends JpaRepository<Post,Long> {
         from Post p
             where p.isDeleted = false
             and (:categoryId is null or p.category.id = :categoryId)
+            and (COALESCE(:categoryId, 0) <> 1 or p.likeCount >= 10)
         """
     )
     Page<PostCardResponse> findFeed(@Param("categoryId") Long categoryId, Pageable pageable);
 
     @Query(value = """
-            select new com.moyeoit.domain.post.controller.response.PostCardResponse(
+            select new com.moyeoit.domain.post.controller.response.PopularPostResponse(
                 p.id,
                 p.title,
                 FUNCTION('SUBSTRING_INDEX', p.content, '\\n', 2),
