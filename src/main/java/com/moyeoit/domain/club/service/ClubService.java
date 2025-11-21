@@ -13,7 +13,6 @@ import com.moyeoit.domain.club.entity.ClubRecruitment;
 import com.moyeoit.domain.club.entity.ClubSubscribe;
 import com.moyeoit.domain.club.entity.activity.ClubActivity;
 import com.moyeoit.domain.club.entity.schedule.ClubSchedule;
-import com.moyeoit.domain.club.repository.ClubKeywordRepository;
 import com.moyeoit.domain.club.repository.ClubRepository;
 import com.moyeoit.domain.club.repository.ClubSubscribeRepository;
 import com.moyeoit.domain.user.domain.User;
@@ -35,7 +34,6 @@ import java.util.Optional;
 public class ClubService {
 
     private final ClubRepository clubRepository;
-    private final ClubKeywordRepository keywordRepository;
     private final UserRepository userRepository;
     private final ClubSubscribeRepository clubSubscribeRepository;
 
