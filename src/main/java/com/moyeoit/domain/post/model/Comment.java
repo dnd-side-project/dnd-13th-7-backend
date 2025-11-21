@@ -62,4 +62,8 @@ public class Comment {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 }
