@@ -158,11 +158,27 @@ public class ReviewSummaryService {
         List<String> summaryResult = new ArrayList<>();
         summaryResult.add(summary.getTitle());
 
-        List<ReviewOptionSummaryDto> optionSummaries = summary.getOptions();
-        String answers = optionSummaries.stream()
+        // 1. 선택된 옵션들의 제목만 먼저 리스트로 추출합니다.
+        List<String> selectedOptionTitles = summary.getOptions().stream()
                 .filter(option -> values.contains(option.getSequence()))
                 .map(ReviewOptionSummaryDto::getTitle)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList());
+
+        // 2. 개수에 따라 포맷팅 로직을 적용합니다.
+        String answers;
+        if (selectedOptionTitles.size() > 2) {
+            // 3건 이상인 경우: 앞의 2개만 콤마로 잇고, 나머지는 개수로 표현
+            String firstTwo = selectedOptionTitles.stream()
+                    .limit(2)
+                    .collect(Collectors.joining(","));
+
+            int remainCount = selectedOptionTitles.size() - 2;
+            answers = firstTwo + " 외 " + remainCount + "건";
+        } else {
+            // 2건 이하인 경우: 전체를 콤마로 연결
+            answers = String.join(",", selectedOptionTitles);
+        }
+
         summaryResult.add(answers);
 
         return summaryResult;
