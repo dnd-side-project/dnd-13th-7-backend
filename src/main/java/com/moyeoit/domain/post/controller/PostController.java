@@ -3,6 +3,7 @@ package com.moyeoit.domain.post.controller;
 import com.moyeoit.domain.post.controller.request.PostCreateRequest;
 import com.moyeoit.domain.post.controller.response.PopularPostResponse;
 import com.moyeoit.domain.post.controller.response.PostCardResponse;
+import com.moyeoit.domain.post.controller.response.PostDetailInfoResponse;
 import com.moyeoit.domain.post.service.PostService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,20 +46,35 @@ public class PostController {
     // 일반 피드: 8개씩 무한스크롤
     // 예: GET /api/v2/post/feed?page=0&size=8&categoryId=&
     @GetMapping("/feed")
-    public Page<PostCardResponse> feed(
+    public  ResponseEntity<ApiResponse<Page<PostCardResponse>>> feed(
             @PageableDefault(size = 8, direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(required = false) Long categoryId
             ) {
-        return postService.getFeed(categoryId, pageable);
+        Page<PostCardResponse> page = postService.getFeed(categoryId, pageable);
+        return ResponseEntity.ok(ApiResponse.success(page));
     }
 
     //인기글: likeCount desc, viewCount desc 3개씩
     // 예: GET /api/v2/post/popular?page=0&size=3
     @GetMapping("/popular")
-    public Page<PopularPostResponse> popular(
+    public ResponseEntity<ApiResponse<Page<PopularPostResponse>>> popular(
             @PageableDefault(size = 3, direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(required = false) Long categoryId
     ) {
-        return postService.getPopular(categoryId, pageable);
+        Page<PopularPostResponse> page = postService.getPopular(categoryId, pageable);
+        return ResponseEntity.ok(ApiResponse.success(page));
     }
+
+    /**
+     * 게시글 상세조회
+     *
+     **/
+    @GetMapping("/detail/{postId}")
+    public ResponseEntity<ApiResponse<PostDetailInfoResponse>> getPostDetailInfo(
+            @PathVariable Long postId,
+            @Parameter(hidden = true) @CurrentUser AccessUser user) {
+        PostDetailInfoResponse response = postService.getDetailInfo(postId, user.getId());
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
 }
