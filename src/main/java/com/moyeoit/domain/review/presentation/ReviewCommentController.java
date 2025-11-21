@@ -6,6 +6,7 @@ import com.moyeoit.domain.review.presentation.request.comment.ReviewCommentUpdat
 import com.moyeoit.domain.review.service.ReviewCommentService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,10 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/review/comment")
+@RequestMapping("/v1/review/comment")
 @Slf4j
-public class ReviewCommentController {
+@Tag(name = "리뷰 댓글 API", description = "리뷰 댓글을 작성하고 관리하는 API 입니다.")
+public class ReviewCommentController implements ReviewCommentAPI {
 
     private final ReviewCommentService reviewCommentService;
 
