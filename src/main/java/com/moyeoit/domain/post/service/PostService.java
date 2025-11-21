@@ -3,15 +3,19 @@ package com.moyeoit.domain.post.service;
 import com.moyeoit.domain.post.controller.request.PostCreateRequest;
 import com.moyeoit.domain.post.controller.response.PopularPostResponse;
 import com.moyeoit.domain.post.controller.response.PostCardResponse;
+import com.moyeoit.domain.post.controller.response.PostDetailInfoResponse;
 import com.moyeoit.domain.post.model.Category;
 import com.moyeoit.domain.post.model.Post;
 import com.moyeoit.domain.post.model.PostImage;
 import com.moyeoit.domain.post.repository.CategoryRepository;
+import com.moyeoit.domain.post.repository.PostImageRepository;
 import com.moyeoit.domain.post.repository.PostRepository;
 import com.moyeoit.domain.user.domain.User;
 import com.moyeoit.domain.user.domain.repository.UserRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.UserErrorCode;
+import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +28,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final PostImageRepository postImageRepository;
 
     public Long createPost(Long userId, PostCreateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(()->new AppException(UserErrorCode.NOT_FOUND));
@@ -54,5 +59,13 @@ public class PostService {
 
     public Page<PopularPostResponse> getPopular(Long categoryId,Pageable pageable) {
         return postRepository.findPopular(categoryId,pageable);
+    }
+
+    public PostDetailInfoResponse getDetailInfo(Long postId, Long userId) {
+        PostDetailInfoResponse response = postRepository.findPostDetailInfo(postId, userId).orElseThrow(() -> new EntityNotFoundException("없는 게시글입니다.: " + postId));
+        List<String> imageUrls = postImageRepository.findImageUrls(postId);
+
+        response.setImages(imageUrls);
+        return response;
     }
 }
