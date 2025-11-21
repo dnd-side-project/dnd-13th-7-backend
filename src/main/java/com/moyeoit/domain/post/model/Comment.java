@@ -66,4 +66,9 @@ public class Comment {
     public void updateContent(String content) {
         this.content = content;
     }
+
+    public void commentDelete() {
+        this.isDeleted = true;
+        this.content = null;
+    }
 }
