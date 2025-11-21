@@ -1,6 +1,7 @@
 package com.moyeoit.domain.post.controller;
 
 import com.moyeoit.domain.post.controller.request.CommentCreateRequest;
+import com.moyeoit.domain.post.controller.request.CommentUpdateRequest;
 import com.moyeoit.domain.post.controller.response.CommentThreadResponse;
 import com.moyeoit.domain.post.controller.response.PostCommentResponse;
 import com.moyeoit.domain.post.service.CommentService;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,5 +42,13 @@ public class CommentController {
             @PathVariable Long postId,
             @PageableDefault(size = 5, direction = Sort.Direction.DESC) Pageable pageable) {
         return commentService.getThreads(postId, pageable);
+    }
+
+    @PatchMapping("/comments/{commentId}")
+    public PostCommentResponse update(
+            @PathVariable Long commentId,
+            @Parameter(hidden = true) @CurrentUser AccessUser user,
+            @RequestBody CommentUpdateRequest request) {
+        return commentService.update(commentId, user.getId(), request);
     }
 }

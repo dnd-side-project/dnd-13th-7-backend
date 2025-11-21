@@ -1,6 +1,7 @@
 package com.moyeoit.domain.post.service;
 
 import com.moyeoit.domain.post.controller.request.CommentCreateRequest;
+import com.moyeoit.domain.post.controller.request.CommentUpdateRequest;
 import com.moyeoit.domain.post.controller.response.CommentThreadResponse;
 import com.moyeoit.domain.post.controller.response.PostCommentResponse;
 import com.moyeoit.domain.post.model.Comment;
@@ -75,5 +76,20 @@ public class CommentService {
                 .toList();
 
         return new PageImpl<>(content, pageable, parents.getTotalElements());
+    }
+
+    @Transactional
+    public PostCommentResponse update(Long commentId, Long userId, CommentUpdateRequest request) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("comment not found"));
+        if(!comment.getUser().getId().equals(userId)){
+            throw new SecurityException("작성자만 수정할 수 있습니다.");
+        }
+
+        if (comment.getIsDeleted()){
+            throw new IllegalStateException("삭제된 댓글은 수정할 수 없습니다.");
+        }
+
+        comment.updateContent(request.getContent());
+        return PostCommentResponse.from(comment);
     }
 }
