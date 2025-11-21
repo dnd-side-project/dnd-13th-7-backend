@@ -12,6 +12,7 @@ import com.moyeoit.domain.review.repository.ReviewCommentRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.ReviewErrorCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewCommentService {
 
     private final ReviewCommentQueryRepository reviewCommentQueryRepository;
@@ -67,7 +69,7 @@ public class ReviewCommentService {
         ReviewComment comment;
         if (req.getParentCommentId() != null) {
             ReviewComment parent = reviewCommentRepository.findById(req.getParentCommentId())
-                    .orElseThrow(() -> new AppException(ReviewErrorCode.NOT_FOUND));
+                    .orElseThrow(() -> new AppException(ReviewErrorCode.NOT_FOUND_REVIEW_COMMENT));
 
             comment = ReviewComment.builder()
                     .review(review)
@@ -85,6 +87,7 @@ public class ReviewCommentService {
                     .build();
         }
         reviewCommentRepository.save(comment);
+        reviewRepository.increaseCommentCount(req.getReviewId());
     }
 
     /**
@@ -94,12 +97,13 @@ public class ReviewCommentService {
     public void deleteReviewComment(Long reviewCommentId,
                                     Long userId) {
         ReviewComment comment = reviewCommentRepository.findById(reviewCommentId)
-                .orElseThrow(() -> new AppException(ReviewErrorCode.NOT_FOUND));
+                .orElseThrow(() -> new AppException(ReviewErrorCode.NOT_FOUND_REVIEW_COMMENT));
 
         if (!comment.isAuthor(userId))
             throw new AppException(ReviewErrorCode.NOT_REVIEW_COMMENT_OWNER);
 
         comment.delete();
+        reviewRepository.decreaseCommentCount(comment.getReview().getId());
     }
 
     /**
@@ -110,7 +114,7 @@ public class ReviewCommentService {
                                     ReviewCommentUpdateRequest req,
                                     Long userId) {
         ReviewComment comment = reviewCommentRepository.findById(commentId)
-                .orElseThrow(() -> new AppException(ReviewErrorCode.NOT_FOUND));
+                .orElseThrow(() -> new AppException(ReviewErrorCode.NOT_FOUND_REVIEW_COMMENT));
 
         if (!comment.isAuthor(userId))
             throw new AppException(ReviewErrorCode.NOT_REVIEW_COMMENT_OWNER);
