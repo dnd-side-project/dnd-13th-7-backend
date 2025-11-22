@@ -4,10 +4,10 @@ import com.moyeoit.domain.post.controller.request.CommentCreateRequest;
 import com.moyeoit.domain.post.controller.request.CommentUpdateRequest;
 import com.moyeoit.domain.post.controller.response.CommentThreadResponse;
 import com.moyeoit.domain.post.controller.response.PostCommentResponse;
+import com.moyeoit.domain.post.controller.swagger.CommentApi;
 import com.moyeoit.domain.post.service.CommentService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,19 +25,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/v2")
-public class CommentController {
+public class CommentController implements CommentApi {
     private final CommentService commentService;
 
-    // 상위댓글/대댓글 작성
+    @Override
     @PostMapping("/posts/{postId}/comments")
     public PostCommentResponse create(
             @PathVariable Long postId,
-            @Parameter(hidden = true) @CurrentUser AccessUser user,
+            @CurrentUser AccessUser user,
             @RequestBody CommentCreateRequest request) {
         return commentService.create(postId, user.getId(), request);
     }
 
-    // 상위댓글 목록 + 각 대댓글 (상위만 페이징)
+    @Override
     @GetMapping("/posts/{postId}/comments")
     public Page<CommentThreadResponse> list(
             @PathVariable Long postId,
@@ -45,20 +45,20 @@ public class CommentController {
         return commentService.getThreads(postId, pageable);
     }
 
-    //댓글 수정
+    @Override
     @PatchMapping("/comments/{commentId}")
     public PostCommentResponse update(
             @PathVariable Long commentId,
-            @Parameter(hidden = true) @CurrentUser AccessUser user,
+            @CurrentUser AccessUser user,
             @RequestBody CommentUpdateRequest request) {
         return commentService.update(commentId, user.getId(), request);
     }
 
-    // 삭제(Soft)
+    @Override
     @DeleteMapping("/comments/{commentId}")
     public void delete(
             @PathVariable Long commentId,
-            @Parameter(hidden = true) @CurrentUser AccessUser user) {
+            @CurrentUser AccessUser user) {
         commentService.delete(commentId, user.getId());
     }
 }

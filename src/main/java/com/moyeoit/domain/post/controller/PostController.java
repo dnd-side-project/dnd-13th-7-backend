@@ -5,11 +5,12 @@ import com.moyeoit.domain.post.controller.response.PopularPostResponse;
 import com.moyeoit.domain.post.controller.response.PostCardResponse;
 import com.moyeoit.domain.post.controller.response.PostDetailInfoResponse;
 import com.moyeoit.domain.post.controller.response.PostLikeResponse;
+import com.moyeoit.domain.post.controller.swagger.PostApi;
 import com.moyeoit.domain.post.service.PostService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
+import com.moyeoit.global.auth.argument_resolver.AuthenticateUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,25 +28,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v2/post")
 @RequiredArgsConstructor
-public class PostController {
+public class PostController implements PostApi {
 
     private final PostService postService;
 
-    /**
-     * 게시글 생성 (이미지는 S3 업로드 후 URL 전달)
-     *
-     **/
+    @Override
     @PostMapping
     public ResponseEntity<ApiResponse<?>> create(
-            @Parameter(hidden = true) @CurrentUser AccessUser user,
+            @CurrentUser AccessUser user,
             @RequestBody PostCreateRequest req
     ) {
         Long createdId = postService.createPost(user.getId(), req);
         return ResponseEntity.ok(ApiResponse.success(createdId));
     }
 
-    // 일반 피드: 8개씩 무한스크롤
-    // 예: GET /api/v2/post/feed?page=0&size=8&categoryId=&
+    @Override
     @GetMapping("/feed")
     public  ResponseEntity<ApiResponse<Page<PostCardResponse>>> feed(
             @PageableDefault(size = 8, direction = Sort.Direction.DESC) Pageable pageable,
@@ -55,8 +52,7 @@ public class PostController {
         return ResponseEntity.ok(ApiResponse.success(page));
     }
 
-    //인기글: likeCount desc, viewCount desc 3개씩
-    // 예: GET /api/v2/post/popular?page=0&size=3
+    @Override
     @GetMapping("/popular")
     public ResponseEntity<ApiResponse<Page<PopularPostResponse>>> popular(
             @PageableDefault(size = 3, direction = Sort.Direction.DESC) Pageable pageable,
@@ -66,23 +62,25 @@ public class PostController {
         return ResponseEntity.ok(ApiResponse.success(page));
     }
 
-    /**
-     * 게시글 상세조회
-     *
-     **/
+    @Override
     @GetMapping("/detail/{postId}")
     public ResponseEntity<ApiResponse<PostDetailInfoResponse>> getPostDetailInfo(
             @PathVariable Long postId,
-            @Parameter(hidden = true) @CurrentUser AccessUser user) {
-        PostDetailInfoResponse response = postService.getDetailInfo(postId, user.getId());
+            @CurrentUser AccessUser user) {
+        Long viewerId = null;
+        if (user instanceof AuthenticateUser authUser) {
+            viewerId = authUser.getId();
+        }
+
+        PostDetailInfoResponse response = postService.getDetailInfo(postId, viewerId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
-    // 좋아요를 누르거나 좋아요를 취소하는 기능
+    @Override
     @PostMapping("/detail/{postId}/like")
     public ResponseEntity<ApiResponse<PostLikeResponse>> like(
             @PathVariable Long postId,
-            @Parameter(hidden = true) @CurrentUser AccessUser user) {
+            @CurrentUser AccessUser user) {
         PostLikeResponse response = postService.like(postId,user.getId());
         return ResponseEntity.ok(ApiResponse.success(response));
     }

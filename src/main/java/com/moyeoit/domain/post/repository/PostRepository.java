@@ -60,27 +60,30 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     Page<PopularPostResponse> findPopular(Long categoryId,Pageable pageable);
 
     @Query("""
-            select new com.moyeoit.domain.post.controller.response.PostDetailInfoResponse(
-                case when p.likeCount >= 10 then true else false end,
-                p.category.name,
-                p.title,
-                p.author.nickname,
-                p.content,
-                null,
-                p.createdAt,
-                p.viewCount,
-                p.likeCount,
-                p.commentCount,
-                case when exists (
-                    select 1 from PostLike pl
-                     where pl.targetType = com.moyeoit.domain.post.model.PostLike.TargetType.POST
-                       and pl.targetId = p.id
-                       and pl.userId = :viewerId
-                ) then true else false end
-            )
-            from Post p
-            where p.id = :postId
-            """)
+    select new com.moyeoit.domain.post.controller.response.PostDetailInfoResponse(
+        case when p.likeCount >= 10 then true else false end,
+        p.category.name,
+        p.title,
+        p.author.nickname,
+        p.content,
+        null,
+        p.createdAt,
+        p.viewCount,
+        p.likeCount,
+        p.commentCount,
+        case
+            when :viewerId is null then false
+            when exists (
+                select 1 from PostLike pl
+                where pl.targetType = com.moyeoit.domain.post.model.PostLike.TargetType.POST
+                  and pl.targetId = p.id
+                  and pl.userId = :viewerId
+            ) then true else false
+        end
+    )
+    from Post p
+    where p.id = :postId
+    """)
     Optional<PostDetailInfoResponse> findPostDetailInfo(
             @Param("postId") Long postId,
             @Param("viewerId") Long viewerId);
