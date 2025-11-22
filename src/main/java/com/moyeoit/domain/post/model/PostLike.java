@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name = "post_likes")
+@Table(name = "tb_post_likes")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

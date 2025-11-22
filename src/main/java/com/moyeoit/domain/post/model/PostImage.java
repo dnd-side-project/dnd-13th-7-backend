@@ -18,7 +18,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name = "post_image")
+@Table(name = "tb_post_image")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,6 +42,7 @@ public class PostImage {
     private Integer orderIndex;
 
     @Builder.Default
+    @Column(name = "is_representative")
     private boolean isRepresentative = false;
 
     @CreationTimestamp

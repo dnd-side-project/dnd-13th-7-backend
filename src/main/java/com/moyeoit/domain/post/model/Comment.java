@@ -19,7 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "tb_comment")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
