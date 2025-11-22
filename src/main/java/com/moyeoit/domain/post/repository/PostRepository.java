@@ -17,7 +17,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             select new com.moyeoit.domain.post.controller.response.PostCardResponse(
                         p.id,
                         p.title,
-                        FUNCTION('SUBSTRING_INDEX', p.content, '\\n', 2),
+                        substring(p.content, 1, 100),
                         (select pi.imageUrl from PostImage pi where pi.post = p and pi.isRepresentative = true),
                         p.category.id,
                         p.category.name,
@@ -47,7 +47,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             select new com.moyeoit.domain.post.controller.response.PopularPostResponse(
                 p.id,
                 p.title,
-                FUNCTION('SUBSTRING_INDEX', p.content, '\\n', 2),
+                substring(p.content, 1, 100),
                 p.category.id,
                 p.category.name,
                 p.likeCount,
@@ -75,7 +75,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
                     select 1 from PostLike pl
                      where pl.targetType = com.moyeoit.domain.post.model.PostLike.TargetType.POST
                        and pl.targetId = p.id
-                       and pl.appUserId = :viewerId
+                       and pl.userId = :viewerId
                 ) then true else false end
             )
             from Post p
