@@ -69,6 +69,6 @@ public class Comment {
 
     public void commentDelete() {
         this.isDeleted = true;
-        this.content = null;
+        this.content = "삭제된 댓글입니다.";
     }
 }

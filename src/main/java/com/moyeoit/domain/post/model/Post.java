@@ -63,7 +63,7 @@ public class Post {
     private Integer commentCount = 0;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
     @CreationTimestamp
     @Column(name = "created_at")

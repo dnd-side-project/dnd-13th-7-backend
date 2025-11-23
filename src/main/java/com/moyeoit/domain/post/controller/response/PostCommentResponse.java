@@ -19,7 +19,7 @@ public record PostCommentResponse(
                 comment.getId(),
                 comment.getUser().getId(),
                 comment.getPost().getId(),
-                comment.getParent().getId(),
+                comment.getParent() != null ? comment.getParent().getId() : null,
                 comment.getContent(),
                 comment.getLikeCount(),
                 comment.getIsDeleted(),
