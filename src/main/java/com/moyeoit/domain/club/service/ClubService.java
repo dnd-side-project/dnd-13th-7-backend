@@ -22,6 +22,7 @@ import com.moyeoit.global.exception.code.ClubErrorCode;
 import com.moyeoit.global.exception.code.UserErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,9 +40,6 @@ public class ClubService {
 
     /**
      * 동아리 프로필/활동/일정 정보를 조회합니다.
-     *
-     * @param clubId
-     * @return
      */
     @Transactional(readOnly = true)
     public ClubInfoResponse findDetailInfo(Long clubId) {
@@ -60,9 +58,6 @@ public class ClubService {
 
     /**
      * 동아리 프로필/공고 정보를 조회합니다.
-     *
-     * @param clubId
-     * @return
      */
     @Transactional(readOnly = true)
     public ClubRecruitInfoResponse findRecruitInfo(Long clubId) {
@@ -90,7 +85,8 @@ public class ClubService {
         User user = userRepository.findById(userId).orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
 
         Optional<ClubSubscribe> existingSubscribe = clubSubscribeRepository.findByUserAndClub(user, club);
-        boolean subscribed = existingSubscribe
+
+        return existingSubscribe
                 .map(subscribe -> {
                     clubSubscribeRepository.delete(subscribe);
                     clubRepository.minusSubCount(clubId);
@@ -105,8 +101,6 @@ public class ClubService {
                     clubRepository.plusSubCount(clubId);
                     return true;
                 });
-
-        return subscribed;
     }
 
     @Transactional(readOnly = true)
@@ -121,4 +115,15 @@ public class ClubService {
         return clubSubscribeRepository.existsByClubAndUser(club, user);
     }
 
+    public Page<ClubListResponse> searchClubList(String keyword,Pageable pageable) {
+        List<ClubListResponse> results = clubRepository.findByNameContaining(keyword)
+                .stream()
+                .map(ClubListResponse::from)
+                .toList();
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), results.size());
+
+        return new PageImpl<>(results.subList(start, end), pageable, results.size());
+    }
 }

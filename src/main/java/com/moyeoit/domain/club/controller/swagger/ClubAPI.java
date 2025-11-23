@@ -10,6 +10,7 @@ import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,4 +51,14 @@ public interface ClubAPI {
             @Parameter(hidden = true) @CurrentUser AccessUser user,
             @RequestParam Long clubId);
 
+    @Operation(summary = "동아리 검색 API", description = "키워드를 통해 동아리 목록을 검색합니다.")
+    @Parameters({
+            @Parameter(name = "keyword", description = "검색할 키워드", required = true, example = "DND"),
+            @Parameter(name = "page", description = "페이지 번호", example = "0"),
+            @Parameter(name = "size", description = "페이지 크기", example = "8"),
+            @Parameter(name = "sort", description = "정렬, 예: createdAt,desc")
+    })
+    ApiResponse<Page<ClubListResponse>> searchClubList(
+            @RequestParam String keyword,
+            @PageableDefault(size = 8, direction = Sort.Direction.DESC) Pageable pageable);
 }

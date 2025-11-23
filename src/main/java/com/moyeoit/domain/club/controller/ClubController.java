@@ -75,4 +75,11 @@ public class ClubController implements ClubAPI {
         boolean subscribed = clubService.findOutClubSub(clubId, user.getId());
         return ApiResponse.success("유저의 동아리 구독 사실을 확인하였습니다.", Map.of("subscribed", subscribed));
     }
+
+    @GetMapping("/search")
+    public ApiResponse<Page<ClubListResponse>> searchClubList(
+            @RequestParam String keyword,
+            @PageableDefault(size = 8, direction = Sort.Direction.DESC) Pageable pageable) {
+        return ApiResponse.success("동아리 검색 기록을 조회했습니다.", clubService.searchClubList(keyword, pageable));
+    }
 }
