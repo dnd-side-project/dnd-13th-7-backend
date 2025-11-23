@@ -80,7 +80,7 @@ public class ClubService {
     }
 
     @Transactional(readOnly = true)
-    public List<ClubFindListResponse> searchClubList(String keyword) {
+    public List<ClubFindListResponse> suggestClubList(String keyword) {
         return clubRepository.findByNameContaining(keyword).stream().map(ClubFindListResponse::from).toList();
     }
 

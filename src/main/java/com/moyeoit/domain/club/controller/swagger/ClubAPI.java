@@ -1,4 +1,4 @@
-package com.moyeoit.domain.club.controller;
+package com.moyeoit.domain.club.controller.swagger;
 
 import com.moyeoit.domain.club.controller.request.ClubPagingRequest;
 import com.moyeoit.domain.club.controller.response.ClubFindListResponse;
@@ -11,12 +11,10 @@ import com.moyeoit.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
-import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +33,7 @@ public interface ClubAPI {
             @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "동아리 키워드 검색 API", description = "검색어를 통해 동아리를 검색합니다.")
-    ApiResponse<List<ClubFindListResponse>> searchClubList(@RequestParam String keyword);
+    ApiResponse<List<ClubFindListResponse>> suggestClubList(@RequestParam String keyword);
 
     @Operation(summary = "동아리 구독 API", description = "동아리 구독에 대한 Toggle 작업을 진행합니다.")
     ApiResponse<?> subscribeClub(
