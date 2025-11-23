@@ -29,4 +29,9 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findByEmailAndProvider(String email, AuthProvider provider) {
         return jpaUserRepository.findByEmailAndProvider(email, provider);
     }
+
+    @Override
+    public boolean existsByUserId(Long userId) {
+        return jpaUserRepository.existsById(userId);
+    }
 }
