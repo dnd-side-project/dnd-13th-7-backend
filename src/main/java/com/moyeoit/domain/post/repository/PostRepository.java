@@ -87,4 +87,37 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     Optional<PostDetailInfoResponse> findPostDetailInfo(
             @Param("postId") Long postId,
             @Param("viewerId") Long viewerId);
+
+    @Query(value = """
+            select new com.moyeoit.domain.post.controller.response.PostCardResponse(
+                p.id,
+                p.title,
+                FUNCTION('SUBSTRING_INDEX', p.content, '\\n', 2),
+                (select pi.imageUrl from PostImage pi where pi.post = p and pi.isRepresentative = true),
+                p.category.id,
+                p.category.name,
+                p.author.nickname,
+                p.viewCount,
+                p.likeCount,
+                p.commentCount,
+                p.createdAt
+            )
+            from Post p
+            where p.isDeleted = false
+              and (:keyword is null or lower(p.title) like lower(concat('%', :keyword, '%')))
+            order by p.createdAt desc
+            """,
+            countQuery = """
+            select count(p)
+            from Post p
+            where p.isDeleted = false
+              and (:categoryId is null or p.category.id = :categoryId)
+              and (:keyword is null
+                   or lower(p.title) like lower(concat('%', :keyword, '%')))
+            """
+    )
+    Page<PostCardResponse> searchPostCards(
+            @Param("keyword") String keyword,
+            Pageable pageable
+    );
 }

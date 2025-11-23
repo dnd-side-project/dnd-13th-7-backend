@@ -85,4 +85,11 @@ public class PostController implements PostApi {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
+    @GetMapping("/search")
+    public ApiResponse<Page<PostCardResponse>> searchPost(
+        @RequestParam String keyword,
+        @PageableDefault  Pageable pageable
+    ){
+        return ApiResponse.success("게시글 검색 성공",postService.search(keyword,pageable));
+    }
 }
