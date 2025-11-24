@@ -1,4 +1,5 @@
 server:
+  forward-headers-strategy: native
   port: 8080
   servlet:
     context-path: /api
@@ -44,8 +45,8 @@ oauth:
       user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
   kakao:
     auth:
-      client-id: ${KAKAO_CLIENT_ID}
-      client-secret: ${KAKAO_CLIENT_SECRET}
+      client-id: ${DEV_KAKAO_CLIENT_ID}
+      client-secret: ${DEV_KAKAO_CLIENT_SECRET}
       redirect-uri: http://localhost:8084/api/api/oauth2/login/kakao
       scope:
         - profile_nickname
