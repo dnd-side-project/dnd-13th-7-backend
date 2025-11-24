@@ -111,7 +111,6 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             select count(p)
             from Post p
             where p.isDeleted = false
-              and (:categoryId is null or p.category.id = :categoryId)
               and (:keyword is null
                    or lower(p.title) like lower(concat('%', :keyword, '%')))
             """
