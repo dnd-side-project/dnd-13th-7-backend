@@ -5,6 +5,7 @@ import com.moyeoit.domain.club.controller.response.ClubFindListResponse;
 import com.moyeoit.domain.club.controller.response.ClubInfoResponse;
 import com.moyeoit.domain.club.controller.response.ClubListResponse;
 import com.moyeoit.domain.club.controller.response.ClubRecruitInfoResponse;
+import com.moyeoit.domain.club.controller.swagger.ClubAPI;
 import com.moyeoit.domain.club.service.ClubService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
@@ -46,9 +47,9 @@ public class ClubController implements ClubAPI {
         return ApiResponse.success("동아리 목록 조회에 성공하였습니다.", clubService.findClubList(request, pageable));
     }
 
-    @GetMapping("/search")
-    public ApiResponse<List<ClubFindListResponse>> searchClubList(@RequestParam String keyword) {
-        return ApiResponse.success("동아리 검색에 성공하였습니다.", clubService.searchClubList(keyword));
+    @GetMapping("/suggest")
+    public ApiResponse<List<ClubFindListResponse>> suggestClubList(@RequestParam String keyword) {
+        return ApiResponse.success("동아리 검색에 성공하였습니다.", clubService.suggestClubList(keyword));
     }
 
     @PostMapping("/{clubId}/subscribe")
@@ -73,5 +74,12 @@ public class ClubController implements ClubAPI {
             @RequestParam Long clubId) {
         boolean subscribed = clubService.findOutClubSub(clubId, user.getId());
         return ApiResponse.success("유저의 동아리 구독 사실을 확인하였습니다.", Map.of("subscribed", subscribed));
+    }
+
+    @GetMapping("/search")
+    public ApiResponse<Page<ClubListResponse>> searchClubList(
+            @RequestParam String keyword,
+            @PageableDefault(size = 8, direction = Sort.Direction.DESC) Pageable pageable) {
+        return ApiResponse.success("동아리 검색 기록을 조회했습니다.", clubService.searchClubList(keyword, pageable));
     }
 }

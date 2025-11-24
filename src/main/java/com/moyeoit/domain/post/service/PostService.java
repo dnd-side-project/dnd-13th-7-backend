@@ -113,4 +113,7 @@ public class PostService {
         );
     }
 
+    public Page<PostCardResponse> search(String keyword,Pageable pageable) {
+        return postRepository.searchPostCards(keyword,pageable);
+    }
 }

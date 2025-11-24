@@ -1,4 +1,4 @@
-package com.moyeoit.domain.club.controller;
+package com.moyeoit.domain.club.controller.swagger;
 
 import com.moyeoit.domain.club.controller.request.ClubActivitySaveRequest;
 import com.moyeoit.domain.club.controller.request.ClubProcessSaveRequest;

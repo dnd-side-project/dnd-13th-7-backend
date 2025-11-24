@@ -73,4 +73,16 @@ public interface PostApi {
     ResponseEntity<ApiResponse<PostLikeResponse>> like(
             @PathVariable Long postId,
             @Parameter(hidden = true) AccessUser user);
+
+    @Operation(summary = "게시글 검색", description = "키워드를 통해 게시글을 검색합니다.")
+    @Parameters({
+            @Parameter(name = "keyword", description = "검색할 키워드", required = true, example = "치킨"),
+            @Parameter(name = "page", description = "페이지 번호", example = "0"),
+            @Parameter(name = "size", description = "페이지 크기", example = "10"),
+            @Parameter(name = "sort", description = "정렬, 예: createdAt,desc")
+    })
+    ApiResponse<Page<PostCardResponse>> searchPost(
+            @RequestParam String keyword,
+            Pageable pageable
+    );
 }

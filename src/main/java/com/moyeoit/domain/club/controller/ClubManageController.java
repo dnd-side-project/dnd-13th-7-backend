@@ -5,6 +5,7 @@ import com.moyeoit.domain.club.controller.request.ClubProcessSaveRequest;
 import com.moyeoit.domain.club.controller.request.ClubRecruitmentSaveRequest;
 import com.moyeoit.domain.club.controller.request.ClubSaveRequest;
 import com.moyeoit.domain.club.controller.request.ClubScheduleSaveRequest;
+import com.moyeoit.domain.club.controller.swagger.ClubManageAPI;
 import com.moyeoit.domain.club.service.ClubManageService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
