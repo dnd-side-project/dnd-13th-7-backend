@@ -92,7 +92,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             select new com.moyeoit.domain.post.controller.response.PostCardResponse(
                 p.id,
                 p.title,
-                FUNCTION('SUBSTRING_INDEX', p.content, '\\n', 2),
+                substring(p.content, 1, 100),
                 (select pi.imageUrl from PostImage pi where pi.post = p and pi.isRepresentative = true),
                 p.category.id,
                 p.category.name,
@@ -111,8 +111,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             select count(p)
             from Post p
             where p.isDeleted = false
-              and (:keyword is null
-                   or lower(p.title) like lower(concat('%', :keyword, '%')))
+              and (:keyword is null or lower(p.title) like lower(concat('%', :keyword, '%')))
             """
     )
     Page<PostCardResponse> searchPostCards(
