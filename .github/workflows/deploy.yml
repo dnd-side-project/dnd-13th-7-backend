@@ -132,7 +132,7 @@ jobs:
           username: ${{ secrets.DEV_EC2_USERNAME }}
           key: ${{ secrets.DEV_EC2_SSH_KEY }}
           port: 22
-          script:
+          script: |
             cd /home/ubuntu
             chmod +x ~/deploy.sh
             ./deploy.sh
