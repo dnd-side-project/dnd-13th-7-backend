@@ -118,7 +118,7 @@ jobs:
 
       - name: Build & Push Docker image
         run: |
-          docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKERHUB_USER }}/dnd-13th-7-backend:dev-latest --push .
+          docker buildx build --platform linux/arm64 -f Dockerfile_dev -t ${{ secrets.DOCKERHUB_USER }}/dnd-13th-7-backend:dev-latest --push .
 
   deploy-rdev:
     needs: build-rdev
@@ -133,5 +133,6 @@ jobs:
           key: ${{ secrets.DEV_EC2_SSH_KEY }}
           port: 22
           script:
+            cd /home/ubuntu
             chmod +x ~/deploy.sh
             ./deploy.sh
