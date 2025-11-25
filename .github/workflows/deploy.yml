@@ -11,6 +11,7 @@ jobs:
 # ========================
 
   build-and-push:
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -39,6 +40,7 @@ jobs:
 
   deploy:
     needs: build-and-push
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to EC2
