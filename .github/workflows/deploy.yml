@@ -2,9 +2,14 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ "dev", "rdev" ]
 
 jobs:
+
+# ========================
+# 1. DEV 브랜치 파이프라인
+# ========================
+
   build-and-push:
     runs-on: ubuntu-latest
     steps:
@@ -80,3 +85,51 @@ jobs:
             docker compose up -d
             
             docker image prune -af
+
+# ==========================
+# 2. RDEV 브랜치 파이프라인
+# ==========================
+
+  build-rdev:
+    if: github.ref == 'refs/heads/rdev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set JDK 21 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Build Spring Boot application
+        run: |
+          ./gradlew clean bootJar -Pprofile=rdev
+
+      - name: Docker Login (Docker Hub)
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USER }}" --password-stdin
+
+      - name: Build & Push Docker image
+        run: |
+          docker buildx build --platform linux/arm64 -t ${{ secrets.DOCKERHUB_USER }}/dnd-13th-7-backend:dev-latest --push .
+
+  deploy-rdev:
+    needs: build-rdev
+    if: github.ref == 'refs/heads/rdev'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Dev Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEV_EC2_HOST }}
+          username: ${{ secrets.DEV_EC2_USERNAME }}
+          key: ${{ secrets.DEV_EC2_SSH_KEY }}
+          port: 22
+          script:
+            chmod +x ~/deploy.sh
+            ./deploy.sh
