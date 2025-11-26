@@ -1,10 +1,10 @@
-package com.moyeoit.domain.post.controller.swagger;
+package com.moyeoit.domain.post.presentation.swagger;
 
-import com.moyeoit.domain.post.controller.request.PostCreateRequest;
-import com.moyeoit.domain.post.controller.response.PopularPostResponse;
-import com.moyeoit.domain.post.controller.response.PostCardResponse;
-import com.moyeoit.domain.post.controller.response.PostDetailInfoResponse;
-import com.moyeoit.domain.post.controller.response.PostLikeResponse;
+import com.moyeoit.domain.post.presentation.request.PostCreateRequest;
+import com.moyeoit.domain.post.presentation.response.PopularPostResponse;
+import com.moyeoit.domain.post.presentation.response.PostCardResponse;
+import com.moyeoit.domain.post.presentation.response.PostDetailInfoResponse;
+import com.moyeoit.domain.post.presentation.response.PostLikeResponse;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Tag(name = "Post", description = "게시글 관련 API")
+@Tag(name = "커뮤니티 게시글 API", description = "커뮤니티의 게시글을 관리하는 API입니다.")
 public interface PostApi {
 
     @Operation(summary = "게시글 생성 (로그인 필요)", description = "이미지는 S3 업로드 후 URL을 전달합니다.", security = @SecurityRequirement(name = "bearerAuth"))

@@ -1,9 +1,9 @@
-package com.moyeoit.domain.post.controller.swagger;
+package com.moyeoit.domain.post.presentation.swagger;
 
-import com.moyeoit.domain.post.controller.request.CommentCreateRequest;
-import com.moyeoit.domain.post.controller.request.CommentUpdateRequest;
-import com.moyeoit.domain.post.controller.response.CommentThreadResponse;
-import com.moyeoit.domain.post.controller.response.PostCommentResponse;
+import com.moyeoit.domain.post.presentation.request.CommentCreateRequest;
+import com.moyeoit.domain.post.presentation.request.CommentUpdateRequest;
+import com.moyeoit.domain.post.presentation.response.CommentThreadResponse;
+import com.moyeoit.domain.post.presentation.response.PostCommentResponse;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = "Comment", description = "댓글 관련 API")
+@Tag(name = "커뮤니티 댓글 API", description = "커뮤니티의 댓글을 관리하는 API입니다.")
 public interface CommentApi {
 
     @Operation(summary = "댓글 작성 (로그인 필요)", description = "상위 댓글 또는 대댓글을 작성합니다.", security = @SecurityRequirement(name = "bearerAuth"))
