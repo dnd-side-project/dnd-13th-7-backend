@@ -1,12 +1,12 @@
-package com.moyeoit.domain.post.controller;
+package com.moyeoit.domain.post.presentation.controller;
 
-import com.moyeoit.domain.post.controller.request.PostCreateRequest;
-import com.moyeoit.domain.post.controller.response.PopularPostResponse;
-import com.moyeoit.domain.post.controller.response.PostCardResponse;
-import com.moyeoit.domain.post.controller.response.PostDetailInfoResponse;
-import com.moyeoit.domain.post.controller.response.PostLikeResponse;
-import com.moyeoit.domain.post.controller.swagger.PostApi;
-import com.moyeoit.domain.post.service.PostService;
+import com.moyeoit.domain.post.presentation.request.PostCreateRequest;
+import com.moyeoit.domain.post.presentation.response.PopularPostResponse;
+import com.moyeoit.domain.post.presentation.response.PostCardResponse;
+import com.moyeoit.domain.post.presentation.response.PostDetailInfoResponse;
+import com.moyeoit.domain.post.presentation.response.PostLikeResponse;
+import com.moyeoit.domain.post.presentation.swagger.PostApi;
+import com.moyeoit.domain.post.application.service.PostService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.AuthenticateUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;

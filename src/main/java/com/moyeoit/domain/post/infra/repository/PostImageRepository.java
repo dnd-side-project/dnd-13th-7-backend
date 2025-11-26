@@ -1,6 +1,6 @@
-package com.moyeoit.domain.post.repository;
+package com.moyeoit.domain.post.infra.repository;
 
-import com.moyeoit.domain.post.model.PostImage;
+import com.moyeoit.domain.post.domain.PostImage;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

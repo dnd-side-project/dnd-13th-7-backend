@@ -1,11 +1,11 @@
-package com.moyeoit.domain.post.controller;
+package com.moyeoit.domain.post.presentation.controller;
 
-import com.moyeoit.domain.post.controller.request.CommentCreateRequest;
-import com.moyeoit.domain.post.controller.request.CommentUpdateRequest;
-import com.moyeoit.domain.post.controller.response.CommentThreadResponse;
-import com.moyeoit.domain.post.controller.response.PostCommentResponse;
-import com.moyeoit.domain.post.controller.swagger.CommentApi;
-import com.moyeoit.domain.post.service.CommentService;
+import com.moyeoit.domain.post.presentation.request.CommentCreateRequest;
+import com.moyeoit.domain.post.presentation.request.CommentUpdateRequest;
+import com.moyeoit.domain.post.presentation.response.CommentThreadResponse;
+import com.moyeoit.domain.post.presentation.response.PostCommentResponse;
+import com.moyeoit.domain.post.presentation.swagger.CommentApi;
+import com.moyeoit.domain.post.application.service.CommentService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import lombok.AllArgsConstructor;

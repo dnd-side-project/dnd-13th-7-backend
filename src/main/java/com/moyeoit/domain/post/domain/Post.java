@@ -1,4 +1,4 @@
-package com.moyeoit.domain.post.model;
+package com.moyeoit.domain.post.domain;
 
 import com.moyeoit.domain.user.domain.User;
 import jakarta.persistence.CascadeType;

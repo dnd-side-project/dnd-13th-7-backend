@@ -1,6 +1,6 @@
-package com.moyeoit.domain.post.controller.response;
+package com.moyeoit.domain.post.presentation.response;
 
-import com.moyeoit.domain.post.model.Comment;
+import com.moyeoit.domain.post.domain.Comment;
 import java.time.LocalDateTime;
 
 public record PostCommentResponse(

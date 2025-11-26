@@ -1,4 +1,4 @@
-package com.moyeoit.domain.post.controller.response;
+package com.moyeoit.domain.post.presentation.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;

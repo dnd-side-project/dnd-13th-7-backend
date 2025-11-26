@@ -1,9 +1,9 @@
-package com.moyeoit.domain.post.repository;
+package com.moyeoit.domain.post.infra.repository;
 
-import com.moyeoit.domain.post.controller.response.PopularPostResponse;
-import com.moyeoit.domain.post.controller.response.PostCardResponse;
-import com.moyeoit.domain.post.controller.response.PostDetailInfoResponse;
-import com.moyeoit.domain.post.model.Post;
+import com.moyeoit.domain.post.presentation.response.PopularPostResponse;
+import com.moyeoit.domain.post.presentation.response.PostCardResponse;
+import com.moyeoit.domain.post.presentation.response.PostDetailInfoResponse;
+import com.moyeoit.domain.post.domain.Post;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 public interface PostRepository extends JpaRepository<Post,Long> {
 
     @Query(value = """
-            select new com.moyeoit.domain.post.controller.response.PostCardResponse(
+            select new com.moyeoit.domain.post.presentation.response.PostCardResponse(
                         p.id,
                         p.title,
                         substring(p.content, 1, 100),
@@ -44,7 +44,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     Page<PostCardResponse> findFeed(@Param("categoryId") Long categoryId, Pageable pageable);
 
     @Query(value = """
-            select new com.moyeoit.domain.post.controller.response.PopularPostResponse(
+            select new com.moyeoit.domain.post.presentation.response.PopularPostResponse(
                 p.id,
                 p.title,
                 substring(p.content, 1, 100),
@@ -60,7 +60,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     Page<PopularPostResponse> findPopular(Long categoryId,Pageable pageable);
 
     @Query("""
-    select new com.moyeoit.domain.post.controller.response.PostDetailInfoResponse(
+    select new com.moyeoit.domain.post.presentation.response.PostDetailInfoResponse(
         case when p.likeCount >= 10 then true else false end,
         p.category.name,
         p.title,
@@ -75,7 +75,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             when :viewerId is null then false
             when exists (
                 select 1 from PostLike pl
-                where pl.targetType = com.moyeoit.domain.post.model.PostLike.TargetType.POST
+                where pl.targetType = com.moyeoit.domain.post.domain.PostLike.TargetType.POST
                   and pl.targetId = p.id
                   and pl.userId = :viewerId
             ) then true else false
@@ -89,7 +89,7 @@ public interface PostRepository extends JpaRepository<Post,Long> {
             @Param("viewerId") Long viewerId);
 
     @Query(value = """
-            select new com.moyeoit.domain.post.controller.response.PostCardResponse(
+            select new com.moyeoit.domain.post.presentation.response.PostCardResponse(
                 p.id,
                 p.title,
                 substring(p.content, 1, 100),

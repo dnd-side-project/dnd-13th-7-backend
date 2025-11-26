@@ -1,4 +1,4 @@
-package com.moyeoit.domain.post.controller.request;
+package com.moyeoit.domain.post.presentation.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;

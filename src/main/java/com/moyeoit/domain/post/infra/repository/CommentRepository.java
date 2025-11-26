@@ -1,6 +1,6 @@
-package com.moyeoit.domain.post.repository;
+package com.moyeoit.domain.post.infra.repository;
 
-import com.moyeoit.domain.post.model.Comment;
+import com.moyeoit.domain.post.domain.Comment;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;

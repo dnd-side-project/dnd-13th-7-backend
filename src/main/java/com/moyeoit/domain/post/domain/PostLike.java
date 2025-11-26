@@ -1,4 +1,4 @@
-package com.moyeoit.domain.post.model;
+package com.moyeoit.domain.post.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

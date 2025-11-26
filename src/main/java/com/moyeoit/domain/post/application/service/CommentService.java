@@ -1,13 +1,13 @@
-package com.moyeoit.domain.post.service;
+package com.moyeoit.domain.post.application.service;
 
-import com.moyeoit.domain.post.controller.request.CommentCreateRequest;
-import com.moyeoit.domain.post.controller.request.CommentUpdateRequest;
-import com.moyeoit.domain.post.controller.response.CommentThreadResponse;
-import com.moyeoit.domain.post.controller.response.PostCommentResponse;
-import com.moyeoit.domain.post.model.Comment;
-import com.moyeoit.domain.post.model.Post;
-import com.moyeoit.domain.post.repository.CommentRepository;
-import com.moyeoit.domain.post.repository.PostRepository;
+import com.moyeoit.domain.post.presentation.request.CommentCreateRequest;
+import com.moyeoit.domain.post.presentation.request.CommentUpdateRequest;
+import com.moyeoit.domain.post.presentation.response.CommentThreadResponse;
+import com.moyeoit.domain.post.presentation.response.PostCommentResponse;
+import com.moyeoit.domain.post.domain.Comment;
+import com.moyeoit.domain.post.domain.Post;
+import com.moyeoit.domain.post.infra.repository.CommentRepository;
+import com.moyeoit.domain.post.infra.repository.PostRepository;
 import com.moyeoit.domain.user.domain.User;
 import com.moyeoit.domain.user.domain.repository.UserRepository;
 import com.moyeoit.global.exception.AppException;
