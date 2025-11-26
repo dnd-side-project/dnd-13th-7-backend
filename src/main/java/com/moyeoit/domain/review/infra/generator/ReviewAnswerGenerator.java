@@ -90,7 +90,7 @@ public class ReviewAnswerGenerator {
         return ReviewAnswer.builder()
                 .review(review)
                 .reviewQuestionId(answer.getQuestionId())
-                .value(ArrayConverter.toTextFromStringArray(answer.getValue(), "\\|\\^\\|"))
+                .value(ArrayConverter.toTextFromStringArray(answer.getValue(), "/^/"))
                 .valueType(AnswerType.ARRAY_TEXT)
                 .numericValue(null)
                 .sequence(answer.getSequence())
