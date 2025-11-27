@@ -1,13 +1,13 @@
 package com.moyeoit.domain.user.application;
 
 import com.moyeoit.CoreDbContextTest;
-import com.moyeoit.domain.user.controller.request.ActivateRequest;
-import com.moyeoit.domain.user.domain.Job;
-import com.moyeoit.domain.user.domain.User;
-import com.moyeoit.domain.user.infra.jpa.JpaUserRepository;
-import com.moyeoit.domain.user.repository.JobRepository;
-import com.moyeoit.domain.user.service.UserService;
-import com.moyeoit.domain.user.service.dto.UserDto;
+import com.moyeoit.context.user.controller.request.ActivateRequest;
+import com.moyeoit.context.user.domain.Job;
+import com.moyeoit.context.user.domain.User;
+import com.moyeoit.context.user.infra.jpa.JpaUserRepository;
+import com.moyeoit.context.user.repository.JobRepository;
+import com.moyeoit.context.user.service.UserService;
+import com.moyeoit.context.user.service.dto.UserDto;
 import com.moyeoit.fixture.JobGenerator;
 import com.moyeoit.fixture.UserGenerator;
 import org.assertj.core.api.Assertions;

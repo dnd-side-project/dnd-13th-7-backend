@@ -1,13 +1,17 @@
 package com.moyeoit.domain.club;
 
-import com.moyeoit.domain.club.entity.*;
-import com.moyeoit.domain.club.repository.ClubRepository;
-import com.moyeoit.domain.club.repository.ClubSubscribeRepository;
-import com.moyeoit.domain.club.service.ClubService;
-import com.moyeoit.domain.user.domain.AuthProvider;
-import com.moyeoit.domain.user.domain.Job;
-import com.moyeoit.domain.user.domain.User;
-import com.moyeoit.domain.user.domain.repository.UserRepository;
+import com.moyeoit.context.club.entity.Club;
+import com.moyeoit.context.club.entity.ClubAddress;
+import com.moyeoit.context.club.entity.ClubMethod;
+import com.moyeoit.context.club.entity.ClubProfile;
+import com.moyeoit.context.club.entity.ClubSubscribe;
+import com.moyeoit.context.club.repository.ClubRepository;
+import com.moyeoit.context.club.repository.ClubSubscribeRepository;
+import com.moyeoit.context.club.service.ClubService;
+import com.moyeoit.context.user.domain.AuthProvider;
+import com.moyeoit.context.user.domain.Job;
+import com.moyeoit.context.user.domain.User;
+import com.moyeoit.context.user.domain.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
