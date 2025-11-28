@@ -85,7 +85,9 @@ public class PostQueryRepository {
                         post.commentCount
                 ))
                 .from(post)
-                .where(post.isDeleted.isFalse())
+                .where(
+                        post.isDeleted.isFalse(),
+                        post.likeCount.goe(10))
                 .orderBy(post.createdAt.desc(),post.likeCount.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -94,7 +96,9 @@ public class PostQueryRepository {
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post)
-                .where(post.isDeleted.isFalse());
+                .where(
+                        post.isDeleted.isFalse(),
+                        post.likeCount.goe(10));
 
         return PageableExecutionUtils.getPage(content, pageable , countQuery::fetchOne);
     }
@@ -107,8 +111,8 @@ public class PostQueryRepository {
                         post.content,
                         post.createdAt,
                         Expressions.constant(new ArrayList<>()),
-                        buildIsLikedExpression(postId, userId),
                         post.likeCount.goe(10),
+                        buildIsLikedExpression(postId, userId),
                         post.likeCount,
                         post.author.nickname,
                         post.title,
@@ -180,7 +184,7 @@ public class PostQueryRepository {
 
     private BooleanExpression buildIsLikedExpression(Long postId, Long viewerId) {
         if (viewerId == null) {
-            return Expressions.asBoolean(false);
+            return Expressions.FALSE;
         }
 
         return new CaseBuilder()
