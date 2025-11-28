@@ -1,6 +1,7 @@
 package com.moyeoit.context.community.presentation.controller.response;
 
 import com.moyeoit.context.community.domain.Comment;
+import com.querydsl.core.annotations.QueryProjection;
 import java.time.LocalDateTime;
 
 public record PostCommentResponse(
@@ -14,6 +15,10 @@ public record PostCommentResponse(
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
+    @QueryProjection
+    public PostCommentResponse {
+    }
+
     public static PostCommentResponse from(Comment comment){
         return new PostCommentResponse(
                 comment.getId(),

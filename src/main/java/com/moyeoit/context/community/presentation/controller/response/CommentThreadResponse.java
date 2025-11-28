@@ -1,5 +1,6 @@
 package com.moyeoit.context.community.presentation.controller.response;
 
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
@@ -10,4 +11,7 @@ public record CommentThreadResponse(
         @Schema(description = "대댓글 목록")
         List<PostCommentResponse> children
 ) {
+    @QueryProjection
+    public CommentThreadResponse {
+    }
 }

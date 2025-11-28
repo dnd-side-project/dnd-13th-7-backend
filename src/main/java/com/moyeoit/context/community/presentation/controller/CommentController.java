@@ -1,5 +1,6 @@
 package com.moyeoit.context.community.presentation.controller;
 
+import com.moyeoit.context.community.infra.query.CommentQueryRepository;
 import com.moyeoit.context.community.presentation.controller.request.CommentCreateRequest;
 import com.moyeoit.context.community.presentation.controller.request.CommentUpdateRequest;
 import com.moyeoit.context.community.presentation.controller.response.CommentThreadResponse;
@@ -26,7 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping("/v2")
 public class CommentController implements CommentApi {
+
     private final CommentService commentService;
+    private final CommentQueryRepository queryRepository;
 
     @Override
     @PostMapping("/posts/{postId}/comments")
@@ -42,7 +45,7 @@ public class CommentController implements CommentApi {
     public Page<CommentThreadResponse> list(
             @PathVariable Long postId,
             @PageableDefault(size = 5, direction = Sort.Direction.DESC) Pageable pageable) {
-        return commentService.getThreads(postId, pageable);
+        return queryRepository.getThreads(postId, pageable);
     }
 
     @Override

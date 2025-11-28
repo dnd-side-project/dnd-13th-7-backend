@@ -1,4 +1,4 @@
-package com.moyeoit.domain.community;
+package com.moyeoit.domain.community.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
