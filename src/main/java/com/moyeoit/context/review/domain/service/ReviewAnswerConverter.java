@@ -66,7 +66,7 @@ public class ReviewAnswerConverter {
             return new MultipleSubjectiveAnswerResponse(
                     answer.getId(),
                     answer.getQuestion(),
-                    ArrayConverter.toStringArray(answer.getValue(), "\\|\\^\\|"),
+                    ArrayConverter.toStringArray(answer.getValue(), "\\/\\^\\/"),
                     answer.getAnswerType()
             );
         }
