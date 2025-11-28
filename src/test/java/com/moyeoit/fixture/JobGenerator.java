@@ -1,6 +1,6 @@
 package com.moyeoit.fixture;
 
-import com.moyeoit.domain.user.domain.Job;
+import com.moyeoit.context.user.domain.Job;
 
 public class JobGenerator {
 

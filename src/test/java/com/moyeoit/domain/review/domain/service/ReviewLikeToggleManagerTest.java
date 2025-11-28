@@ -1,13 +1,14 @@
 package com.moyeoit.domain.review.domain.service;
 
-import com.moyeoit.domain.review.domain.enums.ReviewCategory;
-import com.moyeoit.domain.review.domain.enums.ReviewResult;
-import com.moyeoit.domain.review.domain.model.Review;
-import com.moyeoit.domain.review.infra.ReviewRepository;
-import com.moyeoit.domain.review.repository.ReviewLikeRepository;
-import com.moyeoit.domain.user.domain.AuthProvider;
-import com.moyeoit.domain.user.domain.User;
-import com.moyeoit.domain.user.infra.jpa.JpaUserRepository;
+import com.moyeoit.context.review.domain.enums.ReviewCategory;
+import com.moyeoit.context.review.domain.enums.ReviewResult;
+import com.moyeoit.context.review.domain.model.Review;
+import com.moyeoit.context.review.domain.service.ReviewLikeToggleManager;
+import com.moyeoit.context.review.infra.ReviewRepository;
+import com.moyeoit.context.review.repository.ReviewLikeRepository;
+import com.moyeoit.context.user.domain.AuthProvider;
+import com.moyeoit.context.user.domain.User;
+import com.moyeoit.context.user.infra.jpa.JpaUserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

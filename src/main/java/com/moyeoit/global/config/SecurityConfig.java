@@ -1,6 +1,6 @@
 package com.moyeoit.global.config;
 
-import com.moyeoit.domain.user.service.UserService;
+import com.moyeoit.context.user.service.UserService;
 import com.moyeoit.global.auth.jwt.JwtFilter;
 import com.moyeoit.global.auth.jwt.JwtValidator;
 import lombok.AllArgsConstructor;

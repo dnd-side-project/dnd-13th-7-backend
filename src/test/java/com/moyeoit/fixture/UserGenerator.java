@@ -1,8 +1,8 @@
 package com.moyeoit.fixture;
 
-import com.moyeoit.domain.user.domain.AuthProvider;
-import com.moyeoit.domain.user.domain.Job;
-import com.moyeoit.domain.user.domain.User;
+import com.moyeoit.context.user.domain.AuthProvider;
+import com.moyeoit.context.user.domain.Job;
+import com.moyeoit.context.user.domain.User;
 
 public class UserGenerator {
 

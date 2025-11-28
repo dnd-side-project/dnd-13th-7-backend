@@ -1,23 +1,16 @@
 package com.moyeoit.domain.club;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.moyeoit.domain.club.controller.response.ClubInfoResponse;
-import com.moyeoit.domain.club.controller.response.ClubRecruitInfoResponse;
-import com.moyeoit.domain.club.entity.Club;
-import com.moyeoit.domain.club.entity.activity.ClubActivity;
-import com.moyeoit.domain.club.entity.ClubRecruitment;
-import com.moyeoit.domain.club.entity.schedule.ClubSchedule;
-import com.moyeoit.domain.club.repository.ClubRepository;
-import com.moyeoit.domain.club.service.ClubService;
-import java.util.ArrayList;
+import com.moyeoit.context.club.controller.response.ClubInfoResponse;
+import com.moyeoit.context.club.entity.Club;
+import com.moyeoit.context.club.repository.ClubRepository;
+import com.moyeoit.context.club.service.ClubService;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
