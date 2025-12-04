@@ -6,8 +6,14 @@ import lombok.Getter;
 
 @Getter
 public enum Way {
-    온라인,
-    오프라인;
+    ONLINE("온라인"),
+    OFFLINE("오프라인");
+
+    private final String description;
+
+    Way(String description) {
+        this.description = description;
+    }
 
     public static Way fromString(String text) {
         if (text == null) {
@@ -15,8 +21,8 @@ public enum Way {
         }
 
         return Stream.of(Way.values())
-                .filter(way -> way.name().equalsIgnoreCase(text))
+                .filter(way->way.description.equalsIgnoreCase(text))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException("Invalid way: " + text));
     }
 }

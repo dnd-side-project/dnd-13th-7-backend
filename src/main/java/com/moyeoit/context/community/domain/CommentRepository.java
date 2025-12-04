@@ -8,10 +8,6 @@ import org.springframework.data.domain.Pageable;
 public interface CommentRepository {
     Optional<Comment> findByIdAndPostId(Long parentId, Long postId);
 
-    Page<Comment> findByPostIdAndParentIsNullOrderByCreatedAtAsc(Long postId, Pageable pageable);
-
-    List<Comment> findByPostIdAndParentIdInOrderByCreatedAtAsc(Long postId, List<Long> parentIds);
-
     Optional<Comment> findById(Long commentId);
 
     Comment save(Comment saved);

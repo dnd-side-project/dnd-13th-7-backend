@@ -60,7 +60,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
             return null;
         }
 
-        return method==Way.온라인 ? club.clubMethod.online.isNotNull() : club.clubMethod.offline.isNotNull();
+        return method==Way.ONLINE ? club.clubMethod.online.isNotNull() : club.clubMethod.offline.isNotNull();
     }
     private BooleanExpression eqPart(String parts){
 //        if (parts == null || parts.isEmpty()) {

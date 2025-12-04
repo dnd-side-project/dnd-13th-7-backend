@@ -56,28 +56,6 @@ public class CommentService {
         return PostCommentResponse.from(saved);
     }
 
-    @Transactional(readOnly = true)
-    public Page<CommentThreadResponse> getThreads(Long postId, Pageable pageable) {
-        Page<Comment> parents = commentRepository.findByPostIdAndParentIsNullOrderByCreatedAtAsc(postId, pageable);
-
-        List<Long> parentIds = parents.stream().map(Comment::getId).toList();
-        Map<Long, List<Comment>> childrenMap = parentIds.isEmpty() ? Map.of()
-                : commentRepository.findByPostIdAndParentIdInOrderByCreatedAtAsc(postId, parentIds)
-                        .stream()
-                        .collect(Collectors.groupingBy(c -> c.getParent().getId(), LinkedHashMap::new, Collectors.toList()));
-
-        List<CommentThreadResponse> content = parents.getContent().stream()
-                .map(p -> new CommentThreadResponse(
-                        PostCommentResponse.from(p),
-                        childrenMap.getOrDefault(p.getId(), List.of()).stream()
-                                .map(PostCommentResponse::from)
-                                .toList()
-                ))
-                .toList();
-
-        return new PageImpl<>(content, pageable, parents.getTotalElements());
-    }
-
     @Transactional
     public PostCommentResponse update(Long commentId, Long userId, CommentUpdateRequest request) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("comment not found"));
