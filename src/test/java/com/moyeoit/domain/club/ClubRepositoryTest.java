@@ -1,8 +1,8 @@
 package com.moyeoit.domain.club;
 
-import com.moyeoit.context.club.controller.request.ClubPagingRequest;
-import com.moyeoit.context.club.entity.Club;
-import com.moyeoit.context.club.repository.ClubRepository;
+import com.moyeoit.context.club.presentation.request.ClubPagingRequest;
+import com.moyeoit.context.club.domain.entity.Club;
+import com.moyeoit.context.club.domain.repository.ClubRepository;
 import com.moyeoit.global.config.QueryDslConfig;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;

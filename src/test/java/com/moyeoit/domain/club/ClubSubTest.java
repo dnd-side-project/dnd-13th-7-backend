@@ -1,13 +1,13 @@
 package com.moyeoit.domain.club;
 
-import com.moyeoit.context.club.entity.Club;
-import com.moyeoit.context.club.entity.ClubAddress;
-import com.moyeoit.context.club.entity.ClubMethod;
-import com.moyeoit.context.club.entity.ClubProfile;
-import com.moyeoit.context.club.entity.ClubSubscribe;
-import com.moyeoit.context.club.repository.ClubRepository;
-import com.moyeoit.context.club.repository.ClubSubscribeRepository;
-import com.moyeoit.context.club.service.ClubService;
+import com.moyeoit.context.club.domain.entity.Club;
+import com.moyeoit.context.club.domain.entity.ClubAddress;
+import com.moyeoit.context.club.domain.entity.ClubMethod;
+import com.moyeoit.context.club.domain.entity.ClubProfile;
+import com.moyeoit.context.club.domain.entity.ClubSubscribe;
+import com.moyeoit.context.club.domain.repository.ClubRepository;
+import com.moyeoit.context.club.domain.repository.ClubSubscribeRepository;
+import com.moyeoit.context.club.application.service.ClubService;
 import com.moyeoit.context.user.domain.AuthProvider;
 import com.moyeoit.context.user.domain.Job;
 import com.moyeoit.context.user.domain.User;

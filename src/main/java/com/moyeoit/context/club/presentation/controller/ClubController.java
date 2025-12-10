@@ -1,0 +1,85 @@
+package com.moyeoit.context.club.presentation.controller;
+
+import com.moyeoit.context.club.presentation.request.ClubPagingRequest;
+import com.moyeoit.context.club.presentation.response.ClubFindListResponse;
+import com.moyeoit.context.club.presentation.response.ClubInfoResponse;
+import com.moyeoit.context.club.presentation.response.ClubListResponse;
+import com.moyeoit.context.club.presentation.response.ClubRecruitInfoResponse;
+import com.moyeoit.context.club.presentation.swagger.ClubAPI;
+import com.moyeoit.context.club.application.service.ClubService;
+import com.moyeoit.global.auth.argument_resolver.AccessUser;
+import com.moyeoit.global.auth.argument_resolver.CurrentUser;
+import com.moyeoit.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/v1/clubs")
+@Tag(name = "동아리 API", description = "동아리 조회 및 구독 등에 대한 기능을 가지는 API")
+public class ClubController implements ClubAPI {
+
+    private final ClubService clubService;
+
+    @GetMapping("/{clubId}/details")
+    public ApiResponse<ClubInfoResponse> getDetailClubInfo(@PathVariable Long clubId) {
+        return ApiResponse.success("동아리 상세 정보 조회에 성공하였습니다.", clubService.findDetailInfo(clubId));
+    }
+
+    @GetMapping("/{clubId}/recruits")
+    public ApiResponse<ClubRecruitInfoResponse> getRecruitInfo(@PathVariable Long clubId) {
+        return ApiResponse.success("동아리 모집정보 조회에 성공하였습니다.", clubService.findRecruitInfo(clubId));
+    }
+
+    @GetMapping
+    public ApiResponse<Page<ClubListResponse>> getClubList(
+            @ModelAttribute ClubPagingRequest request,
+            @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable) {
+        return ApiResponse.success("동아리 목록 조회에 성공하였습니다.", clubService.findClubList(request, pageable));
+    }
+
+    @GetMapping("/suggest")
+    public ApiResponse<List<ClubFindListResponse>> suggestClubList(@RequestParam String keyword) {
+        return ApiResponse.success("동아리 검색에 성공하였습니다.", clubService.suggestClubList(keyword));
+    }
+
+    @PostMapping("/{clubId}/subscribe")
+    public ApiResponse<?> subscribeClub(
+            @PathVariable Long clubId,
+            @Parameter(hidden = true) @CurrentUser AccessUser user) {
+        boolean subscribed = clubService.subscribeClub(clubId, user.getId());
+
+        return ApiResponse.success("구독 상태가 변경되었습니다.", Map.of("subscribed", subscribed));
+    }
+
+    @GetMapping("/user-subscribe")
+    public ApiResponse<?> getUserSubscribe(
+            @Parameter(hidden = true) @CurrentUser AccessUser user,
+            @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable) {
+        return ApiResponse.success("유저의 동아리 구독 목록을 확인하였습니다.", clubService.subClubList(user.getId(), pageable));
+    }
+
+    @GetMapping("/user-subscribe/check")
+    public ApiResponse<?> checkUserSubscription(
+            @Parameter(hidden = true) @CurrentUser AccessUser user,
+            @RequestParam Long clubId) {
+        boolean subscribed = clubService.findOutClubSub(clubId, user.getId());
+        return ApiResponse.success("유저의 동아리 구독 사실을 확인하였습니다.", Map.of("subscribed", subscribed));
+    }
+
+    @GetMapping("/search")
+    public ApiResponse<Page<ClubListResponse>> searchClubList(
+            @RequestParam String keyword,
+            @PageableDefault(size = 8, direction = Sort.Direction.DESC) Pageable pageable) {
+        return ApiResponse.success("동아리 검색 기록을 조회했습니다.", clubService.searchClubList(keyword, pageable));
+    }
+}

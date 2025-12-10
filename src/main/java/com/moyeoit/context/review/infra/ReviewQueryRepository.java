@@ -1,6 +1,6 @@
 package com.moyeoit.context.review.infra;
 
-import com.moyeoit.context.club.dto.ClubWithNameAndImageUrlDto;
+import com.moyeoit.context.club.application.dto.ClubWithNameAndImageUrlDto;
 import com.moyeoit.context.review.controller.response.QuestionElementResponse;
 import com.moyeoit.context.review.controller.response.QuestionResponse;
 import com.moyeoit.context.review.controller.response.v2.OriginalReviewAnswer;

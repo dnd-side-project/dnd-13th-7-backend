@@ -6,10 +6,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.moyeoit.context.club.controller.response.ClubInfoResponse;
-import com.moyeoit.context.club.entity.Club;
-import com.moyeoit.context.club.repository.ClubRepository;
-import com.moyeoit.context.club.service.ClubService;
+import com.moyeoit.context.club.presentation.response.ClubInfoResponse;
+import com.moyeoit.context.club.domain.entity.Club;
+import com.moyeoit.context.club.domain.repository.ClubRepository;
+import com.moyeoit.context.club.application.service.ClubService;
 import java.util.Optional;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
