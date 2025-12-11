@@ -16,7 +16,7 @@ public record ClubFindListResponse(
         return new ClubFindListResponse(
                 club.getId(),
                 club.getName(),
-                club.getClubProfile().getImageUrl()
+                club.getClubProfile().imageUrl()
         );
     }
 }

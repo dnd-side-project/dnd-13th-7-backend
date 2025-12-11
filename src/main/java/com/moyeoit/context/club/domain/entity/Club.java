@@ -33,10 +33,10 @@ public class Club {
     private ClubProfile clubProfile;
 
     @Embedded
-    private ClubMethod clubMethod;
+    private ClubActivityMethod ClubActivityMethod;
 
     @Embedded
-    private ClubAddress clubAddress;
+    private ClubPlace clubPlace;
 
     @Column(name = "significant")
     private String significant;

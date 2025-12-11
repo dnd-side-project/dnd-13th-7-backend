@@ -17,7 +17,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import static com.moyeoit.context.club.entity.QClub.club;
+import static com.moyeoit.context.club.domain.entity.QClub.club;
 
 @Repository
 @RequiredArgsConstructor
@@ -60,7 +60,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
             return null;
         }
 
-        return method==Way.ONLINE ? club.clubMethod.online.isNotNull() : club.clubMethod.offline.isNotNull();
+        return method==Way.ONLINE ? club.ClubActivityMethod.online.isNotNull() : club.ClubActivityMethod.offline.isNotNull();
     }
     private BooleanExpression eqPart(String parts){
 //        if (parts == null || parts.isEmpty()) {

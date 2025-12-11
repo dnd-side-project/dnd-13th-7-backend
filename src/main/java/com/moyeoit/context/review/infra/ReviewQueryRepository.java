@@ -29,7 +29,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.moyeoit.context.club.entity.QClub.club;
+import static com.moyeoit.context.club.domain.entity.QClub.club;
 import static com.moyeoit.context.review.domain.model.QReview.review;
 import static com.moyeoit.context.review.domain.model.QReviewAnswer.reviewAnswer;
 import static com.moyeoit.context.review.domain.model.QReviewContentSummary.reviewContentSummary;

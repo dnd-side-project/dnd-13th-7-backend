@@ -1,8 +1,8 @@
 package com.moyeoit.context.club.presentation.request;
 
 import com.moyeoit.context.club.domain.entity.Club;
-import com.moyeoit.context.club.domain.entity.ClubAddress;
-import com.moyeoit.context.club.domain.entity.ClubMethod;
+import com.moyeoit.context.club.domain.entity.ClubActivityMethod;
+import com.moyeoit.context.club.domain.entity.ClubPlace;
 import com.moyeoit.context.club.domain.entity.ClubProfile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,12 +34,12 @@ public class ClubSaveRequest {
                 request.getImageUrl()
                 );
 
-        ClubMethod method = new ClubMethod(
+        ClubActivityMethod method = new ClubActivityMethod(
                 request.getOnline(),
                 request.getOffline()
         );
 
-        ClubAddress address = new ClubAddress(
+        ClubPlace address = new ClubPlace(
                 request.getLocation(),
                 request.getAddress()
         );
@@ -47,8 +47,8 @@ public class ClubSaveRequest {
         return Club.builder()
                 .name(request.getName())
                 .clubProfile(clubProfile)
-                .clubMethod(method)
-                .clubAddress(address)
+                .ClubActivityMethod(method)
+                .clubPlace(address)
                 .recruiting(request.getRecruiting())
                 .build();
     }

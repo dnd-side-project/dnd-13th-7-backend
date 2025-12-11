@@ -2,35 +2,27 @@ package com.moyeoit.context.club.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Embeddable
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ClubProfile {
+public record ClubProfile(
 
-    @Column(name = "slogan")
-    private String slogan;               // 슬로건
+        @Column(name = "slogan")
+        String slogan,               // 슬로건
 
-    @Column(name = "bio")
-    private String bio;                  // 소개
+        @Column(name = "bio")
+        String bio,                  // 소개
 
-    @Column(name = "establishment")
-    private LocalDate establishment; // 설립일시
+        @Column(name = "establishment")
+        LocalDate establishment,     // 설립일시
 
-    @Column(name = "total_participant")
-    private Integer totalParticipant;       // 총 참여자
+        @Column(name = "total_participant")
+        Integer totalParticipant,    // 총 참여자
 
-    @Column(name = "operation")
-    private Integer operation;           // 운영 기수
+        @Column(name = "operation")
+        Integer operation,           // 운영 기수
 
-    @Column(name = "image_url")
-    private String imageUrl;             // 이미지 URL
-
-}
+        @Column(name = "image_url")
+        String imageUrl              // 이미지 URL
+) {}

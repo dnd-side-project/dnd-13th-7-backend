@@ -23,9 +23,9 @@ public record ClubListResponse(
         return new ClubListResponse(
                 club.getId(),
                 club.getName(),
-                club.getClubProfile().getBio(),
+                club.getClubProfile().bio(),
                 club.getPositions().stream().map(ClubPosition::getName).toList(),
-                club.getClubProfile().getImageUrl(),
+                club.getClubProfile().imageUrl(),
                 club.getRecruiting()
         );
     }

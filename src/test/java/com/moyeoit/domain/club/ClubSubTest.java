@@ -1,8 +1,8 @@
 package com.moyeoit.domain.club;
 
 import com.moyeoit.context.club.domain.entity.Club;
-import com.moyeoit.context.club.domain.entity.ClubAddress;
-import com.moyeoit.context.club.domain.entity.ClubMethod;
+import com.moyeoit.context.club.domain.entity.ClubActivityMethod;
+import com.moyeoit.context.club.domain.entity.ClubPlace;
 import com.moyeoit.context.club.domain.entity.ClubProfile;
 import com.moyeoit.context.club.domain.entity.ClubSubscribe;
 import com.moyeoit.context.club.domain.repository.ClubRepository;
@@ -70,12 +70,12 @@ class ClubSubTest {
                 "https://example.com/club-image.png"
         );
 
-        ClubMethod clubMethod = new ClubMethod(
+        ClubActivityMethod ClubActivityMethod = new ClubActivityMethod(
                 "서울 강남구",
                 "https://zoom.example.com"
         );
 
-        ClubAddress clubAddress = new ClubAddress(
+        ClubPlace clubAddress = new ClubPlace(
                 "서울",
                 "서울 강남구 테헤란로 123"
         );
@@ -84,8 +84,8 @@ class ClubSubTest {
                 .id(1L)
                 .name("모여잇 개발 동아리")
                 .clubProfile(clubProfile)
-                .clubMethod(clubMethod)
-                .clubAddress(clubAddress)
+                .ClubActivityMethod(ClubActivityMethod)
+                .clubPlace(clubAddress)
                 .recruiting(true)
                 .subscribeCount(10)
                 .build();
