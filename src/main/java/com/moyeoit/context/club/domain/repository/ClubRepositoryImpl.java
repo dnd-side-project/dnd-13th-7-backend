@@ -3,7 +3,7 @@ package com.moyeoit.context.club.domain.repository;
 
 import com.moyeoit.context.club.presentation.request.ClubPagingRequest;
 import com.moyeoit.context.club.domain.entity.Club;
-import com.moyeoit.context.club.domain.entity.enums.Way;
+import com.moyeoit.context.club.infra.query.ClubActivityType;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -54,13 +54,13 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
         return StringUtils.hasText(field) ? club.positions.any().name.eq(field) : null;
     }
     private BooleanExpression eqWay(String way){
-        Way method = Way.fromString(way);
+        ClubActivityType method = ClubActivityType.fromString(way);
 
         if (method==null) {
             return null;
         }
 
-        return method==Way.ONLINE ? club.ClubActivityMethod.online.isNotNull() : club.ClubActivityMethod.offline.isNotNull();
+        return method== ClubActivityType.ONLINE ? club.ClubActivityMethod.online.isNotNull() : club.ClubActivityMethod.offline.isNotNull();
     }
     private BooleanExpression eqPart(String parts){
 //        if (parts == null || parts.isEmpty()) {
