@@ -52,7 +52,7 @@ public class CommentService {
                 .content(request.getContent())
                 .build();
         saved = commentRepository.save(saved);
-
+        post.increaseCommentCount();
         return PostCommentResponse.from(saved);
     }
 
@@ -76,7 +76,8 @@ public class CommentService {
         if(!comment.getUser().getId().equals(userId)){
             throw new SecurityException("작성자만 삭제할 수 있습니다.");
         }
-
+        Post currentPost = comment.getPost();
+        currentPost.increaseCommentCount();
         comment.commentDelete();
     }
 }
