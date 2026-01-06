@@ -66,6 +66,7 @@ dependencies {
     testImplementation 'com.h2database:h2:2.2.220'
     testImplementation 'org.assertj:assertj-core:3.27.6'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation "org.springframework.security:spring-security-test"
     //micrometer-newrelic
     implementation "io.micrometer:micrometer-registry-new-relic"
     //QueryDSL
