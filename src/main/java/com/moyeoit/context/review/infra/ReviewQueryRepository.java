@@ -162,7 +162,7 @@ public class ReviewQueryRepository {
     }
 
     public BooleanExpression eqTitle(String title) {
-        if (StringUtils.hasText(title)) {
+        if (!StringUtils.hasText(title)) {
             return null;
         }
         return review.title.containsIgnoreCase(title);
