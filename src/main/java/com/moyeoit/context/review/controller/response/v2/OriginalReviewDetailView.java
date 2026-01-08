@@ -1,6 +1,6 @@
 package com.moyeoit.context.review.controller.response.v2;
 
-import com.moyeoit.context.club.dto.ClubWithNameAndImageUrlDto;
+import com.moyeoit.context.club.application.dto.ClubWithNameAndImageUrlDto;
 import com.moyeoit.context.review.domain.enums.ReviewResult;
 import com.moyeoit.context.user.service.dto.JobDto;
 import lombok.AllArgsConstructor;

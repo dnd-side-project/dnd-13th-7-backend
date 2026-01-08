@@ -1,9 +1,11 @@
 package com.moyeoit.context.community.presentation.controller.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 @Schema(description = "댓글 생성 요청")
 public class CommentCreateRequest {
     @Schema(description = "댓글 내용", example = "저도 치킨 좋아해요!")

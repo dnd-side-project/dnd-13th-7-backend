@@ -1,6 +1,6 @@
 package com.moyeoit.context.user.service;
 
-import com.moyeoit.context.club.repository.ClubSubscribeRepository;
+import com.moyeoit.context.club.domain.repository.ClubSubscribeRepository;
 import com.moyeoit.context.review.repository.ReviewLikeRepository;
 import com.moyeoit.context.user.controller.response.InterestsResponse;
 import com.moyeoit.context.user.domain.repository.UserRepository;

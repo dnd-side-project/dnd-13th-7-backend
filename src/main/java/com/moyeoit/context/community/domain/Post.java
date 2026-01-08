@@ -93,4 +93,14 @@ public class Post {
     public void increaseLikeCount() {
         this.likeCount++;
     }
+
+    public void increaseCommentCount(){
+        this.commentCount++;
+    }
+
+    public void decreaseCommentCount(){
+        if(commentCount>0) {
+            this.commentCount++;
+        }
+    }
 }

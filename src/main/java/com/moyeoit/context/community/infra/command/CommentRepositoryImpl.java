@@ -21,16 +21,6 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public Page<Comment> findByPostIdAndParentIsNullOrderByCreatedAtAsc(Long postId, Pageable pageable) {
-        return jpaRepository.findByPostIdAndParentIsNullOrderByCreatedAtAsc(postId, pageable);
-    }
-
-    @Override
-    public List<Comment> findByPostIdAndParentIdInOrderByCreatedAtAsc(Long postId, List<Long> parentIds) {
-        return jpaRepository.findByPostIdAndParentIdInOrderByCreatedAtAsc(postId, parentIds);
-    }
-
-    @Override
     public Optional<Comment> findById(Long commentId) {
         return jpaRepository.findById(commentId);
     }

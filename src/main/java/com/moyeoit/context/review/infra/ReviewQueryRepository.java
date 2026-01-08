@@ -1,6 +1,6 @@
 package com.moyeoit.context.review.infra;
 
-import com.moyeoit.context.club.dto.ClubWithNameAndImageUrlDto;
+import com.moyeoit.context.club.application.dto.ClubWithNameAndImageUrlDto;
 import com.moyeoit.context.review.controller.response.QuestionElementResponse;
 import com.moyeoit.context.review.controller.response.QuestionResponse;
 import com.moyeoit.context.review.controller.response.v2.OriginalReviewAnswer;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.moyeoit.context.club.entity.QClub.club;
+import static com.moyeoit.context.club.domain.entity.QClub.club;
 import static com.moyeoit.context.review.domain.model.QReview.review;
 import static com.moyeoit.context.review.domain.model.QReviewAnswer.reviewAnswer;
 import static com.moyeoit.context.review.domain.model.QReviewContentSummary.reviewContentSummary;
@@ -162,7 +162,7 @@ public class ReviewQueryRepository {
     }
 
     public BooleanExpression eqTitle(String title) {
-        if (StringUtils.hasText(title)) {
+        if (!StringUtils.hasText(title)) {
             return null;
         }
         return review.title.containsIgnoreCase(title);

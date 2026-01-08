@@ -52,30 +52,8 @@ public class CommentService {
                 .content(request.getContent())
                 .build();
         saved = commentRepository.save(saved);
-
+        post.increaseCommentCount();
         return PostCommentResponse.from(saved);
-    }
-
-    @Transactional(readOnly = true)
-    public Page<CommentThreadResponse> getThreads(Long postId, Pageable pageable) {
-        Page<Comment> parents = commentRepository.findByPostIdAndParentIsNullOrderByCreatedAtAsc(postId, pageable);
-
-        List<Long> parentIds = parents.stream().map(Comment::getId).toList();
-        Map<Long, List<Comment>> childrenMap = parentIds.isEmpty() ? Map.of()
-                : commentRepository.findByPostIdAndParentIdInOrderByCreatedAtAsc(postId, parentIds)
-                        .stream()
-                        .collect(Collectors.groupingBy(c -> c.getParent().getId(), LinkedHashMap::new, Collectors.toList()));
-
-        List<CommentThreadResponse> content = parents.getContent().stream()
-                .map(p -> new CommentThreadResponse(
-                        PostCommentResponse.from(p),
-                        childrenMap.getOrDefault(p.getId(), List.of()).stream()
-                                .map(PostCommentResponse::from)
-                                .toList()
-                ))
-                .toList();
-
-        return new PageImpl<>(content, pageable, parents.getTotalElements());
     }
 
     @Transactional
@@ -98,7 +76,8 @@ public class CommentService {
         if(!comment.getUser().getId().equals(userId)){
             throw new SecurityException("작성자만 삭제할 수 있습니다.");
         }
-
+        Post currentPost = comment.getPost();
+        currentPost.increaseCommentCount();
         comment.commentDelete();
     }
 }

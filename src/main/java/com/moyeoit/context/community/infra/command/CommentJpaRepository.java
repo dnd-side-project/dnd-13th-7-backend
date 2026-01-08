@@ -9,8 +9,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentJpaRepository extends JpaRepository<Comment,Long>{
     Optional<Comment> findByIdAndPostId(Long parentId, Long postId);
-
-    Page<Comment> findByPostIdAndParentIsNullOrderByCreatedAtAsc(Long postId, Pageable pageable);
-
-    List<Comment> findByPostIdAndParentIdInOrderByCreatedAtAsc(Long postId, List<Long> parentIds);
 }
