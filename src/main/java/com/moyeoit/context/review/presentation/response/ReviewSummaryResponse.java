@@ -1,5 +1,6 @@
 package com.moyeoit.context.review.presentation.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,15 +11,31 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@Schema(description = "리뷰 요약 응답")
 public class ReviewSummaryResponse {
 
+    @Schema(description = "동아리 이름", example = "코딩의 민족")
     private String clubName;
+
+    @Schema(description = "기수", example = "13")
     private Integer generation;
+
+    @Schema(description = "직무 이름", example = "백엔드 개발자")
     private String jobName;
+
+    @Schema(description = "평점", example = "4.5")
     private Double rate;
+
+    @Schema(description = "리뷰 제목", example = "활동 후기입니다.")
     private String title;
+
+    @Schema(description = "답변 요약 목록")
     private List<ReviewChoiceSummary> answerSummaries;
+
+    @Schema(description = "좋아요 수", example = "10")
     private Long likeCount;
+
+    @Schema(description = "댓글 수", example = "5")
     private Long commentCount;
 
     public ReviewSummaryResponse(String clubName, Integer generation, String jobName, Double rate, String title, List<String> choiceSummaries, Long likeCount, Long commentCount) {
