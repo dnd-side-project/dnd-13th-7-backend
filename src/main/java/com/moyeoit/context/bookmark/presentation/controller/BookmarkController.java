@@ -1,6 +1,8 @@
 package com.moyeoit.context.bookmark.presentation.controller;
 
+import com.moyeoit.context.bookmark.infra.query.BookmarkQueryRepository;
 import com.moyeoit.context.bookmark.presentation.request.BookmarkCreateRequest;
+import com.moyeoit.context.bookmark.presentation.request.BookmarkType;
 import com.moyeoit.context.bookmark.presentation.response.BookmarkResponse;
 import com.moyeoit.context.bookmark.presentation.swagger.BookmarkApi;
 import com.moyeoit.context.bookmark.service.BookmarkService;
@@ -21,36 +23,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/bookmarks")
+@RequestMapping("/api/v1/bookmarks")
 public class BookmarkController implements BookmarkApi {
 
     private final BookmarkService bookmarkService;
+    private final BookmarkQueryRepository bookmarkQueryRepository;
 
     @Override
     @GetMapping("/clubs")
     public ApiResponse<Page<ClubListResponse>> getBookmarkedClubs(@CurrentUser AccessUser user, Pageable pageable) {
-        return ApiResponse.success(bookmarkService.getBookmarkedClubs(user.getId(), pageable));
+        return ApiResponse.success(bookmarkQueryRepository.findBookmarkedClubs(user.getId(), pageable));
     }
 
     @Override
     @GetMapping("/reviews/interview")
     public ApiResponse<Page<ReviewSummaryResponse>> getBookmarkedInterviewReviews(@CurrentUser AccessUser user, Pageable pageable) {
-        // TODO: Implement logic to fetch bookmarked interview reviews
-        return ApiResponse.success(Page.empty(pageable));
+        return ApiResponse.success(bookmarkQueryRepository.findBookmarkedReviews(user.getId(), BookmarkType.INTERVIEW_REVIEW, pageable));
     }
 
     @Override
     @GetMapping("/reviews/activity")
     public ApiResponse<Page<ReviewSummaryResponse>> getBookmarkedActivityReviews(@CurrentUser AccessUser user, Pageable pageable) {
-        // TODO: Implement logic to fetch bookmarked activity reviews
-        return ApiResponse.success(Page.empty(pageable));
+        return ApiResponse.success(bookmarkQueryRepository.findBookmarkedReviews(user.getId(), BookmarkType.ACTIVITY_REVIEW, pageable));
     }
 
     @Override
     @GetMapping("/reviews/blog")
     public ApiResponse<Page<BlogReviewResponse>> getBookmarkedBlogReviews(@CurrentUser AccessUser user, Pageable pageable) {
-        // TODO: Implement logic to fetch bookmarked blog reviews
-        return ApiResponse.success(Page.empty(pageable));
+        return ApiResponse.success(bookmarkQueryRepository.findBookmarkedBlogReviews(user.getId(), pageable));
     }
 
     @Override
