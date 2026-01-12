@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/bookmarks")
+@RequestMapping("/v1/bookmarks")
 public class BookmarkController implements BookmarkApi {
 
     private final BookmarkService bookmarkService;
