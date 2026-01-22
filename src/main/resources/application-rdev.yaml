@@ -87,5 +87,5 @@ app:
 # Loggin 관련 설정
 logging:
   level:
-    org.springframework.security: INFO
+    org.springframework.security: debug
     org.springframework.security.oauth2: TRACE

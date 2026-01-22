@@ -77,7 +77,7 @@ jwt:
 
 logging:
   level:
-    root: DEBUG
+    root: INFO
 
 management:
   endpoints:
