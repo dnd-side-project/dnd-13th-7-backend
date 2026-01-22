@@ -89,3 +89,5 @@ logging:
   level:
     org.springframework.security: debug
     org.springframework.security.oauth2: TRACE
+    org.springframework.web.filter.CorsFilter: TRACE
+    org.springframework.web.cors: DEBUG
