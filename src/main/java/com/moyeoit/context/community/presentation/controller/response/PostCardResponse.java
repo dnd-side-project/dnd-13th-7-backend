@@ -1,5 +1,6 @@
 package com.moyeoit.context.community.presentation.controller.response;
 
+import com.moyeoit.context.community.domain.PostType;
 import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
@@ -18,6 +19,8 @@ public record PostCardResponse (
         Long categoryId,
         @Schema(description = "카테고리 이름", example = "음식")
         String categoryName,
+        @Schema(description = "게시글 타입", example = "QUESTION")
+        PostType postType,
         @Schema(description = "작성자 닉네임", example = "치킨마니아")
         String authorNickname,
         @Schema(description = "조회수", example = "100")

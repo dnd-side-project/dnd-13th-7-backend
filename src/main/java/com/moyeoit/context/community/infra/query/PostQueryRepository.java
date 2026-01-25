@@ -43,6 +43,7 @@ public class PostQueryRepository {
                                 .where(postImage.post.eq(post), postImage.isRepresentative.isTrue()),
                         post.category.id,
                         post.category.name,
+                        post.postType,
                         post.author.nickname,
                         post.viewCount,
                         post.likeCount,
@@ -81,6 +82,7 @@ public class PostQueryRepository {
                         post.content.substring(0, 100),
                         post.category.id,
                         post.category.name,
+                        post.postType,
                         post.likeCount,
                         post.commentCount
                 ))
@@ -115,6 +117,7 @@ public class PostQueryRepository {
                         buildIsLikedExpression(postId, userId),
                         post.likeCount,
                         post.author.nickname,
+                        post.postType,
                         post.title,
                         post.viewCount
                 ))
@@ -146,6 +149,7 @@ public class PostQueryRepository {
                                 .where(postImage.post.eq(post), postImage.isRepresentative.isTrue()),
                         post.category.id,
                         post.category.name,
+                        post.postType,
                         post.author.nickname,
                         post.viewCount,
                         post.likeCount,

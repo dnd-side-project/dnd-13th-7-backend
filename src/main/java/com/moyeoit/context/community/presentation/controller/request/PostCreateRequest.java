@@ -1,5 +1,6 @@
 package com.moyeoit.context.community.presentation.controller.request;
 
+import com.moyeoit.context.community.domain.PostType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import lombok.Getter;
@@ -14,6 +15,8 @@ public class PostCreateRequest {
     private String title;
     @Schema(description = "게시글 내용", example = "BHC 뿌링클 치킨 기프티콘이 있는데 오늘 저녁에 같이 드실 분 구합니다.")
     private String content;
+    @Schema(description = "게시글 타입", example = "QUESTION")
+    private PostType postType;
     @Schema(description = "게시글 이미지 목록")
     List<PostCreateImage> images;
 

@@ -12,6 +12,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,11 @@ public class Post {
     @org.hibernate.annotations.JdbcTypeCode(java.sql.Types.LONGVARCHAR)
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    @Column(name = "post_type", nullable = false, length = 20)
+    private PostType postType = PostType.GENERAL;
 
     @Builder.Default
     @Column(name = "view_count")
