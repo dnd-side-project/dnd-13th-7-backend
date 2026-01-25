@@ -4,6 +4,7 @@ import static com.moyeoit.context.community.domain.QPost.post;
 import static com.moyeoit.context.community.domain.QPostImage.postImage;
 import static com.moyeoit.context.community.domain.QPostLike.postLike;
 
+import com.moyeoit.context.community.domain.CommunityCategoryType;
 import com.moyeoit.context.community.domain.PostLike;
 import com.moyeoit.context.community.presentation.controller.response.PopularPostResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostCardResponse;
@@ -31,7 +32,7 @@ public class PostQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public Page<PostCardResponse> findFeed(Long categoryId, Pageable pageable) {
+    public Page<PostCardResponse> findFeed(CommunityCategoryType category, Pageable pageable) {
         List<PostCardResponse> content = queryFactory
                 .select(new QPostCardResponse(
                         post.id,
@@ -53,8 +54,8 @@ public class PostQueryRepository {
                 .from(post)
                 .where(
                         post.isDeleted.isFalse(),
-                        eqCategoryId(categoryId),
-                        filterHotPost(categoryId)
+                        eqCategoryName(category),
+                        filterHotPost(category)
                 )
                 .orderBy(post.createdAt.desc())
                 .offset(pageable.getOffset())
@@ -66,8 +67,8 @@ public class PostQueryRepository {
                 .from(post)
                 .where(
                         post.isDeleted.isFalse(),
-                        eqCategoryId(categoryId),
-                        filterHotPost(categoryId)
+                        eqCategoryName(category),
+                        filterHotPost(category)
                 );
 
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
@@ -175,12 +176,15 @@ public class PostQueryRepository {
         return PageableExecutionUtils.getPage(content, pageable , countQuery::fetchOne);
     }
 
-    private BooleanExpression eqCategoryId(Long categoryId) {
-        return categoryId != null ? post.category.id.eq(categoryId) : null;
+    private BooleanExpression eqCategoryName(CommunityCategoryType category) {
+        if (category == null) {
+            return null;
+        }
+        return post.category.name.eq(category.getDisplayName());
     }
 
-    private BooleanExpression filterHotPost(Long categoryId) {
-        if (categoryId != null && categoryId == 1L) {
+    private BooleanExpression filterHotPost(CommunityCategoryType category) {
+        if (category != null && category.isPopular()) {
             return post.likeCount.goe(10);
         }
         return null;
