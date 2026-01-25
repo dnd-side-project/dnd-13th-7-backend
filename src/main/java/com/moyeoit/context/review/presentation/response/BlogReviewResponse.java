@@ -13,6 +13,9 @@ import lombok.Setter;
 @Schema(description = "블로그 후기 응답")
 public class BlogReviewResponse {
 
+    @Schema(description = "리뷰 ID", example = "1")
+    private Long reviewId;
+
     @Schema(description = "동아리 이름", example = "DND")
     private String clubName;
 

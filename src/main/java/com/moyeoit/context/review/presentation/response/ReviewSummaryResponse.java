@@ -14,6 +14,9 @@ import java.util.List;
 @Schema(description = "리뷰 요약 응답")
 public class ReviewSummaryResponse {
 
+    @Schema(description = "리뷰 ID", example = "1")
+    private Long reviewId;
+
     @Schema(description = "동아리 이름", example = "코딩의 민족")
     private String clubName;
 
@@ -38,24 +41,25 @@ public class ReviewSummaryResponse {
     @Schema(description = "댓글 수", example = "5")
     private Long commentCount;
 
-    public ReviewSummaryResponse(String clubName, Integer generation, String jobName, Double rate, String title, List<String> choiceSummaries, Long likeCount, Long commentCount) {
+    public ReviewSummaryResponse(Long reviewId, String clubName, Integer generation, String jobName, Double rate, String title, List<String> choiceSummaries, Long likeCount, Long commentCount) {
+        this.reviewId = reviewId;
         this.clubName = clubName;
         this.generation = generation;
         this.jobName = jobName;
         this.rate = rate;
         this.title = title;
         this.answerSummaries = new ArrayList<>();
-        for (int i = 0; i < choiceSummaries.size(); i += 2) {
-            if (i + 1 < choiceSummaries.size()) {
-                answerSummaries.add(new ReviewChoiceSummary(choiceSummaries.get(i), choiceSummaries.get(i + 1)));
-            } else {
-                break;
+        if (choiceSummaries != null) {
+            for (int i = 0; i < choiceSummaries.size(); i += 2) {
+                if (i + 1 < choiceSummaries.size()) {
+                    answerSummaries.add(new ReviewChoiceSummary(choiceSummaries.get(i), choiceSummaries.get(i + 1)));
+                } else {
+                    break;
+                }
             }
-
         }
         this.likeCount = likeCount;
         this.commentCount = commentCount;
-
     }
 
 }
