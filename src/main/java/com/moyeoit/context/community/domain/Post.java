@@ -103,13 +103,13 @@ public class Post {
         this.likeCount++;
     }
 
-    public void increaseCommentCount(){
+    public void increaseCommentCount() {
         this.commentCount++;
     }
 
-    public void decreaseCommentCount(){
-        if(commentCount>0) {
-            this.commentCount++;
+    public void decreaseCommentCount() {
+        if (commentCount > 0) {
+            this.commentCount--;
         }
     }
 }

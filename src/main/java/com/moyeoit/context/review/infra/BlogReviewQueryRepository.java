@@ -1,12 +1,15 @@
 package com.moyeoit.context.review.infra;
 
+import com.moyeoit.context.bookmark.presentation.request.BookmarkType;
 import com.moyeoit.context.review.domain.enums.ReviewSort;
 import com.moyeoit.context.review.presentation.request.BlogReviewSearchRequest;
 import com.moyeoit.context.review.presentation.response.BlogReviewResponseV2;
 import com.querydsl.core.types.ConstructorExpression;
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +21,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.moyeoit.context.bookmark.infra.entity.QBookmarkEntity.bookmarkEntity;
 import static com.moyeoit.context.club.domain.entity.QClub.club;
 import static com.moyeoit.context.review.domain.model.QBlogReviewEntity.blogReviewEntity;
-import static com.moyeoit.context.review.domain.model.QReview.review;
 import static com.moyeoit.context.user.domain.QJob.job;
 import static com.querydsl.core.group.GroupBy.groupBy;
 
@@ -102,10 +105,24 @@ public class BlogReviewQueryRepository {
 
     public OrderSpecifier<?>[] getOrderSpecifier(ReviewSort sort) {
         if (ReviewSort.LATEST.equals(sort))
-            return new OrderSpecifier[]{review.createdDate.desc()};
+            return new OrderSpecifier[]{blogReviewEntity.createdDate.desc()};
         if (ReviewSort.POPULAR.equals(sort))
-            return new OrderSpecifier[]{review.likeCount.desc(), review.createdDate.desc()};
-        return new OrderSpecifier[]{review.createdDate.desc()};
+            return new OrderSpecifier[]{
+                    new OrderSpecifier<>(Order.DESC, bookmarkCountSubQuery()),
+                    blogReviewEntity.createdDate.desc()
+            };
+        return new OrderSpecifier[]{blogReviewEntity.createdDate.desc()};
+    }
+
+    private com.querydsl.core.types.SubQueryExpression<Long> bookmarkCountSubQuery() {
+        return JPAExpressions
+                .select(bookmarkEntity.count())
+                .from(bookmarkEntity)
+                .where(
+                        bookmarkEntity.targetId.eq(blogReviewEntity.id),
+                        bookmarkEntity.type.eq(BookmarkType.BLOG_REVIEW),
+                        bookmarkEntity.isActive.isTrue()
+                );
     }
 
 }
