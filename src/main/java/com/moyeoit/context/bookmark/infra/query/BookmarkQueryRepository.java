@@ -179,6 +179,7 @@ public class BookmarkQueryRepository {
 
     private ConstructorExpression<ReviewSummaryResponse> createReviewSummary() {
         return Projections.constructor(ReviewSummaryResponse.class,
+                review.id,
                 club.name,
                 review.generation,
                 job.name,
@@ -191,6 +192,7 @@ public class BookmarkQueryRepository {
 
     private ConstructorExpression<BlogReviewResponse> createBlogReviewResponse() {
         return Projections.constructor(BlogReviewResponse.class,
+                review.id,
                 club.name,
                 review.generation,
                 job.name,

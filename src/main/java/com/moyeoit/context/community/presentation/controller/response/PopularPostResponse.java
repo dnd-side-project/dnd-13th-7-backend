@@ -1,5 +1,6 @@
 package com.moyeoit.context.community.presentation.controller.response;
 
+import com.moyeoit.context.community.domain.PostType;
 import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -15,6 +16,8 @@ public record PopularPostResponse(
         Long categoryId,
         @Schema(description = "카테고리 이름", example = "음식")
         String categoryName,
+        @Schema(description = "게시글 타입", example = "QUESTION")
+        PostType postType,
         @Schema(description = "좋아요 수", example = "10")
         Integer likeCount,
         @Schema(description = "댓글 수", example = "5")

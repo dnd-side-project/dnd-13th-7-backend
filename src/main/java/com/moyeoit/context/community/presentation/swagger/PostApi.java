@@ -39,11 +39,11 @@ public interface PostApi {
             @Parameter(name = "page", description = "페이지 번호", example = "0"),
             @Parameter(name = "size", description = "페이지 크기", example = "8"),
             @Parameter(name = "sort", description = "정렬, 예: createdAt,desc"),
-            @Parameter(name = "categoryId", description = "카테고리 ID")
+            @Parameter(name = "categoryName", description = "카테고리 이름 (인기, 질문, 자유, IT동아리, 대학생활, 직장생활, 이직/커리어, 취업준비)")
     })
     ResponseEntity<ApiResponse<Page<PostCardResponse>>> feed(
             Pageable pageable,
-            @RequestParam(required = false) Long categoryId
+            @RequestParam(required = false) String categoryName
     );
 
     @Operation(summary = "인기글 조회", description = "좋아요 수, 조회수 순으로 3개씩 조회")

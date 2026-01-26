@@ -10,6 +10,7 @@ import com.moyeoit.context.community.domain.Post;
 import com.moyeoit.context.community.domain.PostImage;
 import com.moyeoit.context.community.domain.PostLike;
 import com.moyeoit.context.community.domain.PostLike.TargetType;
+import com.moyeoit.context.community.domain.PostType;
 import com.moyeoit.context.user.domain.User;
 import com.moyeoit.context.user.domain.repository.UserRepository;
 import com.moyeoit.global.exception.AppException;
@@ -30,12 +31,14 @@ public class PostService {
     public Long createPost(Long userId, PostCreateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(()->new AppException(UserErrorCode.NOT_FOUND));
         Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(()->new IllegalArgumentException("없는 카테고리 입니다."));
+        PostType postType = request.getPostType() != null ? request.getPostType() : PostType.GENERAL;
 
         Post post = Post.builder()
                 .author(user)
                 .category(category)
                 .title(request.getTitle())
                 .content(request.getContent())
+                .postType(postType)
                 .build();
 
         request.getImages().forEach(image->{

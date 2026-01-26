@@ -8,6 +8,7 @@ import com.moyeoit.context.community.presentation.controller.response.PostDetail
 import com.moyeoit.context.community.presentation.controller.response.PostLikeResponse;
 import com.moyeoit.context.community.presentation.swagger.PostApi;
 import com.moyeoit.context.community.application.service.PostService;
+import com.moyeoit.context.community.domain.CommunityCategoryType;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
 import com.moyeoit.global.auth.argument_resolver.AuthenticateUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
@@ -48,9 +49,14 @@ public class PostController implements PostApi {
     @GetMapping("/feed")
     public  ResponseEntity<ApiResponse<Page<PostCardResponse>>> feed(
             @PageableDefault(size = 8, direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam(required = false) Long categoryId
+            @RequestParam(required = false) String categoryName
             ) {
-        Page<PostCardResponse> page = queryRepository.findFeed(categoryId, pageable);
+        CommunityCategoryType category = CommunityCategoryType.from(categoryName);
+        if (categoryName != null && !categoryName.isBlank() && category == null) {
+            return ResponseEntity.badRequest().body(ApiResponse.fail("유효하지 않은 카테고리 입니다."));
+        }
+
+        Page<PostCardResponse> page = queryRepository.findFeed(category, pageable);
         return ResponseEntity.ok(ApiResponse.success(page));
     }
 
