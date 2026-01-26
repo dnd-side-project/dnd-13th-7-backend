@@ -9,5 +9,5 @@ CREATE TABLE tb_blog_review
     blog_url    VARCHAR(255) NOT NULL COMMENT '블로그 주소',
     image_url   VARCHAR(255) NULL COMMENT '블로그 썸네일 이미지 URL',
     created_date  DATETIME(6)  NOT NULL COMMENT '생성 일시',
-    updated_date  DATETIME(6)  NOT NULL COMMENT '수정 일시',
+    updated_date  DATETIME(6)  NOT NULL COMMENT '수정 일시'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='블로그 리뷰';
