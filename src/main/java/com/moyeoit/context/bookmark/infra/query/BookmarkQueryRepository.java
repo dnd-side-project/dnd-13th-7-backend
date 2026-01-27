@@ -3,6 +3,7 @@ package com.moyeoit.context.bookmark.infra.query;
 import static com.moyeoit.context.bookmark.infra.entity.QBookmarkEntity.bookmarkEntity;
 import static com.moyeoit.context.club.domain.entity.QClub.club;
 import static com.moyeoit.context.club.domain.entity.position.QClubPosition.clubPosition;
+import static com.moyeoit.context.review.domain.model.QBlogReviewEntity.blogReviewEntity;
 import static com.moyeoit.context.review.domain.model.QReview.review;
 import static com.moyeoit.context.review.domain.model.QReviewContentSummary.reviewContentSummary;
 import static com.moyeoit.context.user.domain.QJob.job;
@@ -134,9 +135,9 @@ public class BookmarkQueryRepository {
 
     public Page<BlogReviewResponse> findBookmarkedBlogReviews(Long userId, Pageable pageable) {
         List<Long> reviewIds = queryFactory
-                .select(review.id)
+                .select(blogReviewEntity.id)
                 .from(bookmarkEntity)
-                .join(review).on(bookmarkEntity.targetId.eq(review.id))
+                .join(blogReviewEntity).on(bookmarkEntity.targetId.eq(blogReviewEntity.id))
                 .where(
                         bookmarkEntity.userId.eq(userId),
                         bookmarkEntity.type.eq(BookmarkType.BLOG_REVIEW),
@@ -153,14 +154,13 @@ public class BookmarkQueryRepository {
 
         List<BlogReviewResponse> sortedContent = queryFactory
                 .select(createBlogReviewResponse())
-                .from(review)
-                .join(bookmarkEntity).on(bookmarkEntity.targetId.eq(review.id)
+                .from(blogReviewEntity)
+                .join(bookmarkEntity).on(bookmarkEntity.targetId.eq(blogReviewEntity.id)
                         .and(bookmarkEntity.type.eq(BookmarkType.BLOG_REVIEW))
                         .and(bookmarkEntity.userId.eq(userId)))
-                .leftJoin(club).on(review.clubId.eq(club.id))
-                .leftJoin(job).on(review.jobId.eq(job.id))
-                .leftJoin(reviewContentSummary).on(review.id.eq(reviewContentSummary.review.id))
-                .where(review.id.in(reviewIds))
+                .leftJoin(club).on(blogReviewEntity.clubId.eq(club.id))
+                .leftJoin(job).on(blogReviewEntity.jobId.eq(job.id))
+                .where(blogReviewEntity.id.in(reviewIds))
                 .orderBy(bookmarkEntity.createdDate.desc())
                 .fetch();
 
@@ -192,15 +192,15 @@ public class BookmarkQueryRepository {
 
     private ConstructorExpression<BlogReviewResponse> createBlogReviewResponse() {
         return Projections.constructor(BlogReviewResponse.class,
-                review.id,
+                blogReviewEntity.id,
                 club.name,
-                review.generation,
+                blogReviewEntity.generation,
                 job.name,
-                review.title,
-                reviewContentSummary.subjectiveSummary, // url
-                Expressions.nullExpression(String.class), // imageUrl
+                blogReviewEntity.title,
+                blogReviewEntity.blogUrl,
+                blogReviewEntity.imageUrl,
                 Expressions.nullExpression(String.class), // description
-                Expressions.nullExpression(String.class)  // blogName
+                blogReviewEntity.blogName
         );
     }
 }
