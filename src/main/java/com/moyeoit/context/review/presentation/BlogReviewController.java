@@ -2,6 +2,8 @@ package com.moyeoit.context.review.presentation;
 
 import com.moyeoit.context.review.presentation.request.BlogReviewSearchRequest;
 import com.moyeoit.context.review.service.BlogReviewService;
+import com.moyeoit.global.auth.argument_resolver.AccessUser;
+import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +27,9 @@ public class BlogReviewController {
 
     @GetMapping("/search")
     public ApiResponse<Page<?>> searchBlogReview(@ModelAttribute BlogReviewSearchRequest request,
-                                                 @PageableDefault Pageable pageable) {
-        return ApiResponse.success(blogReviewService.search(request, pageable));
+                                                 @PageableDefault Pageable pageable,
+                                                 @CurrentUser AccessUser user) {
+        return ApiResponse.success(blogReviewService.search(request, pageable, user != null ? user.getId() : null));
     }
 
 }

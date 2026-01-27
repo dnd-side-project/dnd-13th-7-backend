@@ -52,8 +52,9 @@ public class ReviewController implements ReviewAPI {
 
     @GetMapping("/search")
     public ApiResponse<Page<ReviewSummaryResponse>> searchReview(@ModelAttribute ReviewSearchRequest request,
-                                                                 @PageableDefault Pageable pageable) {
-        return ApiResponse.success(reviewService.search(request, pageable));
+                                                                 @PageableDefault Pageable pageable,
+                                                                 @CurrentUser AccessUser user) {
+        return ApiResponse.success(reviewService.search(request, pageable, user != null ? user.getId() : null));
     }
 
 }

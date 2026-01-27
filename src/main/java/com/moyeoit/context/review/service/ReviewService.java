@@ -65,8 +65,8 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ReviewSummaryResponse> search(ReviewSearchRequest request, Pageable pageable) {
-        return reviewQueryRepository.search(request, pageable);
+    public Page<ReviewSummaryResponse> search(ReviewSearchRequest request, Pageable pageable, Long userId) {
+        return reviewQueryRepository.search(request, pageable, userId);
     }
 
     @Transactional(readOnly = true)

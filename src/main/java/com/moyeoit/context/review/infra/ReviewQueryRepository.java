@@ -1,5 +1,6 @@
 package com.moyeoit.context.review.infra;
 
+import com.moyeoit.context.bookmark.presentation.request.BookmarkType;
 import com.moyeoit.context.club.application.dto.ClubWithNameAndImageUrlDto;
 import com.moyeoit.context.review.controller.response.QuestionElementResponse;
 import com.moyeoit.context.review.controller.response.QuestionResponse;
@@ -18,6 +19,9 @@ import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +33,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.moyeoit.context.bookmark.infra.entity.QBookmarkEntity.bookmarkEntity;
 import static com.moyeoit.context.club.domain.entity.QClub.club;
 import static com.moyeoit.context.review.domain.model.QReview.review;
 import static com.moyeoit.context.review.domain.model.QReviewAnswer.reviewAnswer;
@@ -84,7 +89,7 @@ public class ReviewQueryRepository {
      * @param request  검색 요청 Request
      * @param pageable 페이징 객체
      */
-    public Page<ReviewSummaryResponse> search(ReviewSearchRequest request, Pageable pageable) {
+    public Page<ReviewSummaryResponse> search(ReviewSearchRequest request, Pageable pageable, Long userId) {
         List<ReviewSummaryResponse> contents = queryFactory
                 .select()
                 .from(review)
@@ -100,7 +105,7 @@ public class ReviewQueryRepository {
                 .offset(pageable.getOffset())
                 .orderBy(getOrderSpecifier(request.getSort()))
                 .transform(
-                        groupBy(review.id).list(createReviewSummary())
+                        groupBy(review.id).list(createReviewSummary(userId))
                 );
 
         Long totalCount = queryFactory
@@ -230,7 +235,7 @@ public class ReviewQueryRepository {
     /**
      * 리뷰 Summary Projection
      */
-    public ConstructorExpression<ReviewSummaryResponse> createReviewSummary() {
+    public ConstructorExpression<ReviewSummaryResponse> createReviewSummary(Long userId) {
         return Projections.constructor(ReviewSummaryResponse.class,
                 review.id,
                 club.name,
@@ -240,7 +245,29 @@ public class ReviewQueryRepository {
                 review.title,
                 reviewContentSummary.choiceSummary,
                 review.likeCount,
-                review.commentCount);
+                review.commentCount,
+                isBookmarked(userId));
+    }
+
+    public BooleanExpression isBookmarked(Long userId) {
+        if (userId == null) {
+            return Expressions.asBoolean(false);
+        }
+
+        return JPAExpressions
+                .selectOne()
+                .from(bookmarkEntity)
+                .where(bookmarkEntity.targetId.eq(review.id),
+                        bookmarkEntity.userId.eq(userId),
+                        bookmarkEntity.isActive.isTrue(),
+                        bookmarkEntity.type.eq(
+                                new CaseBuilder()
+                                        .when(review.category.in(ReviewCategory.DOCUMENT, ReviewCategory.INTERVIEW)).then(BookmarkType.INTERVIEW_REVIEW)
+                                        .when(review.category.eq(ReviewCategory.ACTIVITY)).then(BookmarkType.ACTIVITY_REVIEW)
+                                        .otherwise((BookmarkType) null)
+                        )
+                )
+                .exists();
     }
 
     /**

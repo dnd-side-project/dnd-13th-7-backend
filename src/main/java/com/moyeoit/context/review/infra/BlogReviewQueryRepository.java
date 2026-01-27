@@ -9,6 +9,7 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class BlogReviewQueryRepository {
      *
      *
      */
-    public Page<BlogReviewResponseV2> search(BlogReviewSearchRequest request, Pageable pageable) {
+    public Page<BlogReviewResponseV2> search(BlogReviewSearchRequest request, Pageable pageable, Long userId) {
 
         List<BlogReviewResponseV2> contents = queryFactory
                 .select()
@@ -54,7 +55,7 @@ public class BlogReviewQueryRepository {
                 .offset(pageable.getOffset())
                 .orderBy(getOrderSpecifier(request.getSort()))
                 .transform(
-                        groupBy(blogReviewEntity.id).list(createBlogReviewResponse())
+                        groupBy(blogReviewEntity.id).list(createBlogReviewResponse(userId))
                 );
 
         Long totalCount = queryFactory
@@ -69,7 +70,7 @@ public class BlogReviewQueryRepository {
         return new PageImpl<>(contents, pageable, totalCount == null ? 0 : totalCount);
     }
 
-    public ConstructorExpression<BlogReviewResponseV2> createBlogReviewResponse() {
+    public ConstructorExpression<BlogReviewResponseV2> createBlogReviewResponse(Long userId) {
         return Projections.constructor(BlogReviewResponseV2.class,
                 blogReviewEntity.id,
                 club.name,
@@ -80,8 +81,23 @@ public class BlogReviewQueryRepository {
                 blogReviewEntity.blogUrl,
                 blogReviewEntity.imageUrl,
                 blogReviewEntity.createdDate,
-                blogReviewEntity.updateDate
+                blogReviewEntity.updateDate,
+                isBookmarked(userId)
                 );
+    }
+
+    public BooleanExpression isBookmarked(Long userId) {
+        if (userId == null) {
+            return Expressions.asBoolean(false);
+        }
+        return JPAExpressions
+                .selectOne()
+                .from(bookmarkEntity)
+                .where(bookmarkEntity.targetId.eq(blogReviewEntity.id),
+                        bookmarkEntity.type.eq(BookmarkType.BLOG_REVIEW),
+                        bookmarkEntity.userId.eq(userId),
+                        bookmarkEntity.isActive.isTrue())
+                .exists();
     }
 
     public BooleanExpression eqTitle(String title) {

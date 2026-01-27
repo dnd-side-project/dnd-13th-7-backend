@@ -26,5 +26,6 @@ public interface ReviewAPI {
 
     @Operation(summary = "리뷰 검색 API", description = "다양한 조건으로 리뷰를 검색합니다.")
     ApiResponse<Page<ReviewSummaryResponse>> searchReview(@ModelAttribute ReviewSearchRequest request,
-                                                          @PageableDefault Pageable pageable);
+                                                          @PageableDefault Pageable pageable,
+                                                          @CurrentUser AccessUser user);
 }

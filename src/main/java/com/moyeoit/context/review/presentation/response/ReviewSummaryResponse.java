@@ -41,7 +41,10 @@ public class ReviewSummaryResponse {
     @Schema(description = "댓글 수", example = "5")
     private Long commentCount;
 
-    public ReviewSummaryResponse(Long reviewId, String clubName, Integer generation, String jobName, Double rate, String title, List<String> choiceSummaries, Long likeCount, Long commentCount) {
+    @Schema(description = "북마크 여부", example = "true")
+    private Boolean isBookmarked;
+
+    public ReviewSummaryResponse(Long reviewId, String clubName, Integer generation, String jobName, Double rate, String title, List<String> choiceSummaries, Long likeCount, Long commentCount, Boolean isBookmarked) {
         this.reviewId = reviewId;
         this.clubName = clubName;
         this.generation = generation;
@@ -60,6 +63,7 @@ public class ReviewSummaryResponse {
         }
         this.likeCount = likeCount;
         this.commentCount = commentCount;
+        this.isBookmarked = isBookmarked;
     }
 
 }
