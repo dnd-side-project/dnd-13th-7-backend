@@ -187,7 +187,8 @@ public class BookmarkQueryRepository {
                 review.title,
                 reviewContentSummary.choiceSummary,
                 review.likeCount,
-                review.commentCount);
+                review.commentCount,
+                Expressions.constant(true));
     }
 
     private ConstructorExpression<BlogReviewResponse> createBlogReviewResponse() {
