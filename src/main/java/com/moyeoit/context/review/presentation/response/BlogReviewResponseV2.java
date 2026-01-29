@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class BlogReviewResponseV2 {
 
     @Schema(description = "리뷰 ID", example = "1")
-    private Long id;
+    private Long reviewId;
 
     @Schema(description = "동아리 이름", example = "DND")
     private String clubName;
