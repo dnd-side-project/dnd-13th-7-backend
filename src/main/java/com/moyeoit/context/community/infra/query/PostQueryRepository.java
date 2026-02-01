@@ -12,6 +12,8 @@ import com.moyeoit.context.community.presentation.controller.response.PostDetail
 import com.moyeoit.context.community.presentation.controller.response.QPopularPostResponse;
 import com.moyeoit.context.community.presentation.controller.response.QPostCardResponse;
 import com.moyeoit.context.community.presentation.controller.response.QPostDetailInfoResponse;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
@@ -23,6 +25,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
@@ -57,7 +60,7 @@ public class PostQueryRepository {
                         eqCategoryName(category),
                         filterHotPost(category)
                 )
-                .orderBy(post.createdAt.desc())
+                .orderBy(getOrderSpecifier(pageable.getSort()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -214,5 +217,24 @@ public class PostQueryRepository {
             return null;
         }
         return post.title.containsIgnoreCase(keyword);
+    }
+
+    private OrderSpecifier<?> getOrderSpecifier(Sort sort) {
+        if (sort.isEmpty()) {
+            return post.createdAt.desc();
+        }
+
+        for (Sort.Order order : sort) {
+            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+            switch (order.getProperty()) {
+                case "likeCount":
+                    return new OrderSpecifier<>(direction, post.likeCount);
+                case "viewCount":
+                    return new OrderSpecifier<>(direction, post.viewCount);
+                case "createdAt":
+                    return new OrderSpecifier<>(direction, post.createdAt);
+            }
+        }
+        return post.createdAt.desc();
     }
 }
