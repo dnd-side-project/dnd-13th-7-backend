@@ -71,13 +71,14 @@ public class CommentService {
         return PostCommentResponse.from(comment);
     }
 
+    @Transactional
     public void delete(Long commentId, Long userId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("comment not found"));
         if(!comment.getUser().getId().equals(userId)){
             throw new SecurityException("작성자만 삭제할 수 있습니다.");
         }
         Post currentPost = comment.getPost();
-        currentPost.increaseCommentCount();
+        currentPost.decreaseCommentCount();
         comment.commentDelete();
     }
 }

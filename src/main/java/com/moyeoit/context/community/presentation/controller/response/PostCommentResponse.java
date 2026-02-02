@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 public record PostCommentResponse(
         Long id,
         Long userId,
+        String nickname,
+        String profileImageUrl,
         Long postId,
         Long parentId,
         String content,
@@ -23,6 +25,8 @@ public record PostCommentResponse(
         return new PostCommentResponse(
                 comment.getId(),
                 comment.getUser().getId(),
+                comment.getUser().getNickname(),
+                comment.getUser().getProfileImageUrl(),
                 comment.getPost().getId(),
                 comment.getParent() != null ? comment.getParent().getId() : null,
                 comment.getContent(),

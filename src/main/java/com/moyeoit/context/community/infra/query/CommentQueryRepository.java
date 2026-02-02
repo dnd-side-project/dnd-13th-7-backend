@@ -7,6 +7,7 @@ import com.moyeoit.context.community.domain.QComment;
 import com.moyeoit.context.community.presentation.controller.response.CommentThreadResponse;
 import com.moyeoit.context.community.presentation.controller.response.QCommentThreadResponse;
 import com.moyeoit.context.community.presentation.controller.response.QPostCommentResponse;
+import com.moyeoit.context.user.domain.QUser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -63,9 +64,14 @@ public class CommentQueryRepository {
     }
 
     private List<CommentThreadResponse> getAllThreads(QComment parent, List<Long> parentIds, QComment child) {
+        QUser parentUser = new QUser("parentUser");
+        QUser childUser = new QUser("childUser");
+
         List<CommentThreadResponse> raw = queryFactory
                 .from(parent)
+                .leftJoin(parent.user, parentUser)
                 .leftJoin(child).on(child.parent.eq(parent))
+                .leftJoin(child.user, childUser)
                 .where(parent.id.in(parentIds))
                 .orderBy(parent.createdAt.asc(), child.createdAt.asc())
                 .transform(
@@ -74,6 +80,8 @@ public class CommentQueryRepository {
                                         new QPostCommentResponse(
                                                 parent.id,
                                                 parent.user.id,
+                                                parentUser.nickname,
+                                                parentUser.profileImageUrl,
                                                 parent.post.id,
                                                 parent.parent.id,
                                                 parent.content,
@@ -86,6 +94,8 @@ public class CommentQueryRepository {
                                                 new QPostCommentResponse(
                                                         child.id,
                                                         child.user.id,
+                                                        childUser.nickname,
+                                                        childUser.profileImageUrl,
                                                         child.post.id,
                                                         child.parent.id,
                                                         child.content,
