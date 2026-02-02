@@ -44,15 +44,21 @@ public class PostService {
                 .postType(postType)
                 .build();
 
-        request.getImages().forEach(image->{
-            boolean isRepresentative = image.getOrderIndex() == 1;
-            PostImage postImage = PostImage.builder()
-                    .imageUrl(image.getUrl())
-                    .orderIndex(image.getOrderIndex())
-                    .isRepresentative(isRepresentative)
-                    .build();
-            post.addImage(postImage);
-        });
+        if (request.getImages() != null) {
+            request.getImages().forEach(image -> {
+                if (image == null) {
+                    return;
+                }
+                Integer orderIndex = image.getOrderIndex();
+                boolean isRepresentative = orderIndex != null && orderIndex == 1;
+                PostImage postImage = PostImage.builder()
+                        .imageUrl(image.getUrl())
+                        .orderIndex(orderIndex)
+                        .isRepresentative(isRepresentative)
+                        .build();
+                post.addImage(postImage);
+            });
+        }
 
         Post saved = postRepository.save(post);
         return saved.getId();

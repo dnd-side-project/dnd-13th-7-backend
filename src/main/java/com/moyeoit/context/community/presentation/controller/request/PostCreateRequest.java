@@ -2,6 +2,7 @@ package com.moyeoit.context.community.presentation.controller.request;
 
 import com.moyeoit.context.community.domain.PostType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 
@@ -18,7 +19,7 @@ public class PostCreateRequest {
     @Schema(description = "게시글 타입", example = "QUESTION")
     private PostType postType;
     @Schema(description = "게시글 이미지 목록")
-    List<PostCreateImage> images;
+    private List<PostCreateImage> images = new ArrayList<>();
 
     @Getter
     @Schema(description = "게시글 생성 이미지")
