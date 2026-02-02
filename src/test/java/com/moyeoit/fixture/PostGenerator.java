@@ -27,6 +27,7 @@ public class PostGenerator {
                 .likeCount(5)
                 .commentCount(5)
                 .isDeleted(false)
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 
@@ -40,6 +41,7 @@ public class PostGenerator {
                 .likeCount(11)
                 .commentCount(5)
                 .isDeleted(false)
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 

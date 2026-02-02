@@ -4,6 +4,7 @@ import com.moyeoit.context.community.domain.CategoryRepository;
 import com.moyeoit.context.community.domain.PostLikeRepository;
 import com.moyeoit.context.community.domain.PostRepository;
 import com.moyeoit.context.community.presentation.controller.request.PostCreateRequest;
+import com.moyeoit.context.community.presentation.controller.request.PostUpdateRequest;
 import com.moyeoit.context.community.infra.query.PostQueryRepository;
 import com.moyeoit.context.community.presentation.controller.response.PostDetailInfoResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostLikeResponse;
@@ -44,24 +45,53 @@ public class PostService {
                 .postType(postType)
                 .build();
 
-        if (request.getImages() != null) {
-            request.getImages().forEach(image -> {
-                if (image == null) {
-                    return;
-                }
-                Integer orderIndex = image.getOrderIndex();
-                boolean isRepresentative = orderIndex != null && orderIndex == 1;
-                PostImage postImage = PostImage.builder()
-                        .imageUrl(image.getUrl())
-                        .orderIndex(orderIndex)
-                        .isRepresentative(isRepresentative)
-                        .build();
-                post.addImage(postImage);
-            });
-        }
+        addImagesFromCreate(post, request.getImages());
 
         Post saved = postRepository.save(post);
         return saved.getId();
+    }
+
+    @Transactional
+    public Long updatePost(Long postId, Long userId, PostUpdateRequest request) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. postId=" + postId));
+        if (post.isDeleted()) {
+            throw new IllegalStateException("삭제된 게시글은 수정할 수 없습니다.");
+        }
+        if (!post.getAuthor().getId().equals(userId)) {
+            throw new SecurityException("작성자만 수정할 수 있습니다.");
+        }
+
+        if (request.getCategoryId() != null) {
+            Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new IllegalArgumentException("없는 카테고리 입니다."));
+            post.updateCategory(category);
+        }
+        if (request.getTitle() != null) {
+            post.updateTitle(request.getTitle());
+        }
+        if (request.getContent() != null) {
+            post.updateContent(request.getContent());
+        }
+        if (request.getPostType() != null) {
+            post.updatePostType(request.getPostType());
+        }
+        if (request.getImages() != null) {
+            post.getImages().clear();
+            addImagesFromUpdate(post, request.getImages());
+        }
+
+        return post.getId();
+    }
+
+    @Transactional
+    public void deletePost(Long postId, Long userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다. postId=" + postId));
+        if (post.isDeleted()) {
+            return;
+        }
+        if (!post.getAuthor().getId().equals(userId)) {
+            throw new SecurityException("작성자만 삭제할 수 있습니다.");
+        }
+        post.markDeleted();
     }
 
     @Transactional
@@ -110,5 +140,43 @@ public class PostService {
                 .ifPresent(Post::increaseViewCount);
 
         return queryRepository.findPostDetailInfo(postId, viewerId);
+    }
+
+    private void addImagesFromCreate(Post post, java.util.List<PostCreateRequest.PostCreateImage> images) {
+        if (images == null) {
+            return;
+        }
+        images.forEach(image -> {
+            if (image == null) {
+                return;
+            }
+            Integer orderIndex = image.getOrderIndex();
+            boolean isRepresentative = orderIndex != null && orderIndex == 1;
+            PostImage postImage = PostImage.builder()
+                    .imageUrl(image.getUrl())
+                    .orderIndex(orderIndex)
+                    .isRepresentative(isRepresentative)
+                    .build();
+            post.addImage(postImage);
+        });
+    }
+
+    private void addImagesFromUpdate(Post post, java.util.List<PostUpdateRequest.PostUpdateImage> images) {
+        if (images == null) {
+            return;
+        }
+        images.forEach(image -> {
+            if (image == null) {
+                return;
+            }
+            Integer orderIndex = image.getOrderIndex();
+            boolean isRepresentative = orderIndex != null && orderIndex == 1;
+            PostImage postImage = PostImage.builder()
+                    .imageUrl(image.getUrl())
+                    .orderIndex(orderIndex)
+                    .isRepresentative(isRepresentative)
+                    .build();
+            post.addImage(postImage);
+        });
     }
 }

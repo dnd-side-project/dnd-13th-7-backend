@@ -2,6 +2,7 @@ package com.moyeoit.context.community.presentation.controller;
 
 import com.moyeoit.context.community.infra.query.PostQueryRepository;
 import com.moyeoit.context.community.presentation.controller.request.PostCreateRequest;
+import com.moyeoit.context.community.presentation.controller.request.PostUpdateRequest;
 import com.moyeoit.context.community.presentation.controller.response.PopularPostResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostCardResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostDetailInfoResponse;
@@ -20,11 +21,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -43,6 +46,27 @@ public class PostController implements PostApi {
     ) {
         Long createdId = postService.createPost(user.getId(), req);
         return ResponseEntity.ok(ApiResponse.success(createdId));
+    }
+
+    @Override
+    @PatchMapping("/{postId}")
+    public ResponseEntity<ApiResponse<?>> update(
+            @PathVariable Long postId,
+            @CurrentUser AccessUser user,
+            @RequestBody PostUpdateRequest req
+    ) {
+        Long updatedId = postService.updatePost(postId, user.getId(), req);
+        return ResponseEntity.ok(ApiResponse.success(updatedId));
+    }
+
+    @Override
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<ApiResponse<?>> delete(
+            @PathVariable Long postId,
+            @CurrentUser AccessUser user
+    ) {
+        postService.deletePost(postId, user.getId());
+        return ResponseEntity.ok(ApiResponse.success("게시글 삭제 성공", null));
     }
 
     @Override

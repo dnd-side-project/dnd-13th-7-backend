@@ -1,6 +1,7 @@
 package com.moyeoit.context.community.presentation.swagger;
 
 import com.moyeoit.context.community.presentation.controller.request.PostCreateRequest;
+import com.moyeoit.context.community.presentation.controller.request.PostUpdateRequest;
 import com.moyeoit.context.community.presentation.controller.response.PopularPostResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostCardResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostDetailInfoResponse;
@@ -32,6 +33,25 @@ public interface PostApi {
     ResponseEntity<ApiResponse<?>> create(
             @Parameter(hidden = true) AccessUser user,
             @RequestBody PostCreateRequest req
+    );
+
+    @Operation(summary = "게시글 수정 (로그인 필요)", description = "게시글을 수정합니다. images가 빈 배열이면 기존 이미지를 모두 삭제합니다.", security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "게시글 수정 성공", content = @Content(schema = @Schema(implementation = Long.class))),
+    })
+    ResponseEntity<ApiResponse<?>> update(
+            @PathVariable Long postId,
+            @Parameter(hidden = true) AccessUser user,
+            @RequestBody PostUpdateRequest req
+    );
+
+    @Operation(summary = "게시글 삭제 (로그인 필요)", description = "게시글을 삭제합니다. (Soft delete)", security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "게시글 삭제 성공")
+    })
+    ResponseEntity<ApiResponse<?>> delete(
+            @PathVariable Long postId,
+            @Parameter(hidden = true) AccessUser user
     );
 
     @Operation(summary = "피드 조회", description = "8개씩 무한스크롤")

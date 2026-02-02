@@ -95,7 +95,7 @@ public class PostQueryRepositoryTest {
 
         PopularPostResponse response = result.getContent().getFirst();
 
-        assertThat(result.getTotalElements()).isEqualTo(1);
+        assertThat(result.getTotalElements()).isEqualTo(3);
         assertThat(response.title()).isEqualTo("인기 게시글 제목");
         assertThat(response.excerpt()).contains("인기 게시글입니다.");
     }

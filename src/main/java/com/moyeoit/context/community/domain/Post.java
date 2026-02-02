@@ -93,6 +93,26 @@ public class Post {
         image.setPost(this);
     }
 
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updateCategory(Category category) {
+        this.category = category;
+    }
+
+    public void updatePostType(PostType postType) {
+        this.postType = postType;
+    }
+
+    public void markDeleted() {
+        this.isDeleted = true;
+    }
+
     public void decreaseLikeCount() {
         if (likeCount > 0) {
             this.likeCount--;
