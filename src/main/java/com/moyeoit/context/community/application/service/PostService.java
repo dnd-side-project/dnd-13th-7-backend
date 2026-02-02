@@ -4,6 +4,8 @@ import com.moyeoit.context.community.domain.CategoryRepository;
 import com.moyeoit.context.community.domain.PostLikeRepository;
 import com.moyeoit.context.community.domain.PostRepository;
 import com.moyeoit.context.community.presentation.controller.request.PostCreateRequest;
+import com.moyeoit.context.community.infra.query.PostQueryRepository;
+import com.moyeoit.context.community.presentation.controller.response.PostDetailInfoResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostLikeResponse;
 import com.moyeoit.context.community.domain.Category;
 import com.moyeoit.context.community.domain.Post;
@@ -27,6 +29,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final PostLikeRepository postLikeRepository;
+    private final PostQueryRepository queryRepository;
 
     public Long createPost(Long userId, PostCreateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(()->new AppException(UserErrorCode.NOT_FOUND));
@@ -92,5 +95,14 @@ public class PostService {
                 liked,
                 post.getLikeCount()
         );
+    }
+
+    @Transactional
+    public PostDetailInfoResponse getPostDetailInfo(Long postId, Long viewerId) {
+        postRepository.findById(postId)
+                .filter(post -> !post.isDeleted())
+                .ifPresent(Post::increaseViewCount);
+
+        return queryRepository.findPostDetailInfo(postId, viewerId);
     }
 }

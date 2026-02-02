@@ -79,7 +79,7 @@ public class PostController implements PostApi {
             viewerId = authUser.getId();
         }
 
-        PostDetailInfoResponse response = queryRepository.findPostDetailInfo(postId, viewerId);
+        PostDetailInfoResponse response = postService.getPostDetailInfo(postId, viewerId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 

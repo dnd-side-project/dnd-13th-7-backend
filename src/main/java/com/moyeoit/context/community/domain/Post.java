@@ -112,4 +112,12 @@ public class Post {
             this.commentCount--;
         }
     }
+
+    public void increaseViewCount(){
+        if (viewCount == null) {
+            viewCount = 0;
+        }
+        this.viewCount++;
+    }
+
 }
