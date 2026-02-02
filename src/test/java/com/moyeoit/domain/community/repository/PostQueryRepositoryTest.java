@@ -3,6 +3,7 @@ package com.moyeoit.domain.community.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.moyeoit.context.community.domain.Category;
+import com.moyeoit.context.community.domain.CommunityCategoryType;
 import com.moyeoit.context.community.domain.Post;
 import com.moyeoit.context.community.domain.PostLike;
 import com.moyeoit.context.community.infra.query.PostQueryRepository;
@@ -72,7 +73,7 @@ public class PostQueryRepositoryTest {
     void get_a_list_of_multiple_posts() {
         Pageable pageable = PageRequest.of(0, 10);
 
-        Page<PostCardResponse> result = postQueryRepository.findFeed(categoryFree.getId(), pageable);
+        Page<PostCardResponse> result = postQueryRepository.findFeed(CommunityCategoryType.FREE, pageable);
         PostCardResponse first = result.getContent().getFirst();
 
         assertThat(result.getTotalElements()).isEqualTo(2);
@@ -112,7 +113,7 @@ public class PostQueryRepositoryTest {
         assertThat(result.getView_count()).isEqualTo(123);
         assertThat(result.getLike_count()).isEqualTo(5);
         assertThat(result.isLiked()).isTrue();
-        assertThat(result.isHotPost()).isFalse();
+        assertThat(result.isHotPost()).isTrue();
     }
 
     @DisplayName("키워드를 제목에 포함하는 게시물을 검색한다.")

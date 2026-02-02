@@ -20,6 +20,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +35,16 @@ import org.springframework.stereotype.Repository;
 public class PostQueryRepository {
 
     private final JPAQueryFactory queryFactory;
+    private static final int POPULAR_VIEW_THRESHOLD = 30;
+    private static final int POPULAR_LIKE_THRESHOLD = 3;
+    private static final int POPULAR_COMMENT_THRESHOLD = 2;
+    private static final int POPULAR_MAX_SIZE = 20;
+    private static final int POPULAR_DAYS = 30;
 
     public Page<PostCardResponse> findFeed(CommunityCategoryType category, Pageable pageable) {
+        boolean popularCategory = isPopularCategory(category);
+        long limit = resolvePopularLimit(popularCategory, pageable);
+
         List<PostCardResponse> content = queryFactory
                 .select(new QPostCardResponse(
                         post.id,
@@ -60,9 +69,9 @@ public class PostQueryRepository {
                         eqCategoryName(category),
                         filterHotPost(category)
                 )
-                .orderBy(getOrderSpecifier(pageable.getSort()))
+                .orderBy(getOrderSpecifiers(popularCategory, pageable.getSort()))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(limit)
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory
@@ -74,11 +83,17 @@ public class PostQueryRepository {
                         filterHotPost(category)
                 );
 
+        if (popularCategory) {
+            return PageableExecutionUtils.getPage(content, pageable, () -> capPopularCount(countQuery.fetchOne()));
+        }
+
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
 
     public Page<PopularPostResponse> findPopular(Pageable pageable) {
+        long limit = resolvePopularLimit(true, pageable);
+
         List<PopularPostResponse> content = queryFactory
                 .select(new QPopularPostResponse(
                         post.id,
@@ -93,10 +108,10 @@ public class PostQueryRepository {
                 .from(post)
                 .where(
                         post.isDeleted.isFalse(),
-                        post.likeCount.goe(10))
-                .orderBy(post.createdAt.desc(),post.likeCount.desc())
+                        popularPostPredicate())
+                .orderBy(popularOrderSpecifiers())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(limit)
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory
@@ -104,9 +119,9 @@ public class PostQueryRepository {
                 .from(post)
                 .where(
                         post.isDeleted.isFalse(),
-                        post.likeCount.goe(10));
+                        popularPostPredicate());
 
-        return PageableExecutionUtils.getPage(content, pageable , countQuery::fetchOne);
+        return PageableExecutionUtils.getPage(content, pageable, () -> capPopularCount(countQuery.fetchOne()));
     }
 
     public PostDetailInfoResponse findPostDetailInfo(Long postId, Long userId) {
@@ -117,7 +132,7 @@ public class PostQueryRepository {
                         post.content,
                         post.createdAt,
                         Expressions.constant(new ArrayList<>()),
-                        post.likeCount.goe(10),
+                        popularPostPredicate(),
                         buildIsLikedExpression(postId, userId),
                         post.likeCount,
                         post.author.nickname,
@@ -183,12 +198,15 @@ public class PostQueryRepository {
         if (category == null) {
             return null;
         }
+        if (category.isPopular()) {
+            return null;
+        }
         return post.category.name.eq(category.getDisplayName());
     }
 
     private BooleanExpression filterHotPost(CommunityCategoryType category) {
         if (category != null && category.isPopular()) {
-            return post.likeCount.goe(10);
+            return popularPostPredicate();
         }
         return null;
     }
@@ -219,6 +237,21 @@ public class PostQueryRepository {
         return post.title.containsIgnoreCase(keyword);
     }
 
+    private OrderSpecifier<?>[] getOrderSpecifiers(boolean popularCategory, Sort sort) {
+        if (popularCategory) {
+            return popularOrderSpecifiers();
+        }
+        return new OrderSpecifier<?>[]{getOrderSpecifier(sort)};
+    }
+
+    private OrderSpecifier<?>[] popularOrderSpecifiers() {
+        return new OrderSpecifier<?>[]{
+                post.viewCount.desc(),
+                post.likeCount.desc(),
+                post.createdAt.desc()
+        };
+    }
+
     private OrderSpecifier<?> getOrderSpecifier(Sort sort) {
         if (sort.isEmpty()) {
             return post.createdAt.desc();
@@ -236,5 +269,32 @@ public class PostQueryRepository {
             }
         }
         return post.createdAt.desc();
+    }
+
+    private BooleanExpression popularPostPredicate() {
+        return post.viewCount.goe(POPULAR_VIEW_THRESHOLD)
+                .and(post.likeCount.goe(POPULAR_LIKE_THRESHOLD))
+                .and(post.commentCount.goe(POPULAR_COMMENT_THRESHOLD))
+                .and(post.createdAt.goe(LocalDateTime.now().minusDays(POPULAR_DAYS)));
+    }
+
+    private boolean isPopularCategory(CommunityCategoryType category) {
+        return category != null && category.isPopular();
+    }
+
+    private long resolvePopularLimit(boolean popularCategory, Pageable pageable) {
+        if (!popularCategory) {
+            return pageable.getPageSize();
+        }
+        long offset = pageable.getOffset();
+        if (offset >= POPULAR_MAX_SIZE) {
+            return 0;
+        }
+        return Math.min(pageable.getPageSize(), POPULAR_MAX_SIZE - offset);
+    }
+
+    private long capPopularCount(Long total) {
+        long value = total == null ? 0L : total;
+        return Math.min(POPULAR_MAX_SIZE, value);
     }
 }
