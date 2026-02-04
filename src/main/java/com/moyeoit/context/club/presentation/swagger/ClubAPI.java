@@ -29,6 +29,13 @@ public interface ClubAPI {
     ApiResponse<ClubRecruitInfoResponse> getRecruitInfo(@PathVariable Long clubId);
 
     @Operation(summary = "동아리 목록 조회 API", description = "동아리 목록을 조회합니다.")
+    @Parameters({
+            @Parameter(
+                    name = "sort",
+                    description = "정렬 기준 (인기순: 구독 수 desc, 이름순: 동아리명 asc, 최신순: clubId desc). 기본값: 최신순",
+                    example = "인기순"
+            )
+    })
     ApiResponse<Page<ClubListResponse>> getClubList(
             @ModelAttribute ClubPagingRequest request,
             @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable);

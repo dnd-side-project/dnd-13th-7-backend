@@ -91,6 +91,12 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
             if("인기순".equals(sort)){
                return club.subscribeCount.desc();
             }
+            if ("최신순".equals(sort)) {
+                return club.id.desc();
+            }
+            if ("이름순".equals(sort)) {
+                return club.name.asc();
+            }
             return club.name.asc();
         }
         return club.id.desc();
