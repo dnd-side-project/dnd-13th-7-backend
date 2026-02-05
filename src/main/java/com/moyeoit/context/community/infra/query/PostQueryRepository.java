@@ -132,7 +132,7 @@ public class PostQueryRepository {
                         post.content,
                         post.createdAt,
                         Expressions.constant(new ArrayList<>()),
-                        popularPostPredicate(),
+                        buildIsHotPostExpression(),
                         buildIsLikedExpression(postId, userId),
                         post.likeCount,
                         post.author.nickname,
@@ -276,6 +276,13 @@ public class PostQueryRepository {
                 .and(post.likeCount.goe(POPULAR_LIKE_THRESHOLD))
                 .and(post.commentCount.goe(POPULAR_COMMENT_THRESHOLD))
                 .and(post.createdAt.goe(LocalDateTime.now().minusDays(POPULAR_DAYS)));
+    }
+
+    private BooleanExpression buildIsHotPostExpression() {
+        return new CaseBuilder()
+                .when(popularPostPredicate())
+                .then(true)
+                .otherwise(false);
     }
 
     private boolean isPopularCategory(CommunityCategoryType category) {
