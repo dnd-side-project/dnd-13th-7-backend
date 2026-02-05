@@ -114,6 +114,7 @@ public class PostQueryRepositoryTest {
         assertThat(result.getLike_count()).isEqualTo(5);
         assertThat(result.isLiked()).isTrue();
         assertThat(result.isHotPost()).isTrue();
+        assertThat(result.getAuthorProfileImageUrl()).isEqualTo(author.getProfileImageUrl());
     }
 
     @DisplayName("키워드를 제목에 포함하는 게시물을 검색한다.")

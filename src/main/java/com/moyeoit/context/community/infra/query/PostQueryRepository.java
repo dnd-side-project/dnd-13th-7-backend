@@ -136,6 +136,7 @@ public class PostQueryRepository {
                         buildIsLikedExpression(postId, userId),
                         post.likeCount,
                         post.author.nickname,
+                        post.author.profileImageUrl,
                         post.postType,
                         post.title,
                         post.viewCount

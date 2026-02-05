@@ -18,6 +18,8 @@ public class PostDetailInfoResponse {
     String title;
     @Schema(description = "작성자 닉네임", example = "치킨마니아")
     String nickname;
+    @Schema(description = "작성자 프로필 이미지 URL", example = "https://moyeoit.s3.ap-northeast-2.amazonaws.com/profile.jpg")
+    String authorProfileImageUrl;
     @Schema(description = "게시글 내용", example = "BHC 뿌링클 치킨 기프티콘이 있는데 오늘 저녁에 같이 드실 분 구합니다.")
     String content;
     @Schema(description = "게시글 타입", example = "QUESTION")
@@ -38,7 +40,7 @@ public class PostDetailInfoResponse {
     @QueryProjection
     public PostDetailInfoResponse(String categoryName, int comment_count, String content, LocalDateTime create_at,
                                   List<String> image_url, boolean isHotPost, boolean isLiked, int like_count,
-                                  String nickname, PostType post_type, String title, int view_count) {
+                                  String nickname, String authorProfileImageUrl, PostType post_type, String title, int view_count) {
         this.categoryName = categoryName;
         this.comment_count = comment_count;
         this.content = content;
@@ -48,6 +50,7 @@ public class PostDetailInfoResponse {
         this.isLiked = isLiked;
         this.like_count = like_count;
         this.nickname = nickname;
+        this.authorProfileImageUrl = authorProfileImageUrl;
         this.post_type = post_type;
         this.title = title;
         this.view_count = view_count;
