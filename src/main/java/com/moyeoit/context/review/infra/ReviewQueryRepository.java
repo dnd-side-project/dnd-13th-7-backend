@@ -100,7 +100,8 @@ public class ReviewQueryRepository {
                         eqReviewCategory(request.getCategory()),
                         eqClubId(request.getClubId()),
                         eqGeneration(request.getGeneration()),
-                        eqReviewResult(request.getResult()))
+                        eqReviewResult(request.getResult()),
+                        eqUserId(request.getUserId()))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(getOrderSpecifier(request.getSort()))
@@ -187,6 +188,10 @@ public class ReviewQueryRepository {
 
     public BooleanExpression eqReviewResult(ReviewResult reviewResult) {
         return reviewResult == null ? null : review.result.eq(reviewResult);
+    }
+
+    public BooleanExpression eqUserId(Long userId) {
+        return userId == null ? null : review.userId.eq(userId);
     }
 
 

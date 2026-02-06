@@ -19,6 +19,7 @@ public class ReviewSearchRequest {
     private Long clubId;
     private Integer generation;
     private ReviewResult result;
+    private Long userId;
 
     private ReviewSort sort = ReviewSort.LATEST;
 
