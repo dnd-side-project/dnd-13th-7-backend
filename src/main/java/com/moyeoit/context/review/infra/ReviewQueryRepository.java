@@ -243,6 +243,7 @@ public class ReviewQueryRepository {
     public ConstructorExpression<ReviewSummaryResponse> createReviewSummary(Long userId) {
         return Projections.constructor(ReviewSummaryResponse.class,
                 review.id,
+                review.category,
                 club.name,
                 review.generation,
                 job.name,

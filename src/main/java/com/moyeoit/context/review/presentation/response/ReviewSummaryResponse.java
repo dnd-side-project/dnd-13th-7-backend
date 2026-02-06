@@ -1,5 +1,6 @@
 package com.moyeoit.context.review.presentation.response;
 
+import com.moyeoit.context.review.domain.enums.ReviewCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,9 @@ public class ReviewSummaryResponse {
 
     @Schema(description = "리뷰 ID", example = "1")
     private Long reviewId;
+
+    @Schema(description = "리뷰 카테고리", example = "서류")
+    private ReviewCategory reviewCategory;
 
     @Schema(description = "동아리 이름", example = "코딩의 민족")
     private String clubName;
