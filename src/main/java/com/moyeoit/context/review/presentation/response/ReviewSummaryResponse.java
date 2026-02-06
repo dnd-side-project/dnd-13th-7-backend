@@ -2,6 +2,7 @@ package com.moyeoit.context.review.presentation.response;
 
 import com.moyeoit.context.review.domain.enums.ReviewCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -48,8 +49,19 @@ public class ReviewSummaryResponse {
     @Schema(description = "북마크 여부", example = "true")
     private Boolean isBookmarked;
 
-    public ReviewSummaryResponse(Long reviewId, String clubName, Integer generation, String jobName, Double rate, String title, List<String> choiceSummaries, Long likeCount, Long commentCount, Boolean isBookmarked) {
+    public ReviewSummaryResponse(Long reviewId,
+                                 ReviewCategory reviewCategory,
+                                 String clubName,
+                                 Integer generation,
+                                 String jobName,
+                                 Double rate,
+                                 String title,
+                                 List<String> choiceSummaries,
+                                 Long likeCount,
+                                 Long commentCount,
+                                 Boolean isBookmarked) {
         this.reviewId = reviewId;
+        this.reviewCategory = reviewCategory;
         this.clubName = clubName;
         this.generation = generation;
         this.jobName = jobName;
