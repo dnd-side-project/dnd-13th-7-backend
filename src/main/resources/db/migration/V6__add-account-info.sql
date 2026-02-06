@@ -1,6 +1,7 @@
 -- 유저 활동 테이블 추가
 CREATE TABLE tb_user_activity (
     user_activity_id    BIGINT          NOT NULL AUTO_INCREMENT COMMENT '사용자 활동 식별자',
+    user_id             BIGINT          NOT NULL COMMENT '유저 ID',
     club_id             BIGINT          NULL     COMMENT '모임(클럽) ID',
     job_id              BIGINT          NULL     COMMENT '직무/역할 ID',
     generation          INT             NULL     COMMENT '기수',
