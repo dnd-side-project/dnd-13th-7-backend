@@ -16,4 +16,5 @@ public class UserActivityUpdateRequest {
     private LocalDateTime startDate;
     @NotNull(message = "종료일은 필수입니다.")
     private LocalDateTime endDate;
+    private boolean active;
 }

@@ -10,6 +10,8 @@ import com.moyeoit.context.user.controller.response.InterestsResponse;
 import com.moyeoit.context.user.domain.AuthProvider;
 import com.moyeoit.context.user.domain.Term;
 import com.moyeoit.context.user.domain.User;
+import com.moyeoit.context.user.domain.UserActivity;
+import com.moyeoit.context.user.domain.repository.UserActivityRepository;
 import com.moyeoit.context.user.domain.repository.UserRepository;
 import com.moyeoit.context.user.infra.query.QueryUserRepository;
 import com.moyeoit.context.user.repository.JobRepository;
@@ -36,6 +38,7 @@ public class UserService {
     private final QueryUserRepository queryUserRepository;
     private final ReviewLikeRepository reviewLikeRepository;
     private final ClubSubscribeRepository clubSubscribeRepository;
+    private final UserActivityRepository userActivityRepository;
 
     @Transactional(readOnly = true)
     public UserDto getUser(Long id) {
@@ -61,8 +64,15 @@ public class UserService {
                 .active(false)
                 .deleted(false)
                 .build();
+        Long userId = userRepository.save(newUser);
 
-        userRepository.save(newUser);
+        UserActivity userActivity = UserActivity.builder()
+                .userId(userId)
+                .active(false)
+                .certify(false)
+                .build();
+        userActivityRepository.save(userActivity);
+
         return UserDto.of(newUser);
     }
 

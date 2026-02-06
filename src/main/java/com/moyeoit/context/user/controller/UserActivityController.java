@@ -12,11 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "User Activity", description = "유저 활동 관련 API")
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1/user/activity")
+@Tag(name = "회원 활동 API", description = "회원 활동 관련 API")
 public class UserActivityController {
 
     private final UserActivityService userActivityService;

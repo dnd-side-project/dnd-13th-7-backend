@@ -21,7 +21,7 @@ public class UserActivityService {
         UserActivity userActivity = userActivityRepository.findById(id)
                 .orElseThrow(() -> new AppException(UserErrorCode.USER_ACTIVITY_NOT_FOUND));
 
-        userActivity.updateActivity(request.getClubId(), request.getJobId(), request.getGeneration());
+        userActivity.updateActivity(request.getClubId(), request.getJobId(), request.getGeneration(), request.isActive());
         userActivity.updatePeriod(request.getStartDate(), request.getEndDate());
 
         userActivityRepository.save(userActivity);

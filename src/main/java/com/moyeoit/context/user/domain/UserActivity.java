@@ -18,6 +18,9 @@ public class UserActivity {
     @Column(name = "user_activity_id")
     private Long id;
 
+    @Column(name = "user_id")
+    private Long userId;
+
     @Column(name = "club_id")
     private Long clubId;
 
@@ -38,10 +41,11 @@ public class UserActivity {
     @Column(name = "certify")
     private boolean certify;
 
-    public void updateActivity(Long clubId, Long jobId, Integer generation) {
+    public void updateActivity(Long clubId, Long jobId, Integer generation, boolean active) {
         this.clubId = clubId;
         this.jobId = jobId;
         this.generation = generation;
+        this.active = active;
     }
 
     public void updatePeriod(LocalDateTime startDate, LocalDateTime endDate) {
