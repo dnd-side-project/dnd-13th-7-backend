@@ -7,6 +7,7 @@ import com.moyeoit.context.user.controller.request.ActivateRequest;
 import com.moyeoit.context.user.controller.request.UserUpdateRequest;
 import com.moyeoit.context.user.controller.response.ActivateResponse;
 import com.moyeoit.context.user.controller.response.InterestsResponse;
+import com.moyeoit.context.user.controller.response.UserManageResponse;
 import com.moyeoit.context.user.domain.AuthProvider;
 import com.moyeoit.context.user.domain.Term;
 import com.moyeoit.context.user.domain.User;
@@ -42,7 +43,6 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserDto getUser(Long id) {
-        log.info("{}", id);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
 
@@ -104,6 +104,13 @@ public class UserService {
     public UserProfileResponse getProfile(Long userId) {
         return queryUserRepository.findUserWithJob(userId)
                 .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+    }
+
+    @Transactional(readOnly = true)
+    public UserManageResponse getUserManagerInfo(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+        return UserManageResponse.of(user);
     }
 
     @Transactional

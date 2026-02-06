@@ -5,6 +5,7 @@ import com.moyeoit.context.user.controller.request.AccountManageUpdateRequest;
 import com.moyeoit.context.user.controller.request.ActivateRequest;
 import com.moyeoit.context.user.controller.request.UserUpdateRequest;
 import com.moyeoit.context.user.controller.response.ActivateResponse;
+import com.moyeoit.context.user.controller.response.UserManageResponse;
 import com.moyeoit.context.user.service.UserService;
 import com.moyeoit.context.user.service.dto.UserDto;
 import com.moyeoit.context.user.service.dto.UserProfileResponse;
@@ -46,7 +47,6 @@ public class UserController {
      */
     @GetMapping("/{userId}")
     public ApiResponse<UserDto> getUser(@PathVariable Long userId) {
-        log.info("userId {}", userId);
         UserDto user = userService.getUser(userId);
         return ApiResponse.success(user);
     }
@@ -77,6 +77,14 @@ public class UserController {
     @GetMapping("/profile")
     public ApiResponse<UserProfileResponse> getProfile(@CurrentUser AccessUser user) {
         return ApiResponse.success(userService.getProfile(user.getId()));
+    }
+
+    /**
+     * 계정 관리 정보 조회
+     */
+    @GetMapping("/manage")
+    public ApiResponse<UserManageResponse> getManageInfo(@Parameter(hidden = true) @CurrentUser AccessUser user) {
+        return ApiResponse.success(userService.getUserManagerInfo(user.getId()));
     }
 
     /**
