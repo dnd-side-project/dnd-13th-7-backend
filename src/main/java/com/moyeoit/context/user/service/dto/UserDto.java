@@ -21,6 +21,8 @@ public class UserDto {
     private Long jobId;
     private AuthProvider provider;
     private boolean active;
+    private String subscriptionEmail;
+    private boolean emailNotifyAgree;
 
     public static UserDto of(User user) {
         return new UserDto(
@@ -31,7 +33,10 @@ public class UserDto {
                 user.getProfileImageUrl(),
                 user.getJobId(),
                 user.getProvider(),
-                user.isActive());
+                user.isActive(),
+                user.getSubscriptionEmail(),
+                user.isEmailNotifyAgree()
+        );
     }
 
 }

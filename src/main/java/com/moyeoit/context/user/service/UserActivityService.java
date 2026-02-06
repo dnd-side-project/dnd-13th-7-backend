@@ -1,8 +1,10 @@
 package com.moyeoit.context.user.service;
 
 import com.moyeoit.context.user.controller.request.UserActivityUpdateRequest;
+import com.moyeoit.context.user.controller.response.UserActivityResponse;
 import com.moyeoit.context.user.domain.UserActivity;
 import com.moyeoit.context.user.domain.repository.UserActivityRepository;
+import com.moyeoit.context.user.infra.query.QueryUserActivityRepository;
 import com.moyeoit.global.exception.code.UserErrorCode;
 import com.moyeoit.global.exception.AppException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserActivityService {
 
     private final UserActivityRepository userActivityRepository;
+    private final QueryUserActivityRepository queryUserActivityRepository;
+
+
+    public UserActivityResponse getUserActivity(Long userId) {
+        return queryUserActivityRepository.getUserActivity(userId);
+    }
+
 
     @Transactional
     public void updateUserActivity(Long id, UserActivityUpdateRequest request) {
