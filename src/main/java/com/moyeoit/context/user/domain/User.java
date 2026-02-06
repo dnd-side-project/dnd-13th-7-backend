@@ -47,10 +47,34 @@ public class User extends BaseEntity {
     @Column(name = "deleted")
     private Boolean deleted;
 
+    @Column(name = "subscription_email")
+    private String subscriptionEmail;
+
+    @Column(name = "email_notify_agree")
+    private boolean emailNotifyAgree;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private UserStatus status;
+
     public void activate(String nickname, Long jobId) {
         this.nickname = nickname;
         this.jobId = jobId;
         this.active = true;
+    }
+
+    public void update(String nickname, Long jobId, UserStatus status) {
+        this.nickname = nickname;
+        this.jobId = jobId;
+        this.status = status;
+    }
+
+    public void updateAccountManage(String name,
+                                    String subscriptionEmail,
+                                    boolean emailNotifyAgree) {
+        this.name = name;
+        this.subscriptionEmail = subscriptionEmail;
+        this.emailNotifyAgree = emailNotifyAgree;
     }
 
     public void updateProfileImage(String profileImageUrl) {

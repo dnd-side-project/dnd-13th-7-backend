@@ -2,12 +2,16 @@ package com.moyeoit.context.user.service;
 
 import com.moyeoit.context.club.domain.repository.ClubSubscribeRepository;
 import com.moyeoit.context.review.repository.ReviewLikeRepository;
+import com.moyeoit.context.user.controller.request.AccountManageUpdateRequest;
 import com.moyeoit.context.user.controller.request.ActivateRequest;
+import com.moyeoit.context.user.controller.request.UserUpdateRequest;
 import com.moyeoit.context.user.controller.response.ActivateResponse;
 import com.moyeoit.context.user.controller.response.InterestsResponse;
 import com.moyeoit.context.user.domain.AuthProvider;
 import com.moyeoit.context.user.domain.Term;
 import com.moyeoit.context.user.domain.User;
+import com.moyeoit.context.user.domain.UserActivity;
+import com.moyeoit.context.user.domain.repository.UserActivityRepository;
 import com.moyeoit.context.user.domain.repository.UserRepository;
 import com.moyeoit.context.user.infra.query.QueryUserRepository;
 import com.moyeoit.context.user.repository.JobRepository;
@@ -34,6 +38,7 @@ public class UserService {
     private final QueryUserRepository queryUserRepository;
     private final ReviewLikeRepository reviewLikeRepository;
     private final ClubSubscribeRepository clubSubscribeRepository;
+    private final UserActivityRepository userActivityRepository;
 
     @Transactional(readOnly = true)
     public UserDto getUser(Long id) {
@@ -59,8 +64,15 @@ public class UserService {
                 .active(false)
                 .deleted(false)
                 .build();
+        Long userId = userRepository.save(newUser);
 
-        userRepository.save(newUser);
+        UserActivity userActivity = UserActivity.builder()
+                .userId(userId)
+                .active(false)
+                .certify(false)
+                .build();
+        userActivityRepository.save(userActivity);
+
         return UserDto.of(newUser);
     }
 
@@ -102,6 +114,26 @@ public class UserService {
         user.updateProfileImage(profileImageUrl);
         return UserDto.of(user);
     }
+
+    @Transactional
+    public void updateAccount(AccountManageUpdateRequest req, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+
+        user.updateAccountManage(req.getName(), req.getSubscriptionEmail(), req.isEmailAgree());
+    }
+
+    @Transactional
+    public void updateUserInfo(UserUpdateRequest request, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException(UserErrorCode.NOT_FOUND));
+
+        boolean existsNickname = userRepository.existsByNickname(request.getNickname());
+        if (existsNickname) throw new AppException(UserErrorCode.DUPLICATE_NICKNAME);
+
+        user.update(request.getNickname(), request.getJobId(), request.getStatus());
+    }
+
 
     public InterestsResponse getInterests(Long userId) {
         Long likeCount = reviewLikeRepository.countByUserId(userId);

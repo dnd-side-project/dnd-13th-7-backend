@@ -100,7 +100,8 @@ public class ReviewQueryRepository {
                         eqReviewCategory(request.getCategory()),
                         eqClubId(request.getClubId()),
                         eqGeneration(request.getGeneration()),
-                        eqReviewResult(request.getResult()))
+                        eqReviewResult(request.getResult()),
+                        eqUserId(request.getUserId()))
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .orderBy(getOrderSpecifier(request.getSort()))
@@ -189,6 +190,10 @@ public class ReviewQueryRepository {
         return reviewResult == null ? null : review.result.eq(reviewResult);
     }
 
+    public BooleanExpression eqUserId(Long userId) {
+        return userId == null ? null : review.userId.eq(userId);
+    }
+
 
     /**
      * 리뷰 메타데이터 조회 Projection
@@ -238,6 +243,7 @@ public class ReviewQueryRepository {
     public ConstructorExpression<ReviewSummaryResponse> createReviewSummary(Long userId) {
         return Projections.constructor(ReviewSummaryResponse.class,
                 review.id,
+                review.category,
                 club.name,
                 review.generation,
                 job.name,
