@@ -21,6 +21,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public boolean existsByNickname(String nickname) {
+        return jpaUserRepository.existsByNickname(nickname);
+    }
+
+    @Override
     public Optional<User> findById(Long id) {
         return jpaUserRepository.findById(id);
     }

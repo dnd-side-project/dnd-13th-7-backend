@@ -1,7 +1,9 @@
 package com.moyeoit.context.user.controller;
 
 import com.moyeoit.context.file.controller.response.FileUploadRequest;
+import com.moyeoit.context.user.controller.request.AccountManageUpdateRequest;
 import com.moyeoit.context.user.controller.request.ActivateRequest;
+import com.moyeoit.context.user.controller.request.UserUpdateRequest;
 import com.moyeoit.context.user.controller.response.ActivateResponse;
 import com.moyeoit.context.user.service.UserService;
 import com.moyeoit.context.user.service.dto.UserDto;
@@ -75,6 +77,26 @@ public class UserController {
     @GetMapping("/profile")
     public ApiResponse<UserProfileResponse> getProfile(@CurrentUser AccessUser user) {
         return ApiResponse.success(userService.getProfile(user.getId()));
+    }
+
+    /**
+     * 계정 관리
+     */
+    @PatchMapping("/manage")
+    public ApiResponse<?> updateAccount(@RequestBody AccountManageUpdateRequest req,
+                                        @Parameter(hidden = true) @CurrentUser AccessUser user) {
+        userService.updateAccount(req, user.getId());
+        return ApiResponse.success(null);
+    }
+
+    /**
+     * 기본 정보 수정
+     */
+    @PatchMapping
+    public ApiResponse<?> updateUserInfo(@RequestBody UserUpdateRequest request,
+                                         @Parameter(hidden = true) @CurrentUser AccessUser user) {
+        userService.updateUserInfo(request, user.getId());
+        return ApiResponse.success(null);
     }
 
     /**
