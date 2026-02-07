@@ -195,6 +195,46 @@ public class PostQueryRepository {
         return PageableExecutionUtils.getPage(content, pageable , countQuery::fetchOne);
     }
 
+    public Page<PostCardResponse> findMyPosts(Long userId, Pageable pageable) {
+        List<PostCardResponse> content = queryFactory
+                .select(new QPostCardResponse(
+                        post.id,
+                        post.title,
+                        post.content.substring(0, 100),
+                        JPAExpressions
+                                .select(postImage.imageUrl)
+                                .from(postImage)
+                                .where(postImage.post.eq(post), postImage.isRepresentative.isTrue()),
+                        post.category.id,
+                        post.category.name,
+                        post.postType,
+                        post.author.nickname,
+                        post.viewCount,
+                        post.likeCount,
+                        post.commentCount,
+                        post.createdAt
+                ))
+                .from(post)
+                .where(
+                        post.isDeleted.isFalse(),
+                        post.author.id.eq(userId)
+                )
+                .orderBy(post.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(post.count())
+                .from(post)
+                .where(
+                        post.isDeleted.isFalse(),
+                        post.author.id.eq(userId)
+                );
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
     private BooleanExpression eqCategoryName(CommunityCategoryType category) {
         if (category == null) {
             return null;
