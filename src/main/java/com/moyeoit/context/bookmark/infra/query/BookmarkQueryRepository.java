@@ -180,6 +180,7 @@ public class BookmarkQueryRepository {
     private ConstructorExpression<ReviewSummaryResponse> createReviewSummary() {
         return Projections.constructor(ReviewSummaryResponse.class,
                 review.id,
+                review.category,
                 club.name,
                 review.generation,
                 job.name,
