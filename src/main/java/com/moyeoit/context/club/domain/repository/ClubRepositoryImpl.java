@@ -54,6 +54,9 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
         return StringUtils.hasText(field) ? club.positions.any().name.eq(field) : null;
     }
     private BooleanExpression eqWay(String way){
+        if (!StringUtils.hasText(way)) {
+            return null;
+        }
         ClubActivityType method = ClubActivityType.fromString(way);
 
         if (method==null) {
