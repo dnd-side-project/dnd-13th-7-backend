@@ -12,10 +12,12 @@ import static com.querydsl.core.group.GroupBy.list;
 
 import com.moyeoit.context.bookmark.presentation.request.BookmarkType;
 import com.moyeoit.context.club.presentation.response.ClubListResponse;
+import com.moyeoit.context.review.domain.enums.ReviewCategory;
 import com.moyeoit.context.review.presentation.response.BlogReviewResponse;
 import com.moyeoit.context.review.presentation.response.ReviewSummaryResponse;
 import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -96,6 +98,7 @@ public class BookmarkQueryRepository {
                 .where(
                         bookmarkEntity.userId.eq(userId),
                         bookmarkEntity.type.eq(type),
+                        reviewCategoryMatches(type),
                         bookmarkEntity.isActive.isTrue()
                 )
                 .orderBy(bookmarkEntity.createdDate.desc())
@@ -116,21 +119,33 @@ public class BookmarkQueryRepository {
                 .leftJoin(club).on(review.clubId.eq(club.id))
                 .leftJoin(job).on(review.jobId.eq(job.id))
                 .leftJoin(reviewContentSummary).on(review.id.eq(reviewContentSummary.review.id))
-                .where(review.id.in(reviewIds))
+                .where(review.id.in(reviewIds), reviewCategoryMatches(type))
                 .orderBy(bookmarkEntity.createdDate.desc())
                 .fetch();
 
         Long total = queryFactory
-                .select(bookmarkEntity.count())
+                .select(review.count())
                 .from(bookmarkEntity)
+                .join(review).on(bookmarkEntity.targetId.eq(review.id))
                 .where(
                         bookmarkEntity.userId.eq(userId),
                         bookmarkEntity.type.eq(type),
+                        reviewCategoryMatches(type),
                         bookmarkEntity.isActive.isTrue()
                 )
                 .fetchOne();
 
         return new PageImpl<>(sortedContent, pageable, total != null ? total : 0);
+    }
+
+    private BooleanExpression reviewCategoryMatches(BookmarkType type) {
+        if (BookmarkType.INTERVIEW_REVIEW.equals(type)) {
+            return review.category.in(ReviewCategory.DOCUMENT, ReviewCategory.INTERVIEW);
+        }
+        if (BookmarkType.ACTIVITY_REVIEW.equals(type)) {
+            return review.category.eq(ReviewCategory.ACTIVITY);
+        }
+        return null;
     }
 
     public Page<BlogReviewResponse> findBookmarkedBlogReviews(Long userId, Pageable pageable) {
