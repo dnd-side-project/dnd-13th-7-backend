@@ -20,10 +20,20 @@ public class UserActivityService {
     private final QueryUserActivityRepository queryUserActivityRepository;
 
 
+    @Transactional
     public UserActivityResponse getUserActivity(Long userId) {
-        return queryUserActivityRepository.getUserActivity(userId);
+        return userActivityRepository.findByUserId(userId)
+            .map(userActivity -> queryUserActivityRepository.getUserActivity(userId))
+            .orElseGet(() -> {
+                UserActivity newUserActivity = UserActivity.builder()
+                    .userId(userId)
+                    .active(false)
+                    .certify(false)
+                    .build();
+                userActivityRepository.save(newUserActivity);
+                return queryUserActivityRepository.getUserActivity(userId);
+            });
     }
-
 
     @Transactional
     public void updateUserActivity(Long id, UserActivityUpdateRequest request) {

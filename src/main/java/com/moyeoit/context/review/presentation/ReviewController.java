@@ -7,6 +7,7 @@ import com.moyeoit.context.review.presentation.response.ReviewView;
 import com.moyeoit.context.review.service.ReviewLikeService;
 import com.moyeoit.context.review.service.ReviewService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
+import com.moyeoit.global.auth.argument_resolver.AuthenticateUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,7 +55,11 @@ public class ReviewController implements ReviewAPI {
     public ApiResponse<Page<ReviewSummaryResponse>> searchReview(@ModelAttribute ReviewSearchRequest request,
                                                                  @PageableDefault Pageable pageable,
                                                                  @CurrentUser AccessUser user) {
-        return ApiResponse.success(reviewService.search(request, pageable, user != null ? user.getId() : null));
+        Long userId = null;
+        if (user instanceof AuthenticateUser) {
+            userId = user.getId();
+        }
+        return ApiResponse.success(reviewService.search(request, pageable, userId));
     }
 
 }
