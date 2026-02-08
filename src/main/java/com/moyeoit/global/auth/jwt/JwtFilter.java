@@ -1,19 +1,20 @@
 package com.moyeoit.global.auth.jwt;
 
-import com.moyeoit.domain.app_user.service.AppUserService;
-import com.moyeoit.domain.app_user.service.dto.AppUserDto;
+import com.moyeoit.context.user.service.UserService;
+import com.moyeoit.context.user.service.dto.UserDto;
 import com.moyeoit.global.auth.user.CustomUserPrincipal;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.Collections;
 
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
@@ -22,24 +23,28 @@ public class JwtFilter extends OncePerRequestFilter {
     private final String BEARER = "Bearer ";
 
     private final JwtValidator jwtValidator;
-    private final AppUserService appUserService;
+    private final UserService userService;
 
-    public JwtFilter(JwtValidator jwtValidator, AppUserService appUserService) {
+    public JwtFilter(JwtValidator jwtValidator, UserService userService) {
         this.jwtValidator = jwtValidator;
-        this.appUserService = appUserService;
+        this.userService = userService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
+        if("OPTIONS".equalsIgnoreCase(request.getMethod())){
+            filterChain.doFilter(request,response);
+            return;
+        }
+
         String bearer = request.getHeader(AUTHORIZATION_HEADER);
         String token = (StringUtils.hasText(bearer) && bearer.startsWith(BEARER)) ? bearer.substring(7) : null;
-
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             if (jwtValidator.isValid(token)) { // 토큰이 유효하다면
                 Long userId = jwtValidator.subject(token).get();
-                AppUserDto user = appUserService.getAppUser(userId);
+                UserDto user = userService.getUser(userId);
 
                 CustomUserPrincipal principal = new CustomUserPrincipal(
                         user.getId(),

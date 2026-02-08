@@ -1,0 +1,90 @@
+server:
+  forward-headers-strategy: native
+  port: 8080
+  servlet:
+    context-path: /api
+spring:
+  flyway:
+    enabled: true
+    encoding: UTF-8
+  datasource:
+    url: ${DEV_DB_URL}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8
+    username: ${DEV_DB_USERNAME}
+    password: ${DEV_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 1000
+  cloud:
+    aws:
+      region:
+        static: ap-northeast-2
+      credentials:
+        access-key: ${DEV_S3_ACCESS_KEY}
+        secret-key: ${DEV_S3_SECRET_KEY}
+
+# OAuth2 관련 설정
+oauth:
+  google:
+    auth:
+      client-id: ${DEV_GOOGLE_CLIENT_ID}
+      client-secret: ${DEV_GOOGLE_SECRET_ID}
+      redirect-uri: http://localhost:8084/api/api/oauth2/login/google
+      scope:
+        - email
+        - profile
+    api:
+      authorization-uri: https://accounts.google.com/o/oauth2/v2/auth
+      token-uri: https://oauth2.googleapis.com/token
+      user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+  kakao:
+    auth:
+      client-id: ${DEV_KAKAO_CLIENT_ID}
+      client-secret: ${DEV_KAKAO_CLIENT_SECRET}
+      redirect-uri: http://localhost:8084/api/api/oauth2/login/kakao
+      scope:
+        - profile_nickname
+        - account_email
+    api:
+      authorization-uri: https://kauth.kakao.com/oauth/authorize
+      token-uri: https://kauth.kakao.com/oauth/token
+      user-info-uri: https://kapi.kakao.com/v2/user/me
+
+# JWT 설정값
+jwt:
+  secret: ${DEV_JWT_SECRET_KEY}
+  access-token-expire-time: 1800
+  refresh-token-expire-time: 604800
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+      probes:
+        enabled: true
+  newrelic:
+    metrics:
+      export:
+        enabled: false
+
+# S3 버킷 관련 설정값
+app:
+  s3:
+    bucket: ${DEV_S3_BUCKET_NAME}
+    urlBase: ${DEV_S3_URL_BASE}
+
+# Loggin 관련 설정
+logging:
+  level:
+    org.springframework.security: INFO

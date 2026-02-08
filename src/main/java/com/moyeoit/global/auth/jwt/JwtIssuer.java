@@ -3,11 +3,12 @@ package com.moyeoit.global.auth.jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
+
+import javax.crypto.SecretKey;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
-import javax.crypto.SecretKey;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JwtIssuer {
@@ -33,10 +34,12 @@ public class JwtIssuer {
                 .compact();
     }
 
-    public String issueAccess(Long userId, String email, boolean active) {
-        return issue(userId,
+    public JwtCreateResult issueAccess(Long userId, String email, boolean active) {
+        String accessTokenValue = issue(userId,
                 Map.of("typ", "access", "email", email, "active", active),
                 accessTTL);
+
+        return new JwtCreateResult(accessTokenValue, accessTTL, JwtType.ACCESS);
     }
 
     public String issueRefresh(Long userId) {
