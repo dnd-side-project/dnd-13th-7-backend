@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Community Posts</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Posts</h4>
+                    <form class="form-inline mb-3" th:action="@{/admin/community/posts}" method="get">
+                        <input class="form-control mr-2" type="text" name="keyword" placeholder="Search title"
+                               th:value="${keyword}">
+                        <select class="form-control mr-2" name="status">
+                            <option value="">All Status</option>
+                            <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"
+                                    th:selected="${status == s}"></option>
+                        </select>
+                        <button class="btn btn-outline-primary" type="submit">Filter</button>
+                    </form>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="post : ${posts.content}">
+                                <td th:text="${post.id}">1</td>
+                                <td th:text="${post.title}">Title</td>
+                                <td th:text="${post.author != null && post.author.nickname != null ? post.author.nickname : (post.author != null ? post.author.name : '-') }">Author</td>
+                                <td th:text="${post.category != null ? post.category.name : '-'}">Category</td>
+                                <td th:text="${post.status}">ACTIVE</td>
+                                <td th:text="${post.createdAt}">2024-01-01</td>
+                                <td>
+                                    <a class="btn btn-sm btn-outline-primary" th:href="@{/admin/community/posts/{id}(id=${post.id})}">View</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${posts.totalElements == 0}">
+                                <td colspan="7">No posts found.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-3 d-flex justify-content-between">
+                        <span th:text="'Page ' + ${posts.number + 1} + ' / ' + ${posts.totalPages}">Page</span>
+                        <div>
+                            <a class="btn btn-sm btn-outline-secondary"
+                               th:href="@{/admin/community/posts(page=${posts.number - 1}, keyword=${keyword}, status=${status})}"
+                               th:if="${posts.number > 0}">Prev</a>
+                            <a class="btn btn-sm btn-outline-secondary"
+                               th:href="@{/admin/community/posts(page=${posts.number + 1}, keyword=${keyword}, status=${status})}"
+                               th:if="${posts.number + 1 < posts.totalPages}">Next</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Club Detail</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Club Detail</h4>
+                    <div class="alert alert-success" th:if="${message}">
+                        <span th:text="${message}">Success</span>
+                    </div>
+                    <form th:action="@{/admin/clubs/{id}(id=${club.id})}" method="post">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input class="form-control" type="text" name="name" th:value="${club.name}">
+                        </div>
+                        <div class="form-group">
+                            <label>Slogan</label>
+                            <input class="form-control" type="text" name="slogan" th:value="${club.clubProfile != null ? club.clubProfile.slogan : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Bio</label>
+                            <textarea class="form-control" rows="4" name="bio" th:text="${club.clubProfile != null ? club.clubProfile.bio : ''}"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Establishment Year</label>
+                            <input class="form-control" type="number" name="establishmentYear"
+                                   th:value="${club.clubProfile != null && club.clubProfile.establishment != null ? club.clubProfile.establishment.year : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Total Participant</label>
+                            <input class="form-control" type="number" name="totalParticipant"
+                                   th:value="${club.clubProfile != null ? club.clubProfile.totalParticipant : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Operation</label>
+                            <input class="form-control" type="number" name="operation"
+                                   th:value="${club.clubProfile != null ? club.clubProfile.operation : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Online</label>
+                            <input class="form-control" type="text" name="online"
+                                   th:value="${club.clubActivityMethod != null ? club.clubActivityMethod.online : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Offline</label>
+                            <input class="form-control" type="text" name="offline"
+                                   th:value="${club.clubActivityMethod != null ? club.clubActivityMethod.offline : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input class="form-control" type="text" name="location"
+                                   th:value="${club.clubPlace != null ? club.clubPlace.location : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input class="form-control" type="text" name="address"
+                                   th:value="${club.clubPlace != null ? club.clubPlace.address : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input class="form-control" type="text" name="imageUrl"
+                                   th:value="${club.clubProfile != null ? club.clubProfile.imageUrl : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Significant</label>
+                            <input class="form-control" type="text" name="significant" th:value="${club.significant}">
+                        </div>
+                        <div class="form-group">
+                            <label>Recruiting</label>
+                            <select class="form-control" name="recruiting">
+                                <option value="true" th:selected="${club.recruiting}">true</option>
+                                <option value="false" th:selected="${!club.recruiting}">false</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        <a class="btn btn-outline-secondary" th:href="@{/admin/clubs}">Back to list</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

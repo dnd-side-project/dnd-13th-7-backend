@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Comment Detail</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Comment Detail</h4>
+                    <div class="mb-3">
+                        <strong>ID:</strong> <span th:text="${comment.id}">1</span><br/>
+                        <strong>Post ID:</strong> <span th:text="${comment.post != null ? comment.post.id : '-'}">1</span><br/>
+                        <strong>User:</strong>
+                        <span th:text="${comment.user != null && comment.user.nickname != null ? comment.user.nickname : (comment.user != null ? comment.user.name : '-') }">User</span><br/>
+                        <strong>Status:</strong> <span th:text="${comment.status}">ACTIVE</span><br/>
+                        <span th:if="${comment.reportMemo != null && !comment.reportMemo.isBlank()}">
+                            <strong>Blind Memo:</strong> <span th:text="${comment.reportMemo}">-</span><br/>
+                        </span>
+                        <span th:if="${comment.reportedAt != null}">
+                            <strong>Blinded At:</strong> <span th:text="${comment.reportedAt}">-</span><br/>
+                        </span>
+                        <strong>Created:</strong> <span th:text="${comment.createdAt}">2024-01-01</span><br/>
+                        <strong>Updated:</strong> <span th:text="${comment.updatedAt}">2024-01-02</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Content</strong>
+                        <div class="border p-3" th:text="${comment.content}">내용</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <form class="d-inline" th:action="@{/admin/community/comments/{id}/delete(id=${comment.id})}" method="post">
+                            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                        </form>
+                        <form class="d-inline" th:action="@{/admin/community/comments/{id}/restore(id=${comment.id})}" method="post">
+                            <button class="btn btn-sm btn-warning" type="submit">Restore</button>
+                        </form>
+                        <form class="d-inline" th:action="@{/admin/community/comments/{id}/blind(id=${comment.id})}" method="post">
+                            <input type="text" name="memo" class="form-control d-inline-block mr-2" style="width: 200px;" placeholder="Blind memo">
+                            <button class="btn btn-sm btn-secondary" type="submit">Blind</button>
+                        </form>
+                        <form class="d-inline" th:action="@{/admin/community/comments/{id}/unblind(id=${comment.id})}" method="post">
+                            <button class="btn btn-sm btn-outline-secondary" type="submit">Unblind</button>
+                        </form>
+                    </div>
+
+                    <a class="btn btn-outline-primary" th:href="@{/admin/community/comments}">Back to list</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

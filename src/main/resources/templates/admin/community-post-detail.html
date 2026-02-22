@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Post Detail</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Post Detail</h4>
+                    <div class="mb-3">
+                        <strong>ID:</strong> <span th:text="${post.id}">1</span><br/>
+                        <strong>Title:</strong> <span th:text="${post.title}">Title</span><br/>
+                        <strong>Author:</strong>
+                        <span th:text="${post.author != null && post.author.nickname != null ? post.author.nickname : (post.author != null ? post.author.name : '-') }">Author</span><br/>
+                        <strong>Status:</strong> <span th:text="${post.status}">ACTIVE</span><br/>
+                        <span th:if="${post.reportMemo != null && !post.reportMemo.isBlank()}">
+                            <strong>Blind Memo:</strong> <span th:text="${post.reportMemo}">-</span><br/>
+                        </span>
+                        <span th:if="${post.reportedAt != null}">
+                            <strong>Blinded At:</strong> <span th:text="${post.reportedAt}">-</span><br/>
+                        </span>
+                        <strong>Created:</strong> <span th:text="${post.createdAt}">2024-01-01</span><br/>
+                        <strong>Updated:</strong> <span th:text="${post.updatedAt}">2024-01-02</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Content</strong>
+                        <div class="border p-3" th:text="${post.content}">내용</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <form class="d-inline" th:action="@{/admin/community/posts/{id}/delete(id=${post.id})}" method="post">
+                            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                        </form>
+                        <form class="d-inline" th:action="@{/admin/community/posts/{id}/restore(id=${post.id})}" method="post">
+                            <button class="btn btn-sm btn-warning" type="submit">Restore</button>
+                        </form>
+                        <form class="d-inline" th:action="@{/admin/community/posts/{id}/blind(id=${post.id})}" method="post">
+                            <input type="text" name="memo" class="form-control d-inline-block mr-2" style="width: 200px;" placeholder="Blind memo">
+                            <button class="btn btn-sm btn-secondary" type="submit">Blind</button>
+                        </form>
+                        <form class="d-inline" th:action="@{/admin/community/posts/{id}/unblind(id=${post.id})}" method="post">
+                            <button class="btn btn-sm btn-outline-secondary" type="submit">Unblind</button>
+                        </form>
+                    </div>
+
+                    <a class="btn btn-outline-primary" th:href="@{/admin/community/posts}">Back to list</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

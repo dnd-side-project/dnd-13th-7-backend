@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>New Club</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">New Club</h4>
+                    <form th:action="@{/admin/clubs}" method="post">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input class="form-control" type="text" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Slogan</label>
+                            <input class="form-control" type="text" name="slogan">
+                        </div>
+                        <div class="form-group">
+                            <label>Bio</label>
+                            <textarea class="form-control" rows="4" name="bio"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Establishment Year</label>
+                            <input class="form-control" type="number" name="establishmentYear" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Participant</label>
+                            <input class="form-control" type="number" name="totalParticipant">
+                        </div>
+                        <div class="form-group">
+                            <label>Operation</label>
+                            <input class="form-control" type="number" name="operation">
+                        </div>
+                        <div class="form-group">
+                            <label>Online</label>
+                            <input class="form-control" type="text" name="online">
+                        </div>
+                        <div class="form-group">
+                            <label>Offline</label>
+                            <input class="form-control" type="text" name="offline">
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input class="form-control" type="text" name="location">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input class="form-control" type="text" name="address">
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input class="form-control" type="text" name="imageUrl">
+                        </div>
+                        <div class="form-group">
+                            <label>Recruiting</label>
+                            <select class="form-control" name="recruiting">
+                                <option value="true">true</option>
+                                <option value="false" selected>false</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Create</button>
+                        <a class="btn btn-outline-secondary" th:href="@{/admin/clubs}">Back to list</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
