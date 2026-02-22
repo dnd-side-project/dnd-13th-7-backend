@@ -62,6 +62,9 @@ jwt:
   access-token-expire-time: 1800
   refresh-token-expire-time: 604800
 
+admin:
+  code: ${ADMIN_CODE:}
+
 management:
   endpoints:
     web:

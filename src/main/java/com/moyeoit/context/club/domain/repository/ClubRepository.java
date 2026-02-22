@@ -32,4 +32,6 @@ public interface ClubRepository extends JpaRepository<Club, Long>, ClubRepositor
     void minusSubCount(@Param("id")Long clubId);
 
     List<Club> findByNameContaining(String name);
+
+    Page<Club> findByNameContaining(String name, Pageable pageable);
 }

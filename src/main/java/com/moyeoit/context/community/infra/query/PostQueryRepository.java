@@ -6,6 +6,7 @@ import static com.moyeoit.context.community.domain.QPostLike.postLike;
 
 import com.moyeoit.context.community.domain.CommunityCategoryType;
 import com.moyeoit.context.community.domain.PostLike;
+import com.moyeoit.context.community.domain.PostStatus;
 import com.moyeoit.context.community.presentation.controller.response.PopularPostResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostCardResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostDetailInfoResponse;
@@ -41,6 +42,11 @@ public class PostQueryRepository {
     private static final int POPULAR_MAX_SIZE = 20;
     private static final int POPULAR_DAYS = 30;
 
+    private BooleanExpression isVisiblePost() {
+        return post.isDeleted.isFalse()
+                .and(post.status.in(PostStatus.ACTIVE, PostStatus.REPORTED));
+    }
+
     public Page<PostCardResponse> findFeed(CommunityCategoryType category, Pageable pageable) {
         boolean popularCategory = isPopularCategory(category);
         long limit = resolvePopularLimit(popularCategory, pageable);
@@ -65,7 +71,7 @@ public class PostQueryRepository {
                 ))
                 .from(post)
                 .where(
-                        post.isDeleted.isFalse(),
+                        isVisiblePost(),
                         eqCategoryName(category),
                         filterHotPost(category)
                 )
@@ -78,7 +84,7 @@ public class PostQueryRepository {
                 .select(post.count())
                 .from(post)
                 .where(
-                        post.isDeleted.isFalse(),
+                        isVisiblePost(),
                         eqCategoryName(category),
                         filterHotPost(category)
                 );
@@ -107,7 +113,7 @@ public class PostQueryRepository {
                 ))
                 .from(post)
                 .where(
-                        post.isDeleted.isFalse(),
+                        isVisiblePost(),
                         popularPostPredicate())
                 .orderBy(popularOrderSpecifiers())
                 .offset(pageable.getOffset())
@@ -118,7 +124,7 @@ public class PostQueryRepository {
                 .select(post.count())
                 .from(post)
                 .where(
-                        post.isDeleted.isFalse(),
+                        isVisiblePost(),
                         popularPostPredicate());
 
         return PageableExecutionUtils.getPage(content, pageable, () -> capPopularCount(countQuery.fetchOne()));
@@ -142,7 +148,7 @@ public class PostQueryRepository {
                         post.viewCount
                 ))
                 .from(post)
-                .where(post.id.eq(postId), post.isDeleted.isFalse())
+                .where(post.id.eq(postId), isVisiblePost())
                 .fetchOne();
 
         List<String> imageUrls = queryFactory
@@ -178,7 +184,7 @@ public class PostQueryRepository {
                 ))
                 .from(post)
                 .where(
-                        post.isDeleted.isFalse(),
+                        isVisiblePost(),
                         containsTitle(keyword)
                         )
                 .orderBy(post.createdAt.desc())
@@ -188,7 +194,7 @@ public class PostQueryRepository {
                 .select(post.count())
                 .from(post)
                 .where(
-                        post.isDeleted.isFalse(),
+                        isVisiblePost(),
                         containsTitle(keyword)
                 );
 
@@ -216,7 +222,7 @@ public class PostQueryRepository {
                 ))
                 .from(post)
                 .where(
-                        post.isDeleted.isFalse(),
+                        isVisiblePost(),
                         post.author.id.eq(userId)
                 )
                 .orderBy(post.createdAt.desc())
@@ -228,7 +234,7 @@ public class PostQueryRepository {
                 .select(post.count())
                 .from(post)
                 .where(
-                        post.isDeleted.isFalse(),
+                        isVisiblePost(),
                         post.author.id.eq(userId)
                 );
 

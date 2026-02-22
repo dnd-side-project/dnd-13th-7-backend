@@ -2,6 +2,7 @@ package com.moyeoit.context.user.service.dto;
 
 import com.moyeoit.context.user.domain.AuthProvider;
 import com.moyeoit.context.user.domain.User;
+import com.moyeoit.context.user.domain.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class UserDto {
     private Long jobId;
     private AuthProvider provider;
     private boolean active;
+    private UserRole role;
     private String subscriptionEmail;
     private boolean emailNotifyAgree;
 
@@ -34,6 +36,7 @@ public class UserDto {
                 user.getJobId(),
                 user.getProvider(),
                 user.isActive(),
+                user.getRole(),
                 user.getSubscriptionEmail(),
                 user.isEmailNotifyAgree()
         );

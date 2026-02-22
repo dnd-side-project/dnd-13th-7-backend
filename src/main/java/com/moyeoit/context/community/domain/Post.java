@@ -72,6 +72,17 @@ public class Post {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    @Column(name = "status", nullable = false, length = 20)
+    private PostStatus status = PostStatus.ACTIVE;
+
+    @Column(name = "reported_at")
+    private LocalDateTime reportedAt;
+
+    @Column(name = "report_memo", length = 255)
+    private String reportMemo;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -111,6 +122,30 @@ public class Post {
 
     public void markDeleted() {
         this.isDeleted = true;
+        this.status = PostStatus.DELETED;
+    }
+
+    public void restore() {
+        this.isDeleted = false;
+        this.status = PostStatus.ACTIVE;
+    }
+
+    public void report(String memo) {
+        this.status = PostStatus.REPORTED;
+        this.reportedAt = LocalDateTime.now();
+        this.reportMemo = memo;
+    }
+
+    public void blind(String memo) {
+        this.status = PostStatus.BLINDED;
+        this.reportedAt = LocalDateTime.now();
+        this.reportMemo = memo;
+    }
+
+    public void unblind() {
+        if (this.status == PostStatus.BLINDED) {
+            this.status = PostStatus.ACTIVE;
+        }
     }
 
     public void decreaseLikeCount() {

@@ -62,4 +62,17 @@ public class Club {
     @OneToMany(mappedBy = "club", fetch = FetchType.LAZY)
     private List<ClubPosition> positions;
 
+    public void updateBasicInfo(String name,
+                                ClubProfile profile,
+                                ClubActivityMethod activityMethod,
+                                ClubPlace place,
+                                Boolean recruiting,
+                                String significant) {
+        this.name = name;
+        this.clubProfile = profile;
+        this.ClubActivityMethod = activityMethod;
+        this.clubPlace = place;
+        this.recruiting = recruiting;
+        this.significant = significant;
+    }
 }

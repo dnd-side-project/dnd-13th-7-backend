@@ -14,6 +14,7 @@ import com.moyeoit.context.community.domain.PostImage;
 import com.moyeoit.context.community.domain.PostLike;
 import com.moyeoit.context.community.domain.PostLike.TargetType;
 import com.moyeoit.context.community.domain.PostType;
+import com.moyeoit.context.community.domain.PostStatus;
 import com.moyeoit.context.user.domain.User;
 import com.moyeoit.context.user.domain.repository.UserRepository;
 import com.moyeoit.global.exception.AppException;
@@ -137,6 +138,7 @@ public class PostService {
     public PostDetailInfoResponse getPostDetailInfo(Long postId, Long viewerId) {
         postRepository.findById(postId)
                 .filter(post -> !post.isDeleted())
+                .filter(post -> post.getStatus() != PostStatus.BLINDED && post.getStatus() != PostStatus.DELETED)
                 .ifPresent(Post::increaseViewCount);
 
         return queryRepository.findPostDetailInfo(postId, viewerId);

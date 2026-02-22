@@ -1,8 +1,10 @@
 package com.moyeoit.global.auth.user;
 
+import com.moyeoit.context.user.domain.UserRole;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserPrincipal implements UserDetails {
@@ -11,17 +13,20 @@ public class CustomUserPrincipal implements UserDetails {
     private final String name;
     private final String email;
     private final boolean active;
+    private final UserRole role;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserPrincipal(Long id,
                                String name,
                                String email,
                                boolean active,
+                               UserRole role,
                                Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.active = active;
+        this.role = role;
         this.authorities = authorities;
     }
 
@@ -35,6 +40,10 @@ public class CustomUserPrincipal implements UserDetails {
 
     public boolean isActive() {
         return active;
+    }
+
+    public UserRole getRole() {
+        return role;
     }
 
     @Override
@@ -59,7 +68,11 @@ public class CustomUserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        if (authorities != null && !authorities.isEmpty()) {
+            return authorities;
+        }
+        String roleName = role == null ? UserRole.USER.name() : role.name();
+        return List.of(new SimpleGrantedAuthority("ROLE_" + roleName));
     }
 
     @Override

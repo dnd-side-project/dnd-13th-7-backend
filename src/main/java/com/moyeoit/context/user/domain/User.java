@@ -35,6 +35,11 @@ public class User extends BaseEntity {
     @Column(name = "provider", nullable = false)
     private AuthProvider provider;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    @Builder.Default
+    private UserRole role = UserRole.USER;
+
     @Column(name = "active", nullable = false)
     private boolean active;
 

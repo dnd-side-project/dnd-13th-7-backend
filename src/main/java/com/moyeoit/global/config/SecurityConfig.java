@@ -66,8 +66,10 @@ public class SecurityConfig {
         // Spring Security OAuth2 인증 방식 비활성화
         http.oauth2Login(AbstractHttpConfigurer::disable);
 
-        //경로별 인가작업 -> 모두 허용
-        http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/admin/**").permitAll()
+                .anyRequest().permitAll()
+        );
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
