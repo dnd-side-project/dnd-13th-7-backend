@@ -13,12 +13,11 @@
                     <form class="form-inline mb-3" th:action="@{/admin/community/posts}" method="get">
                         <input class="form-control mr-2" type="text" name="keyword" placeholder="Search title"
                                th:value="${keyword}">
-                        <select class="form-control mr-2" name="status">
+                        <select class="form-control mr-2" name="status" onchange="this.form.submit()">
                             <option value="">All Status</option>
                             <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"
                                     th:selected="${status == s}"></option>
                         </select>
-                        <button class="btn btn-outline-primary" type="submit">Filter</button>
                     </form>
 
                     <div class="table-responsive">
@@ -53,16 +52,17 @@
                         </table>
                     </div>
 
-                    <div class="mt-3 d-flex justify-content-between">
-                        <span th:text="'Page ' + ${posts.number + 1} + ' / ' + ${posts.totalPages}">Page</span>
-                        <div>
-                            <a class="btn btn-sm btn-outline-secondary"
-                               th:href="@{/admin/community/posts(page=${posts.number - 1}, keyword=${keyword}, status=${status})}"
-                               th:if="${posts.number > 0}">Prev</a>
-                            <a class="btn btn-sm btn-outline-secondary"
-                               th:href="@{/admin/community/posts(page=${posts.number + 1}, keyword=${keyword}, status=${status})}"
-                               th:if="${posts.number + 1 < posts.totalPages}">Next</a>
-                        </div>
+                    <div class="mt-3 d-flex justify-content-between align-items-center">
+                        <span th:text="${posts.totalPages > 0 ? 'Page ' + (posts.number + 1) + ' / ' + posts.totalPages : 'Page 0 / 0'}">Page</span>
+                        <ul class="pagination pagination-sm mb-0" th:if="${posts.totalPages > 0}">
+                            <li class="page-item"
+                                th:each="pageNum : ${#numbers.sequence(0, posts.totalPages - 1)}"
+                                th:classappend="${pageNum == posts.number} ? ' active' : ''">
+                                <a class="page-link"
+                                   th:href="@{/admin/community/posts(page=${pageNum}, keyword=${keyword}, status=${status})}"
+                                   th:text="${pageNum + 1}">1</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
