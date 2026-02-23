@@ -3,31 +3,32 @@
   $(function() {
     var sidebar = $('.sidebar');
 
-    //Add active class to nav-link based on url dynamically
-    //Active class can be hard coded directly in html file also as required
-    var current = location.pathname.split("/").slice(-1)[0].replace(/^\/|\/$/g, '');
+    // Add active class to nav-link based on exact pathname match.
+    // Using indexOf caused "/admin" to match every admin menu item.
+    var currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
     $('.nav li a', sidebar).each(function() {
       var $this = $(this);
-      if (current === "") {
-        //for root url
-        if ($this.attr('href').indexOf("index.html") !== -1) {
-          $(this).parents('.nav-item').last().addClass('active');
-          if ($(this).parents('.sub-menu').length) {
-            $(this).closest('.collapse').addClass('show');
-            $(this).addClass('active');
-          }
-        }
-      } else {
-        //for other url
-        if ($this.attr('href').indexOf(current) !== -1) {
-          $(this).parents('.nav-item').last().addClass('active');
-          if ($(this).parents('.sub-menu').length) {
-            $(this).closest('.collapse').addClass('show');
-            $(this).addClass('active');
-          }
+      var href = $this.attr('href');
+
+      if (!href || href.charAt(0) === '#') {
+        return;
+      }
+
+      var linkPath;
+      try {
+        linkPath = new URL(href, window.location.origin).pathname.replace(/\/+$/, '') || '/';
+      } catch (e) {
+        return;
+      }
+
+      if (currentPath === linkPath) {
+        $this.parents('.nav-item').last().addClass('active');
+        if ($this.parents('.sub-menu').length) {
+          $this.closest('.collapse').addClass('show');
+          $this.addClass('active');
         }
       }
-    })
+    });
 
     //Close other submenu in sidebar on opening any
 
