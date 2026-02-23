@@ -10,6 +10,52 @@
     <link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.addons.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="shortcut icon" th:href="@{/images/favicon.png}" />
+    <style>
+        .sidebar .nav .nav-item .nav-link {
+            font-size: 16px;
+            font-weight: 600;
+            border-left: 3px solid transparent;
+            border-radius: 8px;
+            margin: 2px 8px;
+            padding: 14px;
+        }
+
+        .sidebar .nav .nav-item .nav-link .menu-icon {
+            font-size: 20px;
+        }
+
+        .sidebar .nav .nav-item.active > .nav-link {
+            background-color: #edf2ff;
+            border-left-color: #3b5bdb;
+            color: #1f2937;
+        }
+
+        .sidebar .nav .nav-item.active > .nav-link .menu-title,
+        .sidebar .nav .nav-item.active > .nav-link i {
+            color: #1f2937;
+        }
+
+        .sidebar .nav.sub-menu {
+            background: #f8fafc;
+            border-radius: 8px;
+            margin: 4px 12px 10px;
+            padding: 6px 0;
+        }
+
+        .sidebar .nav.sub-menu .nav-item .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 18px 10px 34px;
+            color: #4b5563;
+        }
+
+        .sidebar .nav.sub-menu .nav-item .nav-link.active,
+        .sidebar .nav.sub-menu .nav-item:hover > .nav-link {
+            color: #1f2937;
+            background: #e9eefb;
+            border-radius: 6px;
+        }
+    </style>
 </head>
 
 <body>
@@ -51,32 +97,44 @@
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_sidebar.html -->
-        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <nav class="sidebar sidebar-offcanvas"
+             id="sidebar"
+             th:with="currentUri=${#httpServletRequest?.requestURI ?: ''}">
             <ul class="nav">
-                <li class="nav-item">
+                <li class="nav-item" th:classappend="${currentUri == '/admin' or currentUri == '/admin/'} ? ' active' : ''">
                     <a class="nav-link" th:href="@{/admin}">
                         <i class="menu-icon mdi mdi-television"></i>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="collapse" href="#community" aria-expanded="false" aria-controls="community">
+                <li class="nav-item" th:classappend="${#strings.startsWith(currentUri, '/admin/community')} ? ' active' : ''">
+                    <a class="nav-link"
+                       data-toggle="collapse"
+                       href="#community"
+                       aria-expanded="false"
+                       aria-controls="community"
+                       th:classappend="${#strings.startsWith(currentUri, '/admin/community')} ? '' : ' collapsed'"
+                       th:attr="aria-expanded=${#strings.startsWith(currentUri, '/admin/community')}">
                         <i class="menu-icon mdi mdi-comment-multiple-outline"></i>
                         <span class="menu-title">Community</span>
                         <i class="menu-arrow"></i>
                     </a>
-                    <div class="collapse" id="community">
+                    <div class="collapse" id="community" th:classappend="${#strings.startsWith(currentUri, '/admin/community')} ? ' show' : ''">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/admin/community/posts}">Posts</a>
+                                <a class="nav-link"
+                                   th:classappend="${#strings.startsWith(currentUri, '/admin/community/posts')} ? ' active' : ''"
+                                   th:href="@{/admin/community/posts}">Posts</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" th:href="@{/admin/community/comments}">Comments</a>
+                                <a class="nav-link"
+                                   th:classappend="${#strings.startsWith(currentUri, '/admin/community/comments')} ? ' active' : ''"
+                                   th:href="@{/admin/community/comments}">Comments</a>
                             </li>
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" th:classappend="${#strings.startsWith(currentUri, '/admin/clubs')} ? ' active' : ''">
                     <a class="nav-link" th:href="@{/admin/clubs}">
                         <i class="menu-icon mdi mdi-account-group"></i>
                         <span class="menu-title">Clubs</span>

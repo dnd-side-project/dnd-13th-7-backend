@@ -38,3 +38,4 @@ out/
 
 src/main/resources/application-local.yaml
 src/main/resources/application-test.yaml
+src/main/resources/sql/seed_admin.sql
