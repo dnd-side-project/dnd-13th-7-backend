@@ -7,9 +7,12 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springdoc.core.customizers.OperationCustomizer;
 
 @Configuration
 public class SwaggerConfig {
+
+    private static final String DEPRECATED_PACKAGE_PREFIX = "com.moyeoit.context.deprecated";
 
     @Bean
     public OpenAPI openAPI() {
@@ -29,5 +32,15 @@ public class SwaggerConfig {
                                         .scheme("bearer")
                                         .bearerFormat("JWT")));
     }
-    
+
+    @Bean
+    public OperationCustomizer deprecatedOperationCustomizer() {
+        return (operation, handlerMethod) -> {
+            if (handlerMethod.getBeanType().getPackageName().startsWith(DEPRECATED_PACKAGE_PREFIX)) {
+                operation.setDeprecated(true);
+            }
+            return operation;
+        };
+    }
+
 }

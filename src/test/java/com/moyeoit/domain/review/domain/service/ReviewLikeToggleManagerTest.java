@@ -1,11 +1,11 @@
 package com.moyeoit.domain.review.domain.service;
 
-import com.moyeoit.context.review.domain.enums.ReviewCategory;
-import com.moyeoit.context.review.domain.enums.ReviewResult;
-import com.moyeoit.context.review.domain.model.Review;
-import com.moyeoit.context.review.domain.service.ReviewLikeToggleManager;
-import com.moyeoit.context.review.infra.ReviewRepository;
-import com.moyeoit.context.review.repository.ReviewLikeRepository;
+import com.moyeoit.context.deprecated.review.domain.enums.ReviewCategory;
+import com.moyeoit.context.deprecated.review.domain.enums.ReviewResult;
+import com.moyeoit.context.deprecated.review.domain.model.Review;
+import com.moyeoit.context.deprecated.review.domain.service.ReviewLikeToggleManager;
+import com.moyeoit.context.deprecated.review.infra.ReviewRepository;
+import com.moyeoit.context.deprecated.review.repository.ReviewLikeRepository;
 import com.moyeoit.context.user.domain.AuthProvider;
 import com.moyeoit.context.user.domain.User;
 import com.moyeoit.context.user.infra.jpa.JpaUserRepository;

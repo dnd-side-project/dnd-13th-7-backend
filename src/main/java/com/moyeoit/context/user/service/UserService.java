@@ -1,7 +1,7 @@
 package com.moyeoit.context.user.service;
 
 import com.moyeoit.context.club.domain.repository.ClubSubscribeRepository;
-import com.moyeoit.context.review.repository.ReviewLikeRepository;
+import com.moyeoit.context.deprecated.review.repository.ReviewLikeRepository;
 import com.moyeoit.context.user.controller.request.AccountManageUpdateRequest;
 import com.moyeoit.context.user.controller.request.ActivateRequest;
 import com.moyeoit.context.user.controller.request.UserUpdateRequest;
