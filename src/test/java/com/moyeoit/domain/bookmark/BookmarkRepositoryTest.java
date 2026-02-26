@@ -1,14 +1,14 @@
 package com.moyeoit.domain.bookmark;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.moyeoit.context.bookmark.domain.model.Bookmark;
-import com.moyeoit.context.bookmark.domain.repository.BookmarkRepository;
-import com.moyeoit.context.bookmark.infra.query.BookmarkQueryRepository;
-import com.moyeoit.context.bookmark.presentation.request.BookmarkType;
+import com.moyeoit.context.deprecated.bookmark.domain.model.Bookmark;
+import com.moyeoit.context.deprecated.bookmark.domain.repository.BookmarkRepository;
+import com.moyeoit.context.deprecated.bookmark.infra.query.BookmarkQueryRepository;
+import com.moyeoit.context.deprecated.bookmark.presentation.request.BookmarkType;
 import com.moyeoit.context.club.domain.entity.Club;
 import com.moyeoit.context.club.domain.repository.ClubRepository;
-import com.moyeoit.context.review.domain.model.Review;
-import com.moyeoit.context.review.infra.ReviewRepository;
+import com.moyeoit.context.deprecated.review.domain.model.Review;
+import com.moyeoit.context.deprecated.review.infra.ReviewRepository;
 import com.moyeoit.context.user.domain.AuthProvider;
 import com.moyeoit.context.user.domain.User;
 import com.moyeoit.context.user.infra.jpa.JpaUserRepository;
@@ -51,9 +51,9 @@ class BookmarkRepositoryTest {
                 .build());
         club1 = clubRepository.save(Club.builder().name("Club 1").build());
         club2 = clubRepository.save(Club.builder().name("Club 2").build());
-        interviewReview = reviewRepository.save(Review.builder().title("Interview Review").category(com.moyeoit.context.review.domain.enums.ReviewCategory.INTERVIEW).build());
-        activityReview = reviewRepository.save(Review.builder().title("Activity Review").category(com.moyeoit.context.review.domain.enums.ReviewCategory.ACTIVITY).build());
-        blogReview = reviewRepository.save(Review.builder().title("Blog Review").category(com.moyeoit.context.review.domain.enums.ReviewCategory.BLOG).build());
+        interviewReview = reviewRepository.save(Review.builder().title("Interview Review").category(com.moyeoit.context.deprecated.review.domain.enums.ReviewCategory.INTERVIEW).build());
+        activityReview = reviewRepository.save(Review.builder().title("Activity Review").category(com.moyeoit.context.deprecated.review.domain.enums.ReviewCategory.ACTIVITY).build());
+        blogReview = reviewRepository.save(Review.builder().title("Blog Review").category(com.moyeoit.context.deprecated.review.domain.enums.ReviewCategory.BLOG).build());
     }
 
     @Test
