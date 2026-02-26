@@ -5,14 +5,9 @@ import com.moyeoit.context.club.presentation.response.ClubFindListResponse;
 import com.moyeoit.context.club.presentation.response.ClubInfoResponse;
 import com.moyeoit.context.club.presentation.response.ClubListResponse;
 import com.moyeoit.context.club.presentation.response.ClubRecruitInfoResponse;
-import com.moyeoit.context.club.application.dto.ClubActivityDto;
-import com.moyeoit.context.club.application.dto.ClubDto;
-import com.moyeoit.context.club.application.dto.ClubScheduleDto;
 import com.moyeoit.context.club.domain.entity.Club;
 import com.moyeoit.context.club.domain.entity.ClubRecruitment;
 import com.moyeoit.context.club.domain.entity.ClubSubscribe;
-import com.moyeoit.context.club.domain.entity.activity.ClubActivity;
-import com.moyeoit.context.club.domain.entity.schedule.ClubSchedule;
 import com.moyeoit.context.club.domain.repository.ClubRepository;
 import com.moyeoit.context.club.domain.repository.ClubSubscribeRepository;
 import com.moyeoit.context.user.domain.User;
@@ -39,20 +34,20 @@ public class ClubService {
     private final ClubSubscribeRepository clubSubscribeRepository;
 
     /**
-     * 동아리 프로필/활동/일정 정보를 조회합니다.
+     * 동아리 상세 화면용 정보를 조회합니다.
      */
     @Transactional(readOnly = true)
     public ClubInfoResponse findDetailInfo(Long clubId) {
-        Club club = clubRepository.findClubWithActivitiesById(clubId)
+        Club club = clubRepository.findClubWithRecruitmentById(clubId)
                 .orElseThrow(() -> new AppException(ClubErrorCode.NOT_FOUND));
-
-        List<ClubActivity> activities = club.getActivities();
-        List<ClubSchedule> schedules = club.getSchedules();
-
+        ClubRecruitment recruitment = club.getRecruitment();
         return new ClubInfoResponse(
-                ClubDto.from(club),
-                activities.stream().map(ClubActivityDto::from).toList(),
-                schedules.stream().map(ClubScheduleDto::from).toList());
+                club.getId(),
+                club.getName(),
+                club.getClubProfile().imageUrl(),
+                club.getClubProfile().bio(),
+                recruitment != null ? recruitment.getHomepageUrl() : null
+        );
     }
 
 
