@@ -61,4 +61,12 @@ public class AdminClubController {
         redirectAttributes.addFlashAttribute("message", "수정되었습니다.");
         return "redirect:/admin/clubs/" + clubId;
     }
+
+    @PostMapping("/{clubId}/delete")
+    public String deleteClub(@PathVariable Long clubId,
+                             RedirectAttributes redirectAttributes) {
+        adminClubService.deleteClub(clubId);
+        redirectAttributes.addFlashAttribute("message", "삭제되었습니다.");
+        return "redirect:/admin/clubs";
+    }
 }

@@ -4,6 +4,7 @@ import com.moyeoit.context.club.domain.entity.Club;
 import com.moyeoit.context.club.domain.entity.ClubSubscribe;
 import com.moyeoit.context.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -18,4 +19,8 @@ public interface ClubSubscribeRepository extends JpaRepository<ClubSubscribe, Lo
     Long countByUserId(@Param("userId") Long userId);
 
     boolean existsByClubAndUser(Club club, User user);
+
+    @Modifying
+    @Query("delete from ClubSubscribe cs where cs.club.id = :clubId")
+    void deleteAllByClubId(@Param("clubId") Long clubId);
 }

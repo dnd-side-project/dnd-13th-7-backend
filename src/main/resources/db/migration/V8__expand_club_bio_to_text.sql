@@ -1,0 +1,2 @@
+ALTER TABLE tb_club
+    MODIFY COLUMN bio TEXT;

@@ -13,7 +13,7 @@
                     <div class="alert alert-success" th:if="${message}">
                         <span th:text="${message}">Success</span>
                     </div>
-                    <form th:action="@{/admin/clubs/{id}(id=${club.id})}" method="post">
+                    <form th:action="@{/admin/clubs/{id}(id=${club.id})}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Name</label>
                             <input class="form-control" type="text" name="name" th:value="${club.name}">
@@ -24,7 +24,7 @@
                         </div>
                         <div class="form-group">
                             <label>Bio</label>
-                            <textarea class="form-control" rows="4" name="bio" th:text="${club.clubProfile != null ? club.clubProfile.bio : ''}"></textarea>
+                            <textarea class="form-control" rows="12" name="bio" th:text="${club.clubProfile != null ? club.clubProfile.bio : ''}"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Establishment Year</label>
@@ -65,6 +65,18 @@
                             <label>Image URL</label>
                             <input class="form-control" type="text" name="imageUrl"
                                    th:value="${club.clubProfile != null ? club.clubProfile.imageUrl : ''}">
+                            <small class="form-text text-muted">파일을 업로드하면 기존 URL보다 우선 적용됩니다.</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Image File</label>
+                            <input class="form-control" type="file" name="imageFile" accept="image/*">
+                        </div>
+                        <div class="form-group" th:if="${club.clubProfile != null and club.clubProfile.imageUrl != null and !#strings.isEmpty(club.clubProfile.imageUrl)}">
+                            <label>Current Image</label>
+                            <div>
+                                <img th:src="${club.clubProfile.imageUrl}" alt="club image"
+                                     style="max-width: 240px; border-radius: 8px;">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Significant</label>
@@ -79,6 +91,12 @@
                         </div>
                         <button class="btn btn-primary" type="submit">Save</button>
                         <a class="btn btn-outline-secondary" th:href="@{/admin/clubs}">Back to list</a>
+                    </form>
+                    <form class="mt-3"
+                          th:action="@{/admin/clubs/{id}/delete(id=${club.id})}"
+                          method="post"
+                          onsubmit="return confirm('이 동아리를 삭제하시겠습니까?');">
+                        <button class="btn btn-danger" type="submit">Delete Club</button>
                     </form>
                 </div>
             </div>

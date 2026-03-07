@@ -2,6 +2,7 @@ package com.moyeoit.context.admin.presentation.request;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -18,5 +19,6 @@ public class AdminClubUpdateRequest {
     private String address;
     private Boolean recruiting;
     private String imageUrl;
+    private MultipartFile imageFile;
     private String significant;
 }

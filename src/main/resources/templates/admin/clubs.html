@@ -39,6 +39,12 @@
                                 <td th:text="${club.subscribeCount}">0</td>
                                 <td>
                                     <a class="btn btn-sm btn-outline-primary" th:href="@{/admin/clubs/{id}(id=${club.id})}">View</a>
+                                    <form class="d-inline"
+                                          th:action="@{/admin/clubs/{id}/delete(id=${club.id})}"
+                                          method="post"
+                                          onsubmit="return confirm('이 동아리를 삭제하시겠습니까?');">
+                                        <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             <tr th:if="${clubs.totalElements == 0}">
