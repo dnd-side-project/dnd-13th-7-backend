@@ -65,8 +65,8 @@ public class ClubService {
 
 
     @Transactional(readOnly = true)
-    public Page<ClubListResponse> findClubList(ClubPagingRequest request, Pageable pageable) {
-        return clubRepository.findClubByRequest(request, pageable).map(ClubListResponse::from);
+    public Page<ClubListResponse> findClubList(ClubPagingRequest request, Pageable pageable, Long userId) {
+        return clubRepository.findClubByRequest(request, pageable, userId).map(ClubListResponse::from);
     }
 
     @Transactional(readOnly = true)

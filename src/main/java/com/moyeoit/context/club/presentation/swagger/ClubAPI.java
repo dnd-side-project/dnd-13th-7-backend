@@ -38,6 +38,7 @@ public interface ClubAPI {
     })
     ApiResponse<Page<ClubListResponse>> getClubList(
             @ModelAttribute ClubPagingRequest request,
+            @Parameter(hidden = true) @CurrentUser AccessUser user,
             @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "동아리 키워드 검색 API", description = "검색어를 통해 동아리를 검색합니다.")

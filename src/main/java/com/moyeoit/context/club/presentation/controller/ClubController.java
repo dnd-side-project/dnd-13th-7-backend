@@ -8,6 +8,7 @@ import com.moyeoit.context.club.presentation.response.ClubRecruitInfoResponse;
 import com.moyeoit.context.club.presentation.swagger.ClubAPI;
 import com.moyeoit.context.club.application.service.ClubService;
 import com.moyeoit.global.auth.argument_resolver.AccessUser;
+import com.moyeoit.global.auth.argument_resolver.AuthenticateUser;
 import com.moyeoit.global.auth.argument_resolver.CurrentUser;
 import com.moyeoit.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -43,8 +44,10 @@ public class ClubController implements ClubAPI {
     @GetMapping
     public ApiResponse<Page<ClubListResponse>> getClubList(
             @ModelAttribute ClubPagingRequest request,
+            @Parameter(hidden = true) @CurrentUser AccessUser user,
             @PageableDefault(size = 12, direction = Sort.Direction.DESC) Pageable pageable) {
-        return ApiResponse.success("동아리 목록 조회에 성공하였습니다.", clubService.findClubList(request, pageable));
+        Long userId = user instanceof AuthenticateUser authenticateUser ? authenticateUser.getId() : null;
+        return ApiResponse.success("동아리 목록 조회에 성공하였습니다.", clubService.findClubList(request, pageable, userId));
     }
 
     @GetMapping("/suggest")

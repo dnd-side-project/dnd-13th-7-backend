@@ -1,13 +1,20 @@
 package com.moyeoit.context.club.domain.repository;
 
 
+import static com.moyeoit.context.club.domain.entity.QClub.club;
+import static com.moyeoit.context.deprecated.bookmark.infra.entity.QBookmarkEntity.bookmarkEntity;
+
 import com.moyeoit.context.club.presentation.request.ClubPagingRequest;
 import com.moyeoit.context.club.domain.entity.Club;
 import com.moyeoit.context.club.infra.query.ClubActivityType;
+import com.moyeoit.context.deprecated.bookmark.presentation.request.BookmarkType;
+import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +24,6 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import static com.moyeoit.context.club.domain.entity.QClub.club;
-
 @Repository
 @RequiredArgsConstructor
 public class ClubRepositoryImpl implements ClubRepositoryCustom{
@@ -26,7 +31,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Club> findClubByRequest(ClubPagingRequest request, Pageable pageable) {
+    public Page<Club> findClubByRequest(ClubPagingRequest request, Pageable pageable, Long userId) {
         BooleanExpression[] conditions = {
                 eqField(request.getField()),
                 eqWay(request.getWay()),
@@ -34,10 +39,20 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
                 eqTarget(request.getTarget())
         };
 
-        List<Club> content = queryFactory
+        JPAQuery<Club> contentQuery = queryFactory
                 .selectFrom(club)
-                .where(conditions)
-                .orderBy(getOrderSpecifier(request.getSort(),pageable)) // 정렬 조건
+                .where(conditions);
+
+        if (userId != null) {
+            contentQuery.leftJoin(bookmarkEntity)
+                    .on(bookmarkEntity.targetId.eq(club.id),
+                            bookmarkEntity.userId.eq(userId),
+                            bookmarkEntity.type.eq(BookmarkType.CLUB),
+                            bookmarkEntity.isActive.isTrue());
+        }
+
+        List<Club> content = contentQuery
+                .orderBy(getOrderSpecifiers(userId, request.getSort()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -89,7 +104,24 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
         return null;
     }
 
-    private OrderSpecifier<?> getOrderSpecifier(String sort,Pageable pageable){
+    private OrderSpecifier<?>[] getOrderSpecifiers(Long userId, String sort) {
+        List<OrderSpecifier<?>> orderSpecifiers = new ArrayList<>();
+
+        if (userId != null) {
+            orderSpecifiers.add(new OrderSpecifier<>(
+                    Order.DESC,
+                    new CaseBuilder()
+                            .when(bookmarkEntity.id.isNotNull())
+                            .then(1)
+                            .otherwise(0)
+            ));
+        }
+
+        orderSpecifiers.add(getOrderSpecifier(sort));
+        return orderSpecifiers.toArray(OrderSpecifier[]::new);
+    }
+
+    private OrderSpecifier<?> getOrderSpecifier(String sort){
         if(StringUtils.hasText(sort)){
             if("인기순".equals(sort)){
                return club.subscribeCount.desc();
