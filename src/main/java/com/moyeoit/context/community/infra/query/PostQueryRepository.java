@@ -1,8 +1,10 @@
 package com.moyeoit.context.community.infra.query;
 
+import static com.moyeoit.context.community.domain.PostType.QUESTION;
 import static com.moyeoit.context.community.domain.QPost.post;
 import static com.moyeoit.context.community.domain.QPostImage.postImage;
 import static com.moyeoit.context.community.domain.QPostLike.postLike;
+import static com.moyeoit.context.user.domain.QJob.job;
 
 import com.moyeoit.context.community.domain.CommunityCategoryType;
 import com.moyeoit.context.community.domain.PostLike;
@@ -64,6 +66,10 @@ public class PostQueryRepository {
                         post.category.name,
                         post.postType,
                         post.author.nickname,
+                        JPAExpressions
+                                .select(job.name)
+                                .from(job)
+                                .where(job.id.eq(post.author.jobId)),
                         post.viewCount,
                         post.likeCount,
                         post.commentCount,
@@ -177,6 +183,10 @@ public class PostQueryRepository {
                         post.category.name,
                         post.postType,
                         post.author.nickname,
+                        JPAExpressions
+                                .select(job.name)
+                                .from(job)
+                                .where(job.id.eq(post.author.jobId)),
                         post.viewCount,
                         post.likeCount,
                         post.commentCount,
@@ -215,6 +225,10 @@ public class PostQueryRepository {
                         post.category.name,
                         post.postType,
                         post.author.nickname,
+                        JPAExpressions
+                                .select(job.name)
+                                .from(job)
+                                .where(job.id.eq(post.author.jobId)),
                         post.viewCount,
                         post.likeCount,
                         post.commentCount,
@@ -247,6 +261,9 @@ public class PostQueryRepository {
         }
         if (category.isPopular()) {
             return null;
+        }
+        if (category == CommunityCategoryType.QUESTION) {
+            return post.postType.eq(QUESTION);
         }
         return post.category.name.eq(category.getDisplayName());
     }

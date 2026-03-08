@@ -6,14 +6,15 @@ import com.moyeoit.context.community.domain.Category;
 import com.moyeoit.context.community.domain.CommunityCategoryType;
 import com.moyeoit.context.community.domain.Post;
 import com.moyeoit.context.community.domain.PostLike;
+import com.moyeoit.context.community.domain.PostType;
 import com.moyeoit.context.community.infra.query.PostQueryRepository;
 import com.moyeoit.context.community.presentation.controller.response.PopularPostResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostCardResponse;
 import com.moyeoit.context.community.presentation.controller.response.PostDetailInfoResponse;
+import com.moyeoit.context.user.domain.Job;
 import com.moyeoit.context.user.domain.User;
 import com.moyeoit.fixture.JobGenerator;
 import com.moyeoit.fixture.PostGenerator;
-import com.moyeoit.fixture.UserGenerator;
 import com.moyeoit.util.JpaUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -55,12 +56,24 @@ public class PostQueryRepositoryTest {
     Post post1;
     Post post2;
     private User author;
+    private Job authorJob;
     private Category categoryFree;
 
     @BeforeEach
     void setUp() {
-        author = UserGenerator.createActivatedUser(JobGenerator.createJob("학생", "student"));
+        authorJob = JobGenerator.createJob("학생", "student");
         categoryFree = PostGenerator.makeCategory("자유");
+        em.persist(authorJob);
+        author = User.builder()
+                .name("홍길동")
+                .email("test@test.com")
+                .nickname("홍길동 닉네임")
+                .profileImageUrl("")
+                .provider(com.moyeoit.context.user.domain.AuthProvider.GOOGLE)
+                .active(true)
+                .jobId(authorJob.getId())
+                .deleted(false)
+                .build();
         post1 = PostGenerator.makePost(author, categoryFree);
         post2 = PostGenerator.makePost(author, categoryFree);
         JpaUtil.persistAll(em, author, categoryFree, post1, post2);
@@ -80,6 +93,36 @@ public class PostQueryRepositoryTest {
         assertThat(first.categoryName()).isEqualTo("자유");
         assertThat(first.title()).isEqualTo("테스트 게시글 제목");
         assertThat(first.excerpt()).contains("테스트 게시글입니다.");
+        assertThat(first.authorNickname()).isEqualTo("홍길동 닉네임");
+        assertThat(first.authorJobName()).isEqualTo("학생");
+    }
+
+    @DisplayName("질문 카테고리 피드는 질문글만 모아 조회한다.")
+    @Test
+    void get_question_posts_in_question_category_feed() {
+        Post questionPost = Post.builder()
+                .author(author)
+                .category(categoryFree)
+                .title("질문 게시글 제목")
+                .content("질문 게시글입니다.")
+                .postType(PostType.QUESTION)
+                .viewCount(10)
+                .likeCount(1)
+                .commentCount(1)
+                .isDeleted(false)
+                .createdAt(java.time.LocalDateTime.now())
+                .build();
+        em.persist(questionPost);
+        em.flush();
+        em.clear();
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<PostCardResponse> result = postQueryRepository.findFeed(CommunityCategoryType.QUESTION, pageable);
+
+        assertThat(result.getTotalElements()).isEqualTo(1);
+        assertThat(result.getContent().getFirst().title()).isEqualTo("질문 게시글 제목");
+        assertThat(result.getContent().getFirst().postType()).isEqualTo(PostType.QUESTION);
     }
 
     @DisplayName("인기 게시물을 조회한다")

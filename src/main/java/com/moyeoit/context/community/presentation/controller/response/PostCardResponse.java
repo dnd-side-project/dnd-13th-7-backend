@@ -23,6 +23,8 @@ public record PostCardResponse (
         PostType postType,
         @Schema(description = "작성자 닉네임", example = "치킨마니아")
         String authorNickname,
+        @Schema(description = "작성자 분야", example = "학생")
+        String authorJobName,
         @Schema(description = "조회수", example = "100")
         Integer viewCount,
         @Schema(description = "좋아요 수", example = "10")
