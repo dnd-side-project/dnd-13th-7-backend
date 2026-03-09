@@ -336,10 +336,12 @@ public class PostQueryRepository {
     }
 
     private BooleanExpression popularPostPredicate() {
-        return post.viewCount.goe(POPULAR_VIEW_THRESHOLD)
-                .and(post.likeCount.goe(POPULAR_LIKE_THRESHOLD))
-                .and(post.commentCount.goe(POPULAR_COMMENT_THRESHOLD))
-                .and(post.createdAt.goe(LocalDateTime.now().minusDays(POPULAR_DAYS)));
+        BooleanExpression popularCountPredicate = post.viewCount.goe(POPULAR_VIEW_THRESHOLD)
+                .or(post.likeCount.goe(POPULAR_LIKE_THRESHOLD))
+                .or(post.commentCount.goe(POPULAR_COMMENT_THRESHOLD));
+
+        return post.createdAt.goe(LocalDateTime.now().minusDays(POPULAR_DAYS))
+                .and(popularCountPredicate);
     }
 
     private BooleanExpression buildIsHotPostExpression() {

@@ -18,6 +18,7 @@ import com.moyeoit.fixture.PostGenerator;
 import com.moyeoit.util.JpaUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -141,6 +142,63 @@ public class PostQueryRepositoryTest {
         assertThat(result.getTotalElements()).isEqualTo(3);
         assertThat(response.title()).isEqualTo("인기 게시글 제목");
         assertThat(response.excerpt()).contains("인기 게시글입니다.");
+    }
+
+    @DisplayName("최근 30일 이내이며 조회수, 좋아요, 댓글 중 하나만 기준을 넘겨도 인기 게시물이다")
+    @Test
+    void get_a_find_popular_post_with_any_threshold() {
+        Post popularByViewCountOnly = Post.builder()
+                .author(author)
+                .category(categoryFree)
+                .title("조회수로만 인기 게시글")
+                .content("조회수 조건만 만족합니다.")
+                .viewCount(30)
+                .likeCount(0)
+                .commentCount(0)
+                .isDeleted(false)
+                .createdAt(LocalDateTime.now())
+                .build();
+        em.persist(popularByViewCountOnly);
+        em.flush();
+        em.clear();
+
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<PopularPostResponse> result = postQueryRepository.findPopular(pageable);
+
+        assertThat(result.getContent())
+                .extracting(PopularPostResponse::title)
+                .contains("조회수로만 인기 게시글");
+    }
+
+    @DisplayName("인기 조건 수치를 만족해도 30일이 지나면 인기 게시물이 아니다")
+    @Test
+    void do_not_get_popular_post_when_older_than_thirty_days() {
+        Post expiredPopularPost = Post.builder()
+                .author(author)
+                .category(categoryFree)
+                .title("오래된 인기 게시글")
+                .content("수치는 만족하지만 기간을 초과했습니다.")
+                .viewCount(100)
+                .likeCount(10)
+                .commentCount(10)
+                .isDeleted(false)
+                .createdAt(LocalDateTime.now().minusDays(31))
+                .build();
+        em.persist(expiredPopularPost);
+        em.flush();
+        em.createNativeQuery("update tb_post set created_at = :createdAt where post_id = :postId")
+                .setParameter("createdAt", LocalDateTime.now().minusDays(31))
+                .setParameter("postId", expiredPopularPost.getId())
+                .executeUpdate();
+        em.flush();
+        em.clear();
+
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<PopularPostResponse> result = postQueryRepository.findPopular(pageable);
+
+        assertThat(result.getContent())
+                .extracting(PopularPostResponse::title)
+                .doesNotContain("오래된 인기 게시글");
     }
 
     @DisplayName("게시물을 상세조회하고 좋아요 여부를 확인한다.")

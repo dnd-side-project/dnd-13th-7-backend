@@ -66,7 +66,7 @@ public interface PostApi {
             @RequestParam(required = false) String categoryName
     );
 
-    @Operation(summary = "인기글 조회", description = "최근 30일 내 조회수 30+, 좋아요 3+, 댓글 2+ 조건을 만족하는 글을 조회수/좋아요 순으로 3개씩 조회")
+    @Operation(summary = "인기글 조회", description = "최근 30일 내 조회수 30+ 또는 좋아요 3+ 또는 댓글 2+ 조건을 만족하는 글을 조회수/좋아요 순으로 3개씩 조회")
     @Parameters({
             @Parameter(name = "page", description = "페이지 번호", example = "0"),
             @Parameter(name = "size", description = "페이지 크기", example = "3"),
