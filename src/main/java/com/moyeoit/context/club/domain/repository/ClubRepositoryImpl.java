@@ -117,6 +117,14 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
             ));
         }
 
+        orderSpecifiers.add(new OrderSpecifier<>(
+                Order.DESC,
+                new CaseBuilder()
+                        .when(club.recruiting.isTrue())
+                        .then(1)
+                        .otherwise(0)
+        ));
+
         orderSpecifiers.add(getOrderSpecifier(sort));
         return orderSpecifiers.toArray(OrderSpecifier[]::new);
     }

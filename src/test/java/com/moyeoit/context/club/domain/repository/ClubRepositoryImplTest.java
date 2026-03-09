@@ -29,8 +29,8 @@ class ClubRepositoryImplTest extends CoreDbContextTest {
     private BookmarkRepository bookmarkRepository;
 
     @Test
-    @DisplayName("로그인 사용자의 동아리 목록은 북마크한 동아리가 먼저 조회된다.")
-    void findClubListPrioritizesBookmarkedClubsForAuthenticatedUser() {
+    @DisplayName("로그인 사용자의 동아리 목록은 북마크, 모집중 여부 순으로 우선 조회된다.")
+    void findClubListPrioritizesBookmarkedAndRecruitingClubsForAuthenticatedUser() {
         User user = userRepository.save(User.builder()
                 .name("testUser")
                 .email("test@test.com")
@@ -38,12 +38,13 @@ class ClubRepositoryImplTest extends CoreDbContextTest {
                 .active(true)
                 .build());
 
-        Club club1 = clubRepository.save(Club.builder().name("Club 1").build());
-        Club club2 = clubRepository.save(Club.builder().name("Club 2").build());
-        Club club3 = clubRepository.save(Club.builder().name("Club 3").build());
+        Club club1 = clubRepository.save(Club.builder().name("Club 1").recruiting(false).build());
+        Club club2 = clubRepository.save(Club.builder().name("Club 2").recruiting(false).build());
+        Club club3 = clubRepository.save(Club.builder().name("Club 3").recruiting(true).build());
+        Club club4 = clubRepository.save(Club.builder().name("Club 4").recruiting(true).build());
 
         bookmarkRepository.save(Bookmark.create(user.getId(), club1.getId(), BookmarkType.CLUB));
-        bookmarkRepository.save(Bookmark.create(user.getId(), club2.getId(), BookmarkType.CLUB));
+        bookmarkRepository.save(Bookmark.create(user.getId(), club4.getId(), BookmarkType.CLUB));
 
         ClubPagingRequest request = new ClubPagingRequest();
         request.setSort("최신순");
@@ -54,15 +55,16 @@ class ClubRepositoryImplTest extends CoreDbContextTest {
                 .map(Club::getId)
                 .toList();
 
-        assertThat(clubIds).containsExactly(club2.getId(), club1.getId(), club3.getId());
+        assertThat(clubIds).containsExactly(club4.getId(), club1.getId(), club3.getId(), club2.getId());
     }
 
     @Test
-    @DisplayName("비로그인 사용자의 동아리 목록은 기존 최신순 정렬을 유지한다.")
-    void findClubListKeepsExistingSortForAnonymousUser() {
-        Club club1 = clubRepository.save(Club.builder().name("Club 1").build());
-        Club club2 = clubRepository.save(Club.builder().name("Club 2").build());
-        Club club3 = clubRepository.save(Club.builder().name("Club 3").build());
+    @DisplayName("비로그인 사용자의 동아리 목록은 모집중인 동아리가 먼저 조회된다.")
+    void findClubListPrioritizesRecruitingClubsForAnonymousUser() {
+        Club club1 = clubRepository.save(Club.builder().name("Club 1").recruiting(false).build());
+        Club club2 = clubRepository.save(Club.builder().name("Club 2").recruiting(true).build());
+        Club club3 = clubRepository.save(Club.builder().name("Club 3").recruiting(false).build());
+        Club club4 = clubRepository.save(Club.builder().name("Club 4").recruiting(true).build());
 
         ClubPagingRequest request = new ClubPagingRequest();
         request.setSort("최신순");
@@ -73,6 +75,6 @@ class ClubRepositoryImplTest extends CoreDbContextTest {
                 .map(Club::getId)
                 .toList();
 
-        assertThat(clubIds).containsExactly(club3.getId(), club2.getId(), club1.getId());
+        assertThat(clubIds).containsExactly(club4.getId(), club2.getId(), club3.getId(), club1.getId());
     }
 }
