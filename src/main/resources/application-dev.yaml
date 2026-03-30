@@ -103,6 +103,8 @@ management:
         step: 1m
 
 app:
+  discord:
+    webhook-url: ${DISCORD_WEBHOOK_URL:}
   s3:
     bucket: ${S3_BUCKET_NAME}
     urlBase: ${S3_URL_BASE}

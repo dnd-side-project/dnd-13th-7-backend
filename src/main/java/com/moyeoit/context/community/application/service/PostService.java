@@ -19,6 +19,7 @@ import com.moyeoit.context.user.domain.User;
 import com.moyeoit.context.user.domain.repository.UserRepository;
 import com.moyeoit.global.exception.AppException;
 import com.moyeoit.global.exception.code.UserErrorCode;
+import com.moyeoit.global.notification.DiscordNotificationClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ public class PostService {
     private final CategoryRepository categoryRepository;
     private final PostLikeRepository postLikeRepository;
     private final PostQueryRepository queryRepository;
+    private final DiscordNotificationClient discordNotificationClient;
 
     public Long createPost(Long userId, PostCreateRequest request) {
         User user = userRepository.findById(userId).orElseThrow(()->new AppException(UserErrorCode.NOT_FOUND));
@@ -49,6 +51,14 @@ public class PostService {
         addImagesFromCreate(post, request.getImages());
 
         Post saved = postRepository.save(post);
+
+        discordNotificationClient.sendPostNotification(
+                saved.getTitle(),
+                user.getNickname(),
+                category.getName(),
+                saved.getId()
+        );
+
         return saved.getId();
     }
 

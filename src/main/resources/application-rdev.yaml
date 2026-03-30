@@ -83,6 +83,8 @@ management:
 
 # S3 버킷 관련 설정값
 app:
+  discord:
+    webhook-url: ${DISCORD_WEBHOOK_URL:}
   s3:
     bucket: ${DEV_S3_BUCKET_NAME}
     urlBase: ${DEV_S3_URL_BASE}
